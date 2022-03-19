@@ -42,16 +42,16 @@ hs_err_pid*
 .idea/**/aws.xml
 
 # Generated files
-.idea/**/contentModel.xml
+#.idea/**/contentModel.xml
 
 # Sensitive or high-churn files
-.idea/**/dataSources/
-.idea/**/dataSources.ids
-.idea/**/dataSources.local.xml
-.idea/**/sqlDataSources.xml
-.idea/**/dynamic.xml
-.idea/**/uiDesigner.xml
-.idea/**/dbnavigator.xml
+#.idea/**/dataSources/
+#.idea/**/dataSources.ids
+#.idea/**/dataSources.local.xml
+#.idea/**/sqlDataSources.xml
+#.idea/**/dynamic.xml
+#.idea/**/uiDesigner.xml
+#.idea/**/dbnavigator.xml
 
 # Gradle
 .idea/**/gradle.xml
@@ -110,7 +110,7 @@ fabric.properties
 # Ignores the whole .idea folder and all .iml files
 # See https://github.com/joeblau/gitignore.io/issues/186 and https://github.com/joeblau/gitignore.io/issues/360
 
-.idea/*
+#.idea/*
 
 # Reason: https://github.com/joeblau/gitignore.io/issues/186#issuecomment-249601023
 
