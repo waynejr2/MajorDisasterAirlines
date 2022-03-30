@@ -1,4 +1,6 @@
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class MainFrame extends JFrame {
     private JLabel MainTitle;
@@ -17,5 +19,12 @@ public class MainFrame extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
 
+        btnOK.addActionListener(new ActionListener() {
+            // once "OK" button is pressed
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
     }
 }
