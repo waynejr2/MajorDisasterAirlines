@@ -38,68 +38,6 @@ public class LoginWindow extends JFrame {
                 System.exit(0);
             }
         });
-
-        //action listener to create account
-        createAccountButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                setVisible(false);
-                CreateAccountWindow CAW = new CreateAccountWindow();
-            }
-        });
-
-        //action listener to login
-        btnLogin.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                //input text field entries
-                String username = usernameField.getText();
-                String password = passwordField.getText();
-                invalidLabel.setVisible(false);
-                boolean found = false;
-                String truePassword = null;
-
-                //check if the username exists in the database
-                try {
-                    String sql = "SELECT username, password FROM DMA_users";
-                    Statement myStmt = User.createStatmentSQL();
-                    ResultSet RS = myStmt.executeQuery(sql);
-                    ResultSetMetaData RSMD = RS.getMetaData();
-                    int columnsNumber = RSMD.getColumnCount();
-                    while (RS.next()) {
-                        //check username in database
-                        if(Objects.equals(RS.getString(1), username)){
-                            found = true;
-                            //retrieve true password
-                            truePassword = RS.getString(2);
-                            break;
-                        }
-                    }
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                }
-
-                //check if username not found
-                if(!found){
-                    invalidLabel.setVisible(true);
-                    return;
-                }
-
-                //check if password does not match
-                if(!Objects.equals(password, truePassword)){
-                    invalidLabel.setVisible(true);
-                    return;
-                }
-
-                //close login window and open main window
-                setVisible(false);
-                try {
-                    MainWindow MW = new MainWindow();
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                }
-            }
-        });
+        
     }
 }
