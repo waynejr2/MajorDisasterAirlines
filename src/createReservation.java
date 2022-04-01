@@ -1,7 +1,7 @@
 import javax.swing.*;
 
-public class createReservation {
-    private JPanel panel1;
+public class createReservation extends JFrame {
+    private JPanel createReservationPanel;
     private JTextField fromEntry;
     private JLabel FromLabel;
     private JLabel selectionTitle;
@@ -14,4 +14,12 @@ public class createReservation {
     private JLabel ToLabel;
     private JLabel DepartureDateLabel;
     private JScrollPane availabilityPane;
+
+    public createReservation(){
+        setContentPane(createReservationPanel);
+        setTitle("Choose");
+        setSize(400, 350);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setVisible(true);
+    }
 }
