@@ -7,4 +7,4 @@ CSUN COMP 380 Spring 2022 Project
 - [x] Create Account
 - [x] Main Main of Choices
 - [x] Create a Reservation / To View Flights
-- [] Flight Chosen - Add Passenger&Bags
+- [ ] Flight Chosen - Add Passenger&Bags
