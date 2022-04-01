@@ -94,11 +94,9 @@ public class LoginWindow extends JFrame {
 
                 //close login window and open main window
                 setVisible(false);
-                try {
-                    MainWindow MW = new MainWindow();
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                }
+
+                    mainMenuChoices MMC = new mainMenuChoices();
+
             }
         });
     }
