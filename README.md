@@ -9,4 +9,4 @@ CSUN COMP 380 Spring 2022 Project
 - [x] Create a Reservation / To View Flights
   - [ ] Flight Chosen - Add Passenger&Bags
 - [ ] View Flight Status 
-- [ ] Edit Reservation
+- [x] Edit Reservation
