@@ -9,6 +9,11 @@ public class DatabaseExample {
     public static void main(String[] args) {
         Connection conn = null;
         ArrayList<String> result = new ArrayList();
+        databaseConnector db = new databaseConnector();
+        Connection dbconn = db.getConnector();
+        String db_url = "jdbc:mysql://sql3.freesqldatabase.com:3306/sql3476516";
+        String db_user = "sql3476516";
+        String db_password = "9lmMyhQM6u";
 
         //SQL_SELECT airport locations by id, location_name
         String SQL_SELECT = "Select id, location_name from airport_locations";
@@ -30,10 +35,14 @@ public class DatabaseExample {
         System.out.println("Howdy World, Java app");
 
         try {
-            conn = DriverManager.getConnection(
+            /*conn = DriverManager.getConnection(
                     "jdbc:mysql://sql3.freesqldatabase.com:3306/sql3476516",
                     "sql3476516",
-                    "9lmMyhQM6u");
+                    "9lmMyhQM6u");*/
+            conn = DriverManager.getConnection(
+                    db_url,
+                    db_user,
+                    db_password);
             if (conn != null) {
                 System.out.println("Connected to the database!");
             }
@@ -101,6 +110,37 @@ public class DatabaseExample {
             System.out.println("VendorError: " + ex.getErrorCode());
         }
 
-
+        try {
+            //SQL_SELECT2 flights source to destination
+            PreparedStatement preparedStatement = dbconn.prepareStatement(SQL_SELECT2);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String source = resultSet.getString("source");
+                String destination = resultSet.getString("destination");
+                System.out.println(id + "  " + source + "  " + destination);
+            }
+        } catch (SQLException ex) {
+            // handle any errors
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+        }
+       /* try {
+            //SQL_SELECT2 flights source to destination
+            PreparedStatement preparedStatement = dbconn.prepareStatement(SQL_SELECT3);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String source = resultSet.getString("source");
+                String destination = resultSet.getString("destination");
+                System.out.println(id + "  " + source + "  " + destination);
+            }
+        } catch (SQLException ex) {
+            // handle any errors
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+        }*/
     }
 }
