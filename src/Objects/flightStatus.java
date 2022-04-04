@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 public class flightStatus extends JFrame{
     private JPanel flightStatusPanel;
     private JScrollPane statusPane;
-    private JTextField textField1;
+    private JTextField ConNumTxt;
     private JButton OKButton;
     private JButton clearButton;
     private JButton backButton;
@@ -30,7 +30,7 @@ public class flightStatus extends JFrame{
         clearButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                    ConNumTxt.setText("");
             }
         });
         OKButton.addActionListener(new ActionListener() {
