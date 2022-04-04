@@ -8,7 +8,11 @@ public class WelcomeWindow extends JFrame{
     private JButton continueButton;
     private JLabel picture;
 
+    private final LoginWindow loginWindow;
+
     public WelcomeWindow()  throws SQLException{
+
+        loginWindow = new LoginWindow();
 
         //add plane image
         ImageIcon plane = new ImageIcon("lib/plane.png");
@@ -26,13 +30,7 @@ public class WelcomeWindow extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 setVisible(false);
-
-                try {
-                    LoginWindow LW = new LoginWindow();
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                }
-
+                loginWindow.activate();
             }
         });
 

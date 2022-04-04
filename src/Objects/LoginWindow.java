@@ -17,7 +17,12 @@ public class LoginWindow extends JFrame {
     private JButton createAccountButton;
     private JLabel invalidLabel;
 
+    private final mainMenuChoices mainMenuChoicesWindow;
+
     public LoginWindow() throws SQLException{
+
+        mainMenuChoicesWindow = new mainMenuChoices(this);
+        LoginWindow thisWindow = this;
 
         //add plane image
         ImageIcon plane = new ImageIcon("lib/plane.png");
@@ -29,7 +34,6 @@ public class LoginWindow extends JFrame {
         setTitle("Major Disaster Airlines");
         setSize(400, 350);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setVisible(true);
 
         //action listener to exit
         btnCancel.addActionListener(new ActionListener() {
@@ -43,8 +47,9 @@ public class LoginWindow extends JFrame {
         createAccountButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                setVisible(false);
-                CreateAccountWindow CAW = new CreateAccountWindow();
+                deactivate();
+                CreateAccountWindow createAccountWindow = new CreateAccountWindow(thisWindow);
+                createAccountWindow.activate();
             }
         });
 
@@ -93,11 +98,17 @@ public class LoginWindow extends JFrame {
                 }
 
                 //close login window and open main window
-                setVisible(false);
-
-                    mainMenuChoices MMC = new mainMenuChoices();
+                deactivate();
+                mainMenuChoicesWindow.activate();
 
             }
         });
+    }
+
+    public void activate() {
+        setVisible(true);
+    }
+    public void deactivate() {
+        setVisible(false);
     }
 }

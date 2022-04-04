@@ -14,43 +14,52 @@ public class mainMenuChoices extends JFrame {
     private JButton viewReservationButton;
     private JButton editReservationButton;
 
+    private final LoginWindow loginWindow;
 
-    public mainMenuChoices(){
+    private final createReservation createReservationWindow;
+    private final editReservation editReservationWindow;
+
+    public mainMenuChoices(LoginWindow loginWindow){
+
+        this.loginWindow = loginWindow;
+
+        createReservationWindow = new createReservation(this);
+        editReservationWindow = new editReservation(this);
+
         setContentPane(mainMenuChoicesPanel);
         setTitle("Choose");
         setSize(400, 350);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setVisible(true);
 
         //action listener for button to go to create reservation window
         createReservationButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // is there a loss of information
-                // when a back and forward is preformed like this?
-                createReservation page = new createReservation();
-                page.setVisible(true);
-                setVisible(false);
+                createReservationWindow.activate();
+                deactivate();
             }
         });
 
         searchFlightsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                createReservation page = new createReservation();
-                page.setVisible(true);
-                setVisible(false);
-
-                // Nice to add if search is press the enter button is faded out
+                createReservationWindow.activate();
+                deactivate();
             }
         });
         editReservationButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                editReservation page = new editReservation();
-                page.setVisible(true);
-                setVisible(false);
+                editReservationWindow.activate();
+                deactivate();
             }
         });
+    }
+
+    public void activate() {
+        setVisible(true);
+    }
+    public void deactivate() {
+        setVisible(false);
     }
 }

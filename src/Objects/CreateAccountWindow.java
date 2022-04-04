@@ -15,8 +15,10 @@ public class CreateAccountWindow extends JFrame{
     private JLabel invalidLabel1;
     private JLabel invalidLabel2;
     private JLabel invalidLabel3;
+    private final LoginWindow loginWindow;
+    public CreateAccountWindow(LoginWindow loginWindow){
 
-    public CreateAccountWindow(){
+        this.loginWindow = loginWindow;
 
         setContentPane(mainPanel);
         invalidLabel1.setVisible(false);
@@ -25,7 +27,6 @@ public class CreateAccountWindow extends JFrame{
         setTitle("Major Disaster Airlines");
         setSize(400, 350);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setVisible(true);
 
         //action listener on button to create account
         createButton.addActionListener(new ActionListener() {
@@ -72,8 +73,8 @@ public class CreateAccountWindow extends JFrame{
                 //crete new user and return to login window
                 try{
                     User newUser = new User(username, password);
-                    setVisible(false);
-                    LoginWindow LW = new LoginWindow();
+                    deactivate();
+                    loginWindow.activate();
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
@@ -86,16 +87,18 @@ public class CreateAccountWindow extends JFrame{
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
                 //return back to login screen
-                setVisible(false);
-                try {
-                    LoginWindow LW = new LoginWindow();
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                }
+                deactivate();
+                loginWindow.activate();
             }
         });
 
+    }
+
+    public void activate() {
+        setVisible(true);
+    }
+    public void deactivate() {
+        setVisible(false);
     }
 }

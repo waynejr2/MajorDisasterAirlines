@@ -13,21 +13,29 @@ public class editReservation extends JFrame {
     private JLabel enterBirthLabel;
     private JPanel editReservationPanel;
 
-    public editReservation(){
+    private final mainMenuChoices mainMenuChoicesWindow;
+
+    public editReservation(mainMenuChoices mainMenuChoicesWindow){
+
+        this.mainMenuChoicesWindow = mainMenuChoicesWindow;
+
         setContentPane(editReservationPanel);
         setTitle("Edit Reservation");
         setSize(400, 350);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setVisible(true);
 
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mainMenuChoices page = new mainMenuChoices();
-                page.setVisible(true);
-                setVisible(false);
-
+                mainMenuChoicesWindow.activate();
+                deactivate();
             }
         });
+    }
+    public void activate() {
+        setVisible(true);
+    }
+    public void deactivate() {
+        setVisible(false);
     }
 }
