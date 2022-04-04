@@ -25,6 +25,8 @@ public class mainMenuChoices extends JFrame {
         createReservationButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                // is there a loss of information
+                // when a back and forward is preformed like this?
                 createReservation page = new createReservation();
                 page.setVisible(true);
                 setVisible(false);
@@ -33,5 +35,23 @@ public class mainMenuChoices extends JFrame {
 
         });
 
+        searchFlightsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                createReservation page = new createReservation();
+                page.setVisible(true);
+                setVisible(false);
+
+                // Nice to add if search is press the enter button is faded out
+            }
+        });
+        editReservationButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                editReservation page = new editReservation();
+                page.setVisible(true);
+                setVisible(false);
+            }
+        });
     }
 }

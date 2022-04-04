@@ -1,6 +1,8 @@
 package Objects;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class createReservation extends JFrame {
     private JPanel createReservationPanel;
@@ -23,5 +25,15 @@ public class createReservation extends JFrame {
         setSize(400, 350);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // is there a loss of information
+                // when a back and forward is preformed like this?
+                mainMenuChoices page = new mainMenuChoices();
+                page.setVisible(true);
+                setVisible(false);
+            }
+        });
     }
 }
