@@ -12,19 +12,22 @@ public class flightStatus extends JFrame{
     private JButton clearButton;
     private JButton backButton;
 
-    public flightStatus() {
+    private final mainMenuChoices mainMenuChoicesWindow;
+
+    public flightStatus(mainMenuChoices mainMenuChoicesWindow) {
+
+        this.mainMenuChoicesWindow = mainMenuChoicesWindow;
+
         setContentPane(flightStatusPanel);
         setTitle("flight status");
         setSize(400, 350);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setVisible(true);
 
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mainMenuChoices page=new mainMenuChoices();
-                page.setVisible(true);
-                setVisible(false);
+                mainMenuChoicesWindow.activate();
+                deactivate();
             }
         });
         clearButton.addActionListener(new ActionListener() {
@@ -39,5 +42,12 @@ public class flightStatus extends JFrame{
 
             }
         });
+    }
+
+    public void activate() {
+        setVisible(true);
+    }
+    public void deactivate() {
+        setVisible(false);
     }
 }

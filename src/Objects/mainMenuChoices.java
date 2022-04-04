@@ -18,6 +18,7 @@ public class mainMenuChoices extends JFrame {
 
     private final createReservation createReservationWindow;
     private final editReservation editReservationWindow;
+    private final flightStatus flightStatusWindow;
 
     public mainMenuChoices(LoginWindow loginWindow){
 
@@ -25,6 +26,7 @@ public class mainMenuChoices extends JFrame {
 
         createReservationWindow = new createReservation(this);
         editReservationWindow = new editReservation(this);
+        flightStatusWindow = new flightStatus(this);
 
         setContentPane(mainMenuChoicesPanel);
         setTitle("Choose");
@@ -57,22 +59,15 @@ public class mainMenuChoices extends JFrame {
         viewReservationButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                flightStatus page = new flightStatus();
-                page.setVisible(true);
-                setVisible(false);
+                flightStatusWindow.activate();
+                deactivate();
             }
         });
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                LoginWindow page = null;
-                try {
-                    page = new LoginWindow();
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                }
-                page.setVisible(true);
-                setVisible(false);
+                deactivate();
+                loginWindow.activate();
             }
         });
     }

@@ -68,7 +68,8 @@ public class LoginWindow extends JFrame {
                 //check if the username exists in the database
                 try {
                     String sql = "SELECT username, password FROM DMA_users";
-                    Statement myStmt = User.createStatmentSQL();
+                    Connection conn = databaseConnector.getConnection();
+                    Statement myStmt = conn.createStatement();
                     ResultSet RS = myStmt.executeQuery(sql);
                     ResultSetMetaData RSMD = RS.getMetaData();
                     int columnsNumber = RSMD.getColumnCount();
