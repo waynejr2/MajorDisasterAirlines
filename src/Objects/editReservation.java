@@ -12,6 +12,7 @@ public class editReservation extends JFrame {
     private JLabel enterConfirmLabel;
     private JLabel enterBirthLabel;
     private JPanel editReservationPanel;
+    private JLabel errorLabel;
 
     public editReservation(){
         setContentPane(editReservationPanel);
