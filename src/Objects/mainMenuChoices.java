@@ -52,5 +52,13 @@ public class mainMenuChoices extends JFrame {
                 setVisible(false);
             }
         });
+        viewReservationButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                flightStatus page = new flightStatus();
+                page.setVisible(true);
+                setVisible(false);
+            }
+        });
     }
 }
