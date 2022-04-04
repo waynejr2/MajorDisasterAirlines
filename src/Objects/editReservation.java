@@ -27,6 +27,7 @@ public class editReservation extends JFrame {
                 page.setVisible(true);
                 setVisible(false);
 
+
             }
         });
     }
