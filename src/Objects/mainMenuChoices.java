@@ -22,15 +22,14 @@ public class mainMenuChoices extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
 
+        //action listener for button to go to create reservation window
         createReservationButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 createReservation page = new createReservation();
                 page.setVisible(true);
                 setVisible(false);
-
             }
-
         });
 
     }

@@ -27,6 +27,7 @@ public class CreateAccountWindow extends JFrame{
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
 
+        //action listener on button to create account
         createButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -58,8 +59,6 @@ public class CreateAccountWindow extends JFrame{
                     String sql = "SELECT username FROM DMA_users";
                     Statement myStmt = User.createStatmentSQL();
                     ResultSet RS = myStmt.executeQuery(sql);
-                    ResultSetMetaData RSMD = RS.getMetaData();
-                    int columnsNumber = RSMD.getColumnCount();
                     while (RS.next()) {
                         if(Objects.equals(RS.getString(1), username)){
                             invalidLabel3.setVisible(true);
@@ -83,6 +82,7 @@ public class CreateAccountWindow extends JFrame{
             }
         });
 
+        //action listener for button to go back to log in window without making an account
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -96,5 +96,6 @@ public class CreateAccountWindow extends JFrame{
                 }
             }
         });
+
     }
 }
