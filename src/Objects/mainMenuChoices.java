@@ -3,8 +3,7 @@ package Objects;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-
+import java.sql.SQLException;
 
 
 public class mainMenuChoices extends JFrame {
@@ -13,6 +12,7 @@ public class mainMenuChoices extends JFrame {
     private JButton createReservationButton;
     private JButton viewReservationButton;
     private JButton editReservationButton;
+    private JButton backButton;
 
     private final LoginWindow loginWindow;
 
@@ -52,6 +52,27 @@ public class mainMenuChoices extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 editReservationWindow.activate();
                 deactivate();
+            }
+        });
+        viewReservationButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                flightStatus page = new flightStatus();
+                page.setVisible(true);
+                setVisible(false);
+            }
+        });
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                LoginWindow page = null;
+                try {
+                    page = new LoginWindow();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+                page.setVisible(true);
+                setVisible(false);
             }
         });
     }
