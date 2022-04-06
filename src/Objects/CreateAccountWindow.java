@@ -1,6 +1,7 @@
 package Objects;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
 import java.util.Objects;
@@ -20,12 +21,19 @@ public class CreateAccountWindow extends JFrame{
 
         this.loginWindow = loginWindow;
 
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int screenHeight = screenSize.height;
+        int screenWidth = screenSize.width;
+        int windowHeight = 350;
+        int windowWidth = 400;
+
         setContentPane(mainPanel);
         invalidLabel1.setVisible(false);
         invalidLabel2.setVisible(false);
         invalidLabel3.setVisible(false);
         setTitle("Major Disaster Airlines");
-        setSize(400, 350);
+        setSize(windowWidth, windowHeight);
+        setLocation(screenWidth/2 - windowWidth/2, screenHeight/2 - windowHeight/2 - 100);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         //action listener on button to create account

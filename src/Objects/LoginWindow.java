@@ -1,5 +1,6 @@
 package Objects;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
@@ -21,8 +22,14 @@ public class LoginWindow extends JFrame {
 
     public LoginWindow() throws SQLException{
 
-        mainMenuChoicesWindow = new mainMenuChoices(this);
+        mainMenuChoicesWindow = new mainMenuChoices();
         LoginWindow thisWindow = this;
+
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int screenHeight = screenSize.height;
+        int screenWidth = screenSize.width;
+        int windowHeight = 350;
+        int windowWidth = 400;
 
         //add plane image
         ImageIcon plane = new ImageIcon("lib/plane.png");
@@ -32,7 +39,8 @@ public class LoginWindow extends JFrame {
         setContentPane(mainPanel);
         invalidLabel.setVisible(false);
         setTitle("Major Disaster Airlines");
-        setSize(400, 350);
+        setSize(windowWidth, windowHeight);
+        setLocation(screenWidth/2 - windowWidth/2, screenHeight/2 - windowHeight/2 - 100);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         //action listener to exit
@@ -99,7 +107,7 @@ public class LoginWindow extends JFrame {
                 }
 
                 //close login window and open main window
-                deactivate();
+                dispose();
                 mainMenuChoicesWindow.activate();
 
             }

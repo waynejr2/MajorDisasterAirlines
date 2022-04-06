@@ -1,5 +1,6 @@
 package Objects;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 import java.sql.SQLException;
 
@@ -14,6 +15,12 @@ public class WelcomeWindow extends JFrame{
 
         loginWindow = new LoginWindow();
 
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int screenHeight = screenSize.height;
+        int screenWidth = screenSize.width;
+        int windowHeight = 350;
+        int windowWidth = 400;
+
         //add plane image
         ImageIcon plane = new ImageIcon("lib/plane.png");
         picture.setIcon(plane);
@@ -21,7 +28,8 @@ public class WelcomeWindow extends JFrame{
         //create panel
         setContentPane(mainPanel);
         setTitle("Major Disaster Airlines");
-        setSize(400, 350);
+        setSize(windowWidth, windowHeight);
+        setLocation(screenWidth/2 - windowWidth/2, screenHeight/2 - windowHeight/2 - 100);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
 
@@ -29,7 +37,7 @@ public class WelcomeWindow extends JFrame{
         continueButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                setVisible(false);
+                dispose();
                 loginWindow.activate();
             }
         });

@@ -1,6 +1,7 @@
 package Objects;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -19,9 +20,16 @@ public class editReservation extends JFrame {
 
         this.mainMenuChoicesWindow = mainMenuChoicesWindow;
 
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int screenHeight = screenSize.height;
+        int screenWidth = screenSize.width;
+        int windowHeight = 600;
+        int windowWidth = 1000;
+
         setContentPane(editReservationPanel);
         setTitle("Edit Reservation");
-        setSize(400, 350);
+        setSize(windowWidth, windowHeight);
+        setLocation(screenWidth/2 - windowWidth/2, screenHeight/2 - windowHeight/2 - 50);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         cancelButton.addActionListener(new ActionListener() {
