@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Objects;
 
 import static javax.swing.BorderFactory.createLineBorder;
@@ -51,14 +52,18 @@ public class createReservation extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
+                    invalidLabel1.setVisible(false);
+                    invalidLabel2.setVisible(false);
                     panel.removeAll();
                     panel.revalidate();
                     panel.repaint();
-                    invalidLabel1.setVisible(false);
-                    invalidLabel2.setVisible(false);
 
-                    String fromInput = fromEntry.getText();
-                    String toInput = toEntry.getText();
+                    String fromInput = fromEntry.getText().toLowerCase();
+                    String toInput = toEntry.getText().toLowerCase();
+
+                    if(fromInput.equals("") && toInput.equals("")){
+                        return;
+                    }
 
                     int fromID = 0;
                     int toID = 0;
@@ -71,10 +76,10 @@ public class createReservation extends JFrame {
                     Statement myStmt = conn.createStatement();
                     ResultSet RS = myStmt.executeQuery(sql);
                     while (RS.next()) {
-                        if(fromInput.equals(RS.getString(1))){
+                        if(fromInput.equals(RS.getString(1).toLowerCase())){
                             fromID = RS.getInt(2);
                         }
-                        if(toInput.equals(RS.getString(1))){
+                        if(toInput.equals(RS.getString(1).toLowerCase())){
                             toID = RS.getInt(2);
                         }
                     }
