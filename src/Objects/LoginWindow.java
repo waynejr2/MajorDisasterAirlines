@@ -79,8 +79,6 @@ public class LoginWindow extends JFrame {
                     Connection conn = databaseConnector.getConnection();
                     Statement myStmt = conn.createStatement();
                     ResultSet RS = myStmt.executeQuery(sql);
-                    ResultSetMetaData RSMD = RS.getMetaData();
-                    int columnsNumber = RSMD.getColumnCount();
                     while (RS.next()) {
                         //check username in database
                         if(Objects.equals(RS.getString(1), username)){
