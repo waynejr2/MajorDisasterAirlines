@@ -8,4 +8,5 @@ public class paymentScreen {
     private JTextField textField3;
     private JButton confirmButton;
     private JButton cancelButton;
+    private JTextField textField4;
 }
