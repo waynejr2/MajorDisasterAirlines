@@ -3,10 +3,10 @@ package Objects;
 import javax.swing.*;
 
 public class paymentScreen {
-    private JTextField textField1;
-    private JTextField textField2;
-    private JTextField textField3;
+    private JTextField ownerText;
+    private JTextField cvvText;
+    private JTextField exText;
     private JButton confirmButton;
     private JButton cancelButton;
-    private JTextField textField4;
+    private JTextField cardText;
 }
