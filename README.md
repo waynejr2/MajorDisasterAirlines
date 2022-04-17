@@ -7,11 +7,10 @@ CSUN COMP 380 Spring 2022 Project
 - [x] Create Account
 - [x] Main Menu of Choices
 - [x] Create a Reservation / To View Flights
-  - [ ] Flight Chosen - Add Passenger&Bags
-    - [ ] Review Reservation Chosen
-      - [ ] Reservation Success
-- [ ] View Flight Status 
-  - [ ] Flight Status Screen
+  - [x] Flight Chosen - Add Passenger&Bags
+    - [x] Payment Screen
+      - [x] Reservation Success Summary
+- [x] View Flight Status
 - [x] Edit Reservation
   - [ ] Menu to Choose what to Edit
     - [ ] Cancel entire Reservation
@@ -25,3 +24,23 @@ CSUN COMP 380 Spring 2022 Project
     - [ ] Edit Baggage
       - [ ] Input Baggage Change
         - [ ] Confirmation/ Unsuccessful Change
+
+
+## User Flow ##
+- #### Welcome Window ####
+- #### Login Window #####
+  - #### Create Account Window #####
+- #### Main Menu Choices ####
+  - #### Create Reservation #### 
+    - #### Add Additional Baggage #### 
+    - #### Payment Screen  #### 
+    - #### Confirmation Flight ####
+
+  - #### Edit Reservation #### 
+    - #### Cancel Entire Reservation #### 
+    - #### Edit Destination #### 
+    - #### Edit People Travelling with #### 
+    -  #### Edit Baggage #### 
+  - #### Flight status #### 
+    - #### Input Confirmation Number #### 
+      -  #### View Flight #### 
