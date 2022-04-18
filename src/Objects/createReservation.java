@@ -70,6 +70,7 @@ public class createReservation extends JFrame {
 
                     ArrayList<Integer> flights = new ArrayList<>();
                     int numFlights = 0;
+                    int existingFlights = 0;
 
                     String sql = "SELECT location_name, id FROM airport_locations";
                     Connection conn = databaseConnector.getConnection();
@@ -107,9 +108,12 @@ public class createReservation extends JFrame {
 
                     sql = "SELECT flight, departureTime, flightNumber FROM flights";
                     RS = myStmt.executeQuery(sql);
+
                     while (RS.next()) {
                         for (int i = 0; i < numFlights; i++) {
                             if (RS.getInt(1) == flights.get(i)) {
+                                existingFlights++;
+
                                 String[] flightInfo = new String[4];
                                 flightInfo[0] = "Flight " + RS.getString(3) + ": " + printFlightData(RS.getInt(1));
                                 flightInfo[1] = " ";
@@ -123,6 +127,16 @@ public class createReservation extends JFrame {
                                 panel.add(label);
                             }
                         }
+                    }
+
+                    if(existingFlights == 0) {
+                        String[] noResult = new String[1];
+                        noResult[0] = "No Flights Found.";
+                        JList<String> label = new JList<String>(noResult);
+                        label.setEnabled(false);
+                        label.setSize(new Dimension(100, 100));
+                        label.setBorder(createLineBorder(new Color(150, 150, 150)));
+                        panel.add(label);
                     }
                     panel.revalidate();
                     panel.repaint();
