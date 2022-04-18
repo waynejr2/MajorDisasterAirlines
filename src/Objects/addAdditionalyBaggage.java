@@ -1,7 +1,8 @@
 package Objects;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
 public class addAdditionalyBaggage extends JFrame {
@@ -13,6 +14,7 @@ public class addAdditionalyBaggage extends JFrame {
     private JComboBox baggageComboBox;
     private JComboBox addTicketsComboBox;
 
+    private final String flightNumber;
 
     // WILL THE PRIV FINAL BE FOR THE PAGES FOLOOWING?
     //private final createReservation createReservationWindow;
@@ -21,9 +23,10 @@ public class addAdditionalyBaggage extends JFrame {
     // PaymentWindow Class Name Temporary
     // Update Class name
 
-    public addAdditionalyBaggage(createReservation createReservationWindow) throws SQLException{
+    public addAdditionalyBaggage(createReservation createReservationWindow, String fn) throws SQLException {
         //paymentOptionsWindow = new paymentOptions(this);
 
+        this.flightNumber = fn;
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenHeight = screenSize.height;
@@ -34,9 +37,8 @@ public class addAdditionalyBaggage extends JFrame {
         //invalidLabel1.setVisible(false);
         //invalidLabel2.setVisible(false);
 
-        addBagGuestPanel.setLayout(new GridLayout(20, 1, 2, 5));
         setContentPane(addBagGuestPanel);
-        setTitle("Add Baggage and Guest");
+        setTitle("Book Flight");
         setSize(windowWidth, windowHeight);
         setLocation(screenWidth/2 - windowWidth/2, screenHeight/2 - windowHeight/2 - 50);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
