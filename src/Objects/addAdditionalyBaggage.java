@@ -6,14 +6,12 @@ import java.sql.SQLException;
 
 public class addAdditionalyBaggage extends JFrame {
     private JPanel addBagGuestPanel;
-    private JTextField baggageInput;
-    private JTextField additionalGuestInput;
     private JButton backButton;
     private JButton nextButton;
     private JLabel additionalGuestLabel;
-    private JScrollPane infoPane;
-    private JLabel currentItinLabel;
     private JLabel additionToReserveLabel;
+    private JComboBox baggageComboBox;
+    private JComboBox addTicketsComboBox;
 
 
     // WILL THE PRIV FINAL BE FOR THE PAGES FOLOOWING?
@@ -47,10 +45,12 @@ public class addAdditionalyBaggage extends JFrame {
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //createReservation.activate();
+                createReservation.activate();
                 deactivate();
             }
         });
+
+
     }
     public void activate() {
         setVisible(true);
