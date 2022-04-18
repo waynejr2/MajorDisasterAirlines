@@ -28,7 +28,7 @@ public class confirmedFlight extends JFrame{
 
         confirmedFlightPanel.setLayout(new GridLayout(20, 1, 2, 5));
         setContentPane(confirmedFlightPanel);
-        setTitle("Choose");
+        setTitle("Confirmed Flight");
         setSize(windowWidth, windowHeight);
         setLocation(screenWidth/2 - windowWidth/2, screenHeight/2 - windowHeight/2 - 50);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
