@@ -14,6 +14,8 @@ public class mainMenuChoices extends JFrame {
     private JButton viewReservationButton;
     private JButton editReservationButton;
     private JButton backButton;
+    private JLabel picture2;
+    private JLabel picture1;
 
     private final createReservation createReservationWindow;
     private final editReservation editReservationWindow;
@@ -31,6 +33,12 @@ public class mainMenuChoices extends JFrame {
         int windowHeight = 500;
         int windowWidth = 600;
 
+        ImageIcon planeIcon = new ImageIcon("lib/reservationSymbol.png");
+        picture1.setIcon(planeIcon);
+
+        ImageIcon editIcon = new ImageIcon("lib/editSymbol.png");
+        picture2.setIcon(editIcon);
+
         setContentPane(mainMenuChoicesPanel);
         setTitle("Choose");
         setSize(windowWidth, windowHeight);
@@ -46,26 +54,11 @@ public class mainMenuChoices extends JFrame {
             }
         });
 
-        searchFlightsButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                createReservationWindow.activate();
-                deactivate();
-            }
-        });
 
         editReservationButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 editReservationWindow.activate();
-                deactivate();
-            }
-        });
-
-        viewReservationButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                flightStatusWindow.activate();
                 deactivate();
             }
         });

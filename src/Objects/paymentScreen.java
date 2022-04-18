@@ -20,11 +20,11 @@ public class paymentScreen extends JFrame{
     private JLabel cvvLabel;
     private JLabel cardNumberLabel;
 
-    private final addAdditionalyBaggage addAdditionalyBaggagePanel;
+    private addAdditionalyBaggage addAdditionalyBaggageWindow;
 
-    public paymentScreen(addAdditionalyBaggage addAdditionalyBaggagePanel){
+    public paymentScreen(addAdditionalyBaggage addAdditionalyBaggageWindow){
 
-        this.addAdditionalyBaggagePanel = addAdditionalyBaggagePanel;
+        this.addAdditionalyBaggageWindow = addAdditionalyBaggageWindow;
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenHeight = screenSize.height;
@@ -36,17 +36,10 @@ public class paymentScreen extends JFrame{
 
         paymentMethodPanel.setLayout(new GridLayout(20, 1, 2, 5));
         setContentPane(paymentMethodPanel);
-        setTitle("Choose");
+        setTitle("Payment Method");
         setSize(windowWidth, windowHeight);
         setLocation(screenWidth/2 - windowWidth/2, screenHeight/2 - windowHeight/2 - 50);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
-        cancelButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            }
-        });
-
 
         confirmButton.addActionListener(new ActionListener() {
             @Override
@@ -58,6 +51,13 @@ public class paymentScreen extends JFrame{
 
         });
 
+        cancelButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                addAdditionalyBaggageWindow.activate();
+                deactivate();
+            }
+        });
     }
 
     public void activate() {setVisible(true);}
