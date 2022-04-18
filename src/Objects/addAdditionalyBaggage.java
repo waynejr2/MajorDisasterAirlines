@@ -47,7 +47,7 @@ public class addAdditionalyBaggage extends JFrame {
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                createReservation.activate();
+                createReservationWindow.activate();
                 deactivate();
             }
         });
