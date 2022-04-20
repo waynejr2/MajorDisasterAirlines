@@ -22,14 +22,19 @@ public class createReservation extends JFrame {
     private JPanel panel;
     private JLabel invalidLabel1;
     private JLabel invalidLabel2;
-    private JTextField flightNumTxt;
-    private JButton createButton;
+    private JTextField flightNumberField;
+    private JButton createReservationButton;
+    private JLabel invalidLabel3;
 
     private final mainMenuChoices mainMenuChoicesWindow;
+    private final createReservation createReservation = this;
 
-    public createReservation(mainMenuChoices mainMenuChoicesWindow){
+    private final int userID;
+
+    public createReservation(mainMenuChoices mainMenuChoicesWindow, int id){
 
         this.mainMenuChoicesWindow = mainMenuChoicesWindow;
+        this.userID = id;
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenHeight = screenSize.height;
@@ -37,15 +42,17 @@ public class createReservation extends JFrame {
         int windowHeight = 600;
         int windowWidth = 1000;
 
-        invalidLabel1.setVisible(false);
-        invalidLabel2.setVisible(false);
-
-        panel.setLayout(new GridLayout(20, 1, 2, 5));
-        setContentPane(createReservationPanel);
         setTitle("Choose");
         setSize(windowWidth, windowHeight);
         setLocation(screenWidth/2 - windowWidth/2, screenHeight/2 - windowHeight/2 - 50);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+        panel.setLayout(new GridLayout(20, 1, 2, 5));
+        setContentPane(createReservationPanel);
+
+        invalidLabel1.setVisible(false);
+        invalidLabel2.setVisible(false);
+        invalidLabel3.setVisible(false);
 
         searchButton.addActionListener(new ActionListener() {
             @Override
@@ -153,10 +160,29 @@ public class createReservation extends JFrame {
             }
         });
 
-        createButton.addActionListener(new ActionListener() {
+        createReservationButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                try {
+                    invalidLabel3.setVisible(false);
+                    String flightNumber = flightNumberField.getText();
 
+                    String sql = "SELECT flightNumber FROM flights";
+                    Connection conn = databaseConnector.getConnection();
+                    Statement myStmt = conn.createStatement();
+                    ResultSet RS = myStmt.executeQuery(sql);
+                    while (RS.next()) {
+                        if(RS.getString(1).equals(flightNumber)){
+                            addAdditionalyBaggage baggageScreen = new addAdditionalyBaggage(createReservation, flightNumber);
+                            baggageScreen.activate();
+                            deactivate();
+                            return;
+                        }
+                    }
+                    invalidLabel3.setVisible(true);
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
             }
         });
     }
@@ -202,7 +228,6 @@ public class createReservation extends JFrame {
 
         return statement;
     }
-
 
     public void activate() {
         setVisible(true);

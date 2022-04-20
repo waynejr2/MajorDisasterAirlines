@@ -19,13 +19,15 @@ public class mainMenuChoices extends JFrame {
 
     private final createReservation createReservationWindow;
     private final editReservation editReservationWindow;
-    private final flightStatus flightStatusWindow;
 
-    public mainMenuChoices(){
+    private final int userID;
 
-        createReservationWindow = new createReservation(this);
-        editReservationWindow = new editReservation(this);
-        flightStatusWindow = new flightStatus(this);
+    public mainMenuChoices(int id){
+
+        this.userID = id;
+
+        createReservationWindow = new createReservation(this, userID);
+        editReservationWindow = new editReservation(this, userID);
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenHeight = screenSize.height;
