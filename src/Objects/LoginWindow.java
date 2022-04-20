@@ -18,11 +18,11 @@ public class LoginWindow extends JFrame {
     private JButton createAccountButton;
     private JLabel invalidLabel;
 
-    private final mainMenuChoices mainMenuChoicesWindow;
+    private String username;
+    private String password;
 
     public LoginWindow() throws SQLException{
 
-        mainMenuChoicesWindow = new mainMenuChoices();
         LoginWindow thisWindow = this;
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -71,11 +71,12 @@ public class LoginWindow extends JFrame {
                 String password = passwordField.getText();
                 invalidLabel.setVisible(false);
                 boolean found = false;
+                int id = 0;
                 String truePassword = null;
 
                 //check if the username exists in the database
                 try {
-                    String sql = "SELECT username, password FROM DMA_users";
+                    String sql = "SELECT username, password, id FROM DMA_users";
                     Connection conn = databaseConnector.getConnection();
                     Statement myStmt = conn.createStatement();
                     ResultSet RS = myStmt.executeQuery(sql);
@@ -85,6 +86,8 @@ public class LoginWindow extends JFrame {
                             found = true;
                             //retrieve true password
                             truePassword = RS.getString(2);
+                            id = RS.getInt(3);
+                            System.out.println(RS.getInt(3));
                             break;
                         }
                     }
@@ -105,9 +108,10 @@ public class LoginWindow extends JFrame {
                 }
 
                 //close login window and open main window
-                dispose();
-                mainMenuChoicesWindow.activate();
 
+                mainMenuChoices mainMenuChoicesWindow = new mainMenuChoices(id);
+                mainMenuChoicesWindow.activate();
+                dispose();
             }
         });
     }
