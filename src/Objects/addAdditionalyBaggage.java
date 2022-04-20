@@ -1,9 +1,9 @@
 package Objects;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 
 public class addAdditionalyBaggage extends JFrame {
     private JPanel addBagGuestPanel;
@@ -15,6 +15,8 @@ public class addAdditionalyBaggage extends JFrame {
     private JComboBox addTicketsComboBox;
 
     private final String flightNumber;
+    private final createReservation createReservationWindow;
+    private final addAdditionalyBaggage addAdditionalyBaggage = this;
 
     // WILL THE PRIV FINAL BE FOR THE PAGES FOLOOWING?
     //private final createReservation createReservationWindow;
@@ -23,8 +25,9 @@ public class addAdditionalyBaggage extends JFrame {
     // PaymentWindow Class Name Temporary
     // Update Class name
 
-    public addAdditionalyBaggage(createReservation createReservationWindow, String fn) throws SQLException {
+    public addAdditionalyBaggage(createReservation createReservationWindow, String fn) {
         //paymentOptionsWindow = new paymentOptions(this);
+        this.createReservationWindow = createReservationWindow;
 
         this.flightNumber = fn;
 
@@ -53,6 +56,13 @@ public class addAdditionalyBaggage extends JFrame {
         });
 
 
+        nextButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // code to process if user wants to add baggage and additional passengers once pressed
+
+            }
+        });
     }
     public void activate() {
         setVisible(true);

@@ -55,6 +55,7 @@
         <properties>
           <model>
             <item value="Bags..."/>
+            <item value="0"/>
             <item value="1"/>
             <item value="2"/>
             <item value="3"/>
@@ -69,6 +70,7 @@
         <properties>
           <model>
             <item value="Additional Tickets..."/>
+            <item value="0"/>
             <item value="1"/>
             <item value="2"/>
             <item value="3"/>
