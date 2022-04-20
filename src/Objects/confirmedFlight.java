@@ -14,11 +14,12 @@ public class confirmedFlight extends JFrame{
     private JLabel thankYouLabel;
     private JPanel confirmedFlightPanel;
 
-    private mainMenuChoices mainMenuChoicesWindow;
+    private paymentScreen paymentScreen;
+    private paybudiOption paybudiOption;
 
-    public confirmedFlight(mainMenuChoices mainMenuChoicesWindow){
+    public confirmedFlight(paymentScreen paymentScreen){
 
-        this.mainMenuChoicesWindow = mainMenuChoicesWindow;
+        this.paymentScreen = paymentScreen;
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenHeight = screenSize.height;
@@ -36,11 +37,41 @@ public class confirmedFlight extends JFrame{
         doneButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mainMenuChoicesWindow.activate();
+                paymentScreen.activate();
                 deactivate();
             }
         });
     }
+
+
+    public confirmedFlight(paybudiOption paybudiOption){
+
+        this.paybudiOption = paybudiOption;
+
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int screenHeight = screenSize.height;
+        int screenWidth = screenSize.width;
+        int windowHeight = 600;
+        int windowWidth = 1000;
+
+        confirmedFlightPanel.setLayout(new GridLayout(20, 1, 2, 5));
+        setContentPane(confirmedFlightPanel);
+        setTitle("Confirmed Flight");
+        setSize(windowWidth, windowHeight);
+        setLocation(screenWidth/2 - windowWidth/2, screenHeight/2 - windowHeight/2 - 50);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+        doneButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                paybudiOption.activate();
+                deactivate();
+            }
+        });
+    }
+
+
+
     public void activate() {
         setVisible(true);
     }

@@ -1,14 +1,11 @@
 package Objects;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Locale;
-import java.util.Objects;
 
 import static javax.swing.BorderFactory.createLineBorder;
 
@@ -25,6 +22,8 @@ public class createReservation extends JFrame {
     private JPanel panel;
     private JLabel invalidLabel1;
     private JLabel invalidLabel2;
+    private JTextField flightNumTxt;
+    private JButton createButton;
 
     private final mainMenuChoices mainMenuChoicesWindow;
 
@@ -154,6 +153,12 @@ public class createReservation extends JFrame {
             }
         });
 
+        createButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
     }
 
     public String printFlightData(int flight) {
