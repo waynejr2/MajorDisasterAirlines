@@ -16,9 +16,12 @@ public class editReservation extends JFrame {
 
     private final mainMenuChoices mainMenuChoicesWindow;
 
-    public editReservation(mainMenuChoices mainMenuChoicesWindow){
+    private final int userID;
+
+    public editReservation(mainMenuChoices mainMenuChoicesWindow, int id){
 
         this.mainMenuChoicesWindow = mainMenuChoicesWindow;
+        this.userID = id;
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenHeight = screenSize.height;

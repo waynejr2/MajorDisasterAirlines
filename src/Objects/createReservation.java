@@ -29,9 +29,12 @@ public class createReservation extends JFrame {
     private final mainMenuChoices mainMenuChoicesWindow;
     private final createReservation createReservation = this;
 
-    public createReservation(mainMenuChoices mainMenuChoicesWindow){
+    private final int userID;
+
+    public createReservation(mainMenuChoices mainMenuChoicesWindow, int id){
 
         this.mainMenuChoicesWindow = mainMenuChoicesWindow;
+        this.userID = id;
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenHeight = screenSize.height;
