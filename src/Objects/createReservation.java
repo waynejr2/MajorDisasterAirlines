@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -24,6 +26,7 @@ public class createReservation extends JFrame {
     private JLabel invalidLabel2;
     private JTextField flightNumberField;
     private JButton createReservationButton;
+    private JLabel dateLabel;
     private JLabel invalidLabel3;
 
     private final mainMenuChoices mainMenuChoicesWindow;
@@ -32,6 +35,8 @@ public class createReservation extends JFrame {
     private final int userID;
 
     public createReservation(mainMenuChoices mainMenuChoicesWindow, int id){
+
+        final String[] chosenFlight = {""};
 
         this.mainMenuChoicesWindow = mainMenuChoicesWindow;
         this.userID = id;
@@ -52,7 +57,6 @@ public class createReservation extends JFrame {
 
         invalidLabel1.setVisible(false);
         invalidLabel2.setVisible(false);
-        invalidLabel3.setVisible(false);
 
         searchButton.addActionListener(new ActionListener() {
             @Override
@@ -66,6 +70,8 @@ public class createReservation extends JFrame {
 
                     String fromInput = fromEntry.getText().toLowerCase();
                     String toInput = toEntry.getText().toLowerCase();
+
+                    chosenFlight[0] = "";
 
                     if(fromInput.equals("") && toInput.equals("")){
                         return;
@@ -114,22 +120,36 @@ public class createReservation extends JFrame {
 
                     sql = "SELECT flight, departureTime, flightNumber FROM flights";
                     RS = myStmt.executeQuery(sql);
+                    String flightNumber = "";
+                    String info = "";
+                    String time = "";
+
+                    ArrayList<JList<String>> labels = new ArrayList<>();
+                    ArrayList<String> flightNumbers = new ArrayList<>();
+                    int numLabels = 0;
 
                     while (RS.next()) {
                         for (int i = 0; i < numFlights; i++) {
                             if (RS.getInt(1) == flights.get(i)) {
                                 existingFlights++;
+                                numLabels++;
+
+                                flightNumber = RS.getString(3);
+                                time = RS.getString(2);
+                                info = printFlightData(RS.getInt(1));
 
                                 String[] flightInfo = new String[4];
-                                flightInfo[0] = "Flight " + RS.getString(3) + ": " + printFlightData(RS.getInt(1));
+                                flightInfo[0] = "Flight " + flightNumber + ": " + info;
                                 flightInfo[1] = " ";
-                                flightInfo[2] = "Departure Time: " + RS.getString(2);
+                                flightInfo[2] = "Departure Time: " + time;
                                 flightInfo[3] = " ";
 
                                 JList<String> label = new JList<String>(flightInfo);
                                 label.setEnabled(false);
                                 label.setSize(new Dimension(100, 100));
                                 label.setBorder(createLineBorder(new Color(150, 150, 150)));
+                                labels.add(label);
+                                flightNumbers.add(flightNumber);
                                 panel.add(label);
                             }
                         }
@@ -146,6 +166,29 @@ public class createReservation extends JFrame {
                     }
                     panel.revalidate();
                     panel.repaint();
+
+                    for(int i = 0; i < numLabels;i++) {
+                        JList<String> label = labels.get(i);
+                        String finalFlightNumber = flightNumbers.get(i);
+                        int finalNumLabels = numLabels;
+
+                        label.addMouseListener(new MouseAdapter() {
+                            @Override
+                            public void mouseClicked(MouseEvent e) {
+                                super.mouseClicked(e);
+                                chosenFlight[0] = finalFlightNumber;
+                                System.out.println(chosenFlight[0]);
+                                for (int k = 0; k < finalNumLabels; k++) {
+                                    labels.get(k).setBackground(Color.decode("#FFFFFF"));
+                                    labels.get(k).setForeground(Color.decode("#b3d7ff"));
+                                }
+                                label.setBackground(Color.decode("#b3d7ff"));
+                            }
+                        });
+
+                    }
+
+
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
@@ -164,22 +207,19 @@ public class createReservation extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    invalidLabel3.setVisible(false);
-                    String flightNumber = flightNumberField.getText();
 
                     String sql = "SELECT flightNumber FROM flights";
                     Connection conn = databaseConnector.getConnection();
                     Statement myStmt = conn.createStatement();
                     ResultSet RS = myStmt.executeQuery(sql);
                     while (RS.next()) {
-                        if(RS.getString(1).equals(flightNumber)){
-                            addAdditionalyBaggage baggageScreen = new addAdditionalyBaggage(createReservation, flightNumber);
+                        if(RS.getString(1).equals(chosenFlight[0])){
+                            addAdditionalyBaggage baggageScreen = new addAdditionalyBaggage(createReservation, chosenFlight[0]);
                             baggageScreen.activate();
                             deactivate();
                             return;
                         }
                     }
-                    invalidLabel3.setVisible(true);
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
