@@ -20,11 +20,11 @@ public class paymentScreen extends JFrame{
     private JLabel cvvLabel;
     private JLabel cardNumberLabel;
 
-    private addAdditionalyBaggage addAdditionalyBaggageWindow;
+    private paymentOptions paymentOptions;
 
-    public paymentScreen(addAdditionalyBaggage addAdditionalyBaggageWindow){
+    public paymentScreen(paymentOptions paymentOptions){
 
-        this.addAdditionalyBaggageWindow = addAdditionalyBaggageWindow;
+        this.paymentOptions = paymentOptions;
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenHeight = screenSize.height;
@@ -54,7 +54,7 @@ public class paymentScreen extends JFrame{
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                addAdditionalyBaggageWindow.activate();
+                paymentOptions.activate();
                 deactivate();
             }
         });
