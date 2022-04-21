@@ -1,10 +1,12 @@
-package Objects;
+package Objects.LoginWindows;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
 import java.util.Objects;
+import Objects.databaseConnector;
 
 public class LoginWindow extends JFrame {
     private JLabel Username;
@@ -56,8 +58,8 @@ public class LoginWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 deactivate();
-                CreateAccountWindow createAccountWindow = new CreateAccountWindow(thisWindow);
-                createAccountWindow.activate();
+                CreateAccountWindow createAccount = new CreateAccountWindow(thisWindow);
+                createAccount.activate();
             }
         });
 
@@ -76,10 +78,7 @@ public class LoginWindow extends JFrame {
 
                 //check if the username exists in the database
                 try {
-                    String sql = "SELECT username, password, id FROM DMA_users";
-                    Connection conn = databaseConnector.getConnection();
-                    Statement myStmt = conn.createStatement();
-                    ResultSet RS = myStmt.executeQuery(sql);
+                    ResultSet RS = databaseConnector.getResultSet("SELECT username, password, id FROM DMA_users");
                     while (RS.next()) {
                         //check username in database
                         if(Objects.equals(RS.getString(1), username)){
@@ -109,8 +108,13 @@ public class LoginWindow extends JFrame {
 
                 //close login window and open main window
 
-                mainMenuChoices mainMenuChoicesWindow = new mainMenuChoices(id);
-                mainMenuChoicesWindow.activate();
+                mainMenuWindow mainMenu = null;
+                try {
+                    mainMenu = new mainMenuWindow(id);
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+                mainMenu.activate();
                 dispose();
             }
         });

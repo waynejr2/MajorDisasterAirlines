@@ -1,4 +1,5 @@
-package Objects;
+package Objects.LoginWindows;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -9,11 +10,11 @@ public class WelcomeWindow extends JFrame{
     private JButton continueButton;
     private JLabel picture;
 
-    private final LoginWindow loginWindow;
+    private final LoginWindow login;
 
     public WelcomeWindow()  throws SQLException{
 
-        loginWindow = new LoginWindow();
+        login = new LoginWindow();
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenHeight = screenSize.height;
@@ -38,7 +39,7 @@ public class WelcomeWindow extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                loginWindow.activate();
+                login.activate();
             }
         });
 

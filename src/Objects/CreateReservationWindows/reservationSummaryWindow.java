@@ -1,11 +1,11 @@
-package Objects;
+package Objects.CreateReservationWindows;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class confirmedFlight extends JFrame{
+public class reservationSummaryWindow extends JFrame{
     private JButton doneButton;
     private JLabel bookingConLabel;
     private JLabel bookingDateLabel;
@@ -14,12 +14,12 @@ public class confirmedFlight extends JFrame{
     private JLabel thankYouLabel;
     private JPanel confirmedFlightPanel;
 
-    private paymentScreen paymentScreen;
-    private paybudiOption paybudiOption;
+    private creditCardWindow creditCard;
+    private payBudiWindow payBudi;
 
-    public confirmedFlight(paymentScreen paymentScreen){
+    public reservationSummaryWindow(creditCardWindow creditCardWindow){
 
-        this.paymentScreen = paymentScreen;
+        this.creditCard = creditCardWindow;
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenHeight = screenSize.height;
@@ -37,16 +37,15 @@ public class confirmedFlight extends JFrame{
         doneButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                paymentScreen.activate();
+                creditCardWindow.activate();
                 deactivate();
             }
         });
     }
 
+    public reservationSummaryWindow(payBudiWindow payBudiWindow){
 
-    public confirmedFlight(paybudiOption paybudiOption){
-
-        this.paybudiOption = paybudiOption;
+        this.payBudi = payBudiWindow;
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenHeight = screenSize.height;
@@ -64,13 +63,11 @@ public class confirmedFlight extends JFrame{
         doneButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                paybudiOption.activate();
+                payBudiWindow.activate();
                 deactivate();
             }
         });
     }
-
-
 
     public void activate() {
         setVisible(true);

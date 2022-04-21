@@ -1,4 +1,7 @@
-package Objects;
+package Objects.LoginWindows;
+
+import Objects.CreateReservationWindows.createReservationWindow;
+import Objects.EditReservationWindows.chooseReservationWindow;
 
 import javax.swing.*;
 import java.awt.*;
@@ -7,7 +10,7 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
 
-public class mainMenuChoices extends JFrame {
+public class mainMenuWindow extends JFrame {
     private JPanel mainMenuChoicesPanel;
     private JButton searchFlightsButton;
     private JButton createReservationButton;
@@ -17,17 +20,16 @@ public class mainMenuChoices extends JFrame {
     private JLabel picture2;
     private JLabel picture1;
 
-    private final createReservation createReservationWindow;
-    private final editReservation editReservationWindow;
+    private final createReservationWindow createReservation;
+    private final mainMenuWindow mainMenu = this;
 
     private final int userID;
 
-    public mainMenuChoices(int id){
+    public mainMenuWindow(int id) throws SQLException {
 
         this.userID = id;
 
-        createReservationWindow = new createReservation(this, userID);
-        editReservationWindow = new editReservation(this, userID);
+        createReservation = new createReservationWindow(this, userID);
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenHeight = screenSize.height;
@@ -42,7 +44,7 @@ public class mainMenuChoices extends JFrame {
         picture2.setIcon(editIcon);
 
         setContentPane(mainMenuChoicesPanel);
-        setTitle("Choose");
+        setTitle("Major Disaster Airlines");
         setSize(windowWidth, windowHeight);
         setLocation(screenWidth/2 - windowWidth/2, screenHeight/2 - windowHeight/2 - 100);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -51,17 +53,21 @@ public class mainMenuChoices extends JFrame {
         createReservationButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                createReservationWindow.activate();
+                createReservation.activate();
                 deactivate();
             }
         });
 
-
         editReservationButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                editReservationWindow.activate();
-                deactivate();
+                try {
+                    chooseReservationWindow chooseReservation = new chooseReservationWindow(mainMenu, userID);
+                    chooseReservation.activate();
+                    deactivate();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
             }
         });
 
@@ -69,8 +75,8 @@ public class mainMenuChoices extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    LoginWindow newLoginWindow = new LoginWindow();
-                    newLoginWindow.activate();
+                    LoginWindow login = new LoginWindow();
+                    login.activate();
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }

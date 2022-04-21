@@ -1,11 +1,11 @@
-package Objects;
+package Objects.CreateReservationWindows;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class paymentScreen extends JFrame{
+public class creditCardWindow extends JFrame{
     private JTextField ownerText;
     private JTextField cvvText;
     private JTextField exText;
@@ -20,11 +20,11 @@ public class paymentScreen extends JFrame{
     private JLabel cvvLabel;
     private JLabel cardNumberLabel;
 
-    private paymentOptions paymentOptions;
+    private choosePaymentWindow choosePayment;
 
-    public paymentScreen(paymentOptions paymentOptions){
+    public creditCardWindow(choosePaymentWindow choosePaymentWindow){
 
-        this.paymentOptions = paymentOptions;
+        this.choosePayment = choosePaymentWindow;
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenHeight = screenSize.height;
@@ -34,6 +34,7 @@ public class paymentScreen extends JFrame{
 
         InvalidCard.setVisible(false);
 
+        paymentMethodPanel.setLayout(new GridLayout(20, 1, 2, 5));
         setContentPane(paymentMethodPanel);
         setTitle("Payment Method");
         setSize(windowWidth, windowHeight);
@@ -45,28 +46,15 @@ public class paymentScreen extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 String cardNumberLabelText = cardNumberLabel.getText();
                 String cvvLabelText = cvvLabel.getText();
-                if(cardNumberLabelText.length() == 16){
-                    for(int i = 0; i< 16; i++){
-                        if(!((int)cardNumberLabelText.charAt(i) >= 48) || !((int)cardNumberLabelText.charAt(i) <=57)){
-                            InvalidCard.setVisible(false);
-                        }
-                    }
-                } else {
-                    if(cvvLabelText.length() == 3)
-                        for(int i = 0; i< 13; i++) {
-                            if (!((int) cvvLabelText.charAt(i) >= 48) || !((int) cvvLabelText.charAt(i) <= 57)) {
-                                InvalidCard.setVisible(false);
-                            }
-                        }
-                }
-                    return;
-                }
+                InvalidCard.setVisible(false);
+            }
+
         });
 
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                paymentOptions.activate();
+                choosePayment.activate();
                 deactivate();
             }
         });

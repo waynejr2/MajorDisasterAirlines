@@ -1,4 +1,7 @@
-package Objects;
+package Objects.CreateReservationWindows;
+
+import Objects.databaseConnector;
+import Objects.LoginWindows.mainMenuWindow;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,7 +14,7 @@ import java.util.ArrayList;
 
 import static javax.swing.BorderFactory.createLineBorder;
 
-public class createReservation extends JFrame {
+public class createReservationWindow extends JFrame {
     private JPanel createReservationPanel;
     private JTextField fromEntry;
     private JLabel FromLabel;
@@ -29,16 +32,16 @@ public class createReservation extends JFrame {
     private JLabel dateLabel;
     private JLabel invalidLabel3;
 
-    private final mainMenuChoices mainMenuChoicesWindow;
-    private final createReservation createReservation = this;
+    private final mainMenuWindow mainMenu;
+    private final createReservationWindow createReservation = this;
 
     private final int userID;
 
-    public createReservation(mainMenuChoices mainMenuChoicesWindow, int id){
+    public createReservationWindow(mainMenuWindow mainMenuWindow, int id){
 
         final String[] chosenFlight = {""};
 
-        this.mainMenuChoicesWindow = mainMenuChoicesWindow;
+        this.mainMenu = mainMenuWindow;
         this.userID = id;
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -84,10 +87,7 @@ public class createReservation extends JFrame {
                     int numFlights = 0;
                     int existingFlights = 0;
 
-                    String sql = "SELECT location_name, id FROM airport_locations";
-                    Connection conn = databaseConnector.getConnection();
-                    Statement myStmt = conn.createStatement();
-                    ResultSet RS = myStmt.executeQuery(sql);
+                    ResultSet RS = databaseConnector.getResultSet("SELECT location_name, id FROM airport_locations");
                     while (RS.next()) {
                         if(fromInput.equals(RS.getString(1).toLowerCase())){
                             fromID = RS.getInt(2);
@@ -109,8 +109,7 @@ public class createReservation extends JFrame {
                         return;
                     }
 
-                    sql = "SELECT source_id, destination_id, id FROM airline_connecting_flights";
-                    RS = myStmt.executeQuery(sql);
+                    RS = databaseConnector.getResultSet("SELECT source_id, destination_id, id FROM airline_connecting_flights");
                     while (RS.next()) {
                         if(fromID == RS.getInt(1) && (toID == RS.getInt(2) || toID == 0)){
                             numFlights++;
@@ -118,8 +117,7 @@ public class createReservation extends JFrame {
                         }
                     }
 
-                    sql = "SELECT flight, departureTime, flightNumber FROM flights";
-                    RS = myStmt.executeQuery(sql);
+                    RS = databaseConnector.getResultSet("SELECT flight, departureTime, flightNumber FROM flights");
                     String flightNumber = "";
                     String info = "";
                     String time = "";
@@ -177,7 +175,6 @@ public class createReservation extends JFrame {
                             public void mouseClicked(MouseEvent e) {
                                 super.mouseClicked(e);
                                 chosenFlight[0] = finalFlightNumber;
-                                System.out.println(chosenFlight[0]);
                                 for (int k = 0; k < finalNumLabels; k++) {
                                     labels.get(k).setBackground(Color.decode("#FFFFFF"));
                                     labels.get(k).setForeground(Color.decode("#b3d7ff"));
@@ -198,7 +195,7 @@ public class createReservation extends JFrame {
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mainMenuChoicesWindow.activate();
+                mainMenuWindow.activate();
                 deactivate();
             }
         });
@@ -208,13 +205,10 @@ public class createReservation extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 try {
 
-                    String sql = "SELECT flightNumber FROM flights";
-                    Connection conn = databaseConnector.getConnection();
-                    Statement myStmt = conn.createStatement();
-                    ResultSet RS = myStmt.executeQuery(sql);
+                    ResultSet RS = databaseConnector.getResultSet("SELECT flightNumber FROM flights");
                     while (RS.next()) {
                         if(RS.getString(1).equals(chosenFlight[0])){
-                            addAdditionalyBaggage baggageScreen = new addAdditionalyBaggage(createReservation, chosenFlight[0]);
+                            bookFlightWindow baggageScreen = new bookFlightWindow(createReservation, chosenFlight[0]);
                             baggageScreen.activate();
                             deactivate();
                             return;
@@ -227,7 +221,7 @@ public class createReservation extends JFrame {
         });
     }
 
-    public String printFlightData(int flight) {
+    public static String printFlightData(int flight) {
 
         String statement = "";
 
@@ -238,10 +232,7 @@ public class createReservation extends JFrame {
             String departure = "";
             String destination = "";
 
-            String sql = "SELECT id, source_id, destination_id FROM airline_connecting_flights";
-            Connection conn = databaseConnector.getConnection();
-            Statement myStmt = conn.createStatement();
-            ResultSet RS = myStmt.executeQuery(sql);
+            ResultSet RS = databaseConnector.getResultSet("SELECT id, source_id, destination_id FROM airline_connecting_flights");
             while (RS.next()) {
                 if (flight == RS.getInt(1)) {
                     departureID = RS.getInt(2);
@@ -249,8 +240,7 @@ public class createReservation extends JFrame {
                 }
             }
 
-            sql = "SELECT id, location_name FROM airport_locations";
-            RS = myStmt.executeQuery(sql);
+            RS = databaseConnector.getResultSet("SELECT id, location_name FROM airport_locations");
             while (RS.next()) {
                 if (departureID == RS.getInt(1)) {
                     departure = RS.getString(2);

@@ -1,4 +1,4 @@
-package Objects;
+package Objects.CreateReservationWindows;
 
 import javax.swing.*;
 import java.awt.*;
@@ -7,8 +7,9 @@ import java.awt.event.ActionListener;
 import java.sql.*;
 import java.util.Objects;
 import java.sql.Statement;
+import Objects.databaseConnector;
 
-public class paybudiOption extends JFrame{
+public class payBudiWindow extends JFrame{
     private JLabel payBudiWelcome;
     private JTextField loginTxt;
     private JTextField passwordTxt;
@@ -19,21 +20,23 @@ public class paybudiOption extends JFrame{
     private JLabel confirmLabel;
     private JLabel invalidLoginLabel;
 
-    private paymentOptions paymentOptions;
+    private choosePaymentWindow choosePayment;
+    private reservationSummaryWindow reservationSummary;
 
-    public paybudiOption(paymentOptions paymentOptions) throws SQLException {
-        this.paymentOptions = paymentOptions;
+    public payBudiWindow(choosePaymentWindow choosePaymentWindow) throws SQLException {
 
-        confirmedFlight confirmedFlightScreen  = new confirmedFlight(this);
+        this.choosePayment = choosePaymentWindow;
+        this.reservationSummary = new reservationSummaryWindow(this);
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenHeight = screenSize.height;
         int screenWidth = screenSize.width;
         int windowHeight = 600;
         int windowWidth = 1000;
-        
+
         invalidLoginLabel.setVisible(false);
 
+        payBudiPanel.setLayout(new GridLayout(20, 1, 2, 5));
         setContentPane(payBudiPanel);
         setTitle("Pay Budi");
         setSize(windowWidth, windowHeight);
@@ -44,26 +47,20 @@ public class paybudiOption extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
 
+                invalidLoginLabel.setVisible(false);
+
                 String login = loginTxt.getText();
                 String password = passwordTxt.getText();
-                invalidLoginLabel.setVisible(false);
                 boolean found = false;
-                int id =  0;
-                String truePassword = null;
+                String truePassword = "";
 
                 try{
-                    String sql = "SELECT login, password, id FROM PAYBUDI_users";
-                    Connection conn = databaseConnector.getConnection();
-                    Statement myStmt = conn.createStatement();
-                    ResultSet RS = myStmt.executeQuery(sql);
+                    ResultSet RS = databaseConnector.getResultSet("SELECT login, password FROM PAYBUDI_users");
                     while (RS.next()){
-
                         if(Objects.equals(RS.getString(1), login)){
                             found = true;
                             //retrieve true password
                             truePassword = RS.getString(2);
-                            id = RS.getInt(3);
-                            System.out.println(RS.getInt(3));
                             break;
                         }
                     }
@@ -75,12 +72,12 @@ public class paybudiOption extends JFrame{
                     invalidLoginLabel.setVisible(true);
                     return;
                 }
-                if(!Objects.equals(password, truePassword)){
+                if(!Objects.equals(truePassword, password)){
                     invalidLoginLabel.setVisible(true);
                     return;
                 }
                 deactivate();
-                confirmedFlightScreen.activate();
+                reservationSummary.activate();
             }
         });
     }
