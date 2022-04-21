@@ -1,11 +1,11 @@
-package Objects;
+package Objects.CreateReservationWindows;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class paymentScreen extends JFrame{
+public class creditCardWindow extends JFrame{
     private JTextField ownerText;
     private JTextField cvvText;
     private JTextField exText;
@@ -20,11 +20,11 @@ public class paymentScreen extends JFrame{
     private JLabel cvvLabel;
     private JLabel cardNumberLabel;
 
-    private paymentOptions paymentOptions;
+    private choosePaymentWindow choosePaymentWindow;
 
-    public paymentScreen(paymentOptions paymentOptions){
+    public creditCardWindow(choosePaymentWindow choosePaymentWindow){
 
-        this.paymentOptions = paymentOptions;
+        this.choosePaymentWindow = choosePaymentWindow;
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenHeight = screenSize.height;
@@ -54,7 +54,7 @@ public class paymentScreen extends JFrame{
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                paymentOptions.activate();
+                choosePaymentWindow.activate();
                 deactivate();
             }
         });

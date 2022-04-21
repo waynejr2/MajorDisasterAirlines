@@ -1,4 +1,4 @@
-package Objects;
+package Objects.CreateReservationWindows;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,7 +8,7 @@ import java.sql.*;
 import java.util.Objects;
 import java.sql.Statement;
 
-public class paybudiOption extends JFrame{
+public class payBudiWindow extends JFrame{
     private JLabel payBudiWelcome;
     private JTextField loginTxt;
     private JTextField passwordTxt;
@@ -19,10 +19,10 @@ public class paybudiOption extends JFrame{
     private JLabel confirmLabel;
     private JLabel invalidLoginLabel;
 
-    private paymentOptions paymentOptions;
+    private choosePaymentWindow choosePaymentWindow;
 
-    public paybudiOption(paymentOptions paymentOptions) throws SQLException {
-        this.paymentOptions = paymentOptions;
+    public payBudiWindow(choosePaymentWindow choosePaymentWindow) throws SQLException {
+        this.choosePaymentWindow = choosePaymentWindow;
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenHeight = screenSize.height;
@@ -70,7 +70,7 @@ public class paybudiOption extends JFrame{
                     return;
                 }
                 dispose();
-                paymentOptions.activate();
+                choosePaymentWindow.activate();
             }
         });
     }

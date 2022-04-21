@@ -1,10 +1,12 @@
-package Objects;
+package Objects.LoginWindows;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
 import java.util.Objects;
+import Objects.databaseConnector;
 
 public class LoginWindow extends JFrame {
     private JLabel Username;
@@ -109,7 +111,7 @@ public class LoginWindow extends JFrame {
 
                 //close login window and open main window
 
-                mainMenuChoices mainMenuChoicesWindow = new mainMenuChoices(id);
+                mainMenuWindow mainMenuChoicesWindow = new mainMenuWindow(id);
                 mainMenuChoicesWindow.activate();
                 dispose();
             }

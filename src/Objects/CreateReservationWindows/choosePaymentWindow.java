@@ -1,4 +1,4 @@
-package Objects;
+package Objects.CreateReservationWindows;
 
 import javax.swing.*;
 import java.awt.*;
@@ -6,22 +6,22 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
-public class paymentOptions extends JFrame{
+public class choosePaymentWindow extends JFrame{
     private JButton paybudiButton;
     private JButton creditCardButton;
     private JPanel paymentOptionsPanel;
     private JLabel paymentOptionsLabel;
     private JButton cancelButton;
 
-    private addAdditionalyBaggage baggageScreen;
-    private paymentScreen paymentScreen;
-    private paybudiOption paybudiScreen;
+    private bookFlightWindow baggageScreen;
+    private creditCardWindow creditCardWindow;
+    private payBudiWindow paybudiScreen;
 
-    public paymentOptions(addAdditionalyBaggage baggageScreen) throws SQLException {
+    public choosePaymentWindow(bookFlightWindow baggageScreen) throws SQLException {
 
         this.baggageScreen = baggageScreen;
-        paymentScreen = new paymentScreen(this);
-        paybudiScreen = new paybudiOption(this);
+        creditCardWindow = new creditCardWindow(this);
+        paybudiScreen = new payBudiWindow(this);
 
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -40,14 +40,14 @@ public class paymentOptions extends JFrame{
         creditCardButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                paymentScreen.activate();
+                creditCardWindow.activate();
                 deactivate();
             }
         });
         paybudiButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                paymentScreen.activate();
+                creditCardWindow.activate();
                 deactivate();
             }
         });

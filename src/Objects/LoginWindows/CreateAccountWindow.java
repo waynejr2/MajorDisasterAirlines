@@ -1,10 +1,12 @@
-package Objects;
+package Objects.LoginWindows;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
 import java.util.Objects;
+import Objects.User;
+import Objects.databaseConnector;
 
 public class CreateAccountWindow extends JFrame{
     private JTextField usernameField;

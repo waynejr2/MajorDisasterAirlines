@@ -1,11 +1,11 @@
-package Objects;
+package Objects.CreateReservationWindows;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class addAdditionalyBaggage extends JFrame {
+public class bookFlightWindow extends JFrame {
     private JPanel addBagGuestPanel;
     private JButton backButton;
     private JButton nextButton;
@@ -15,8 +15,8 @@ public class addAdditionalyBaggage extends JFrame {
     private JComboBox addTicketsComboBox;
 
     private final String flightNumber;
-    private final createReservation createReservationWindow;
-    private final addAdditionalyBaggage addAdditionalyBaggage = this;
+    private final Objects.CreateReservationWindows.createReservationWindow createReservationWindow;
+    private final bookFlightWindow bookFlightWindow = this;
 
     // WILL THE PRIV FINAL BE FOR THE PAGES FOLOOWING?
     //private final createReservation createReservationWindow;
@@ -25,7 +25,7 @@ public class addAdditionalyBaggage extends JFrame {
     // PaymentWindow Class Name Temporary
     // Update Class name
 
-    public addAdditionalyBaggage(createReservation createReservationWindow, String fn) {
+    public bookFlightWindow(Objects.CreateReservationWindows.createReservationWindow createReservationWindow, String fn) {
         //paymentOptionsWindow = new paymentOptions(this);
         this.createReservationWindow = createReservationWindow;
 

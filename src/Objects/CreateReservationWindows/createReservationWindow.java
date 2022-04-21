@@ -1,4 +1,7 @@
-package Objects;
+package Objects.CreateReservationWindows;
+
+import Objects.databaseConnector;
+import Objects.LoginWindows.mainMenuWindow;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,7 +14,7 @@ import java.util.ArrayList;
 
 import static javax.swing.BorderFactory.createLineBorder;
 
-public class createReservation extends JFrame {
+public class createReservationWindow extends JFrame {
     private JPanel createReservationPanel;
     private JTextField fromEntry;
     private JLabel FromLabel;
@@ -29,12 +32,12 @@ public class createReservation extends JFrame {
     private JLabel dateLabel;
     private JLabel invalidLabel3;
 
-    private final mainMenuChoices mainMenuChoicesWindow;
-    private final createReservation createReservation = this;
+    private final mainMenuWindow mainMenuChoicesWindow;
+    private final createReservationWindow createReservationWindow = this;
 
     private final int userID;
 
-    public createReservation(mainMenuChoices mainMenuChoicesWindow, int id){
+    public createReservationWindow(mainMenuWindow mainMenuChoicesWindow, int id){
 
         final String[] chosenFlight = {""};
 
@@ -214,7 +217,7 @@ public class createReservation extends JFrame {
                     ResultSet RS = myStmt.executeQuery(sql);
                     while (RS.next()) {
                         if(RS.getString(1).equals(chosenFlight[0])){
-                            addAdditionalyBaggage baggageScreen = new addAdditionalyBaggage(createReservation, chosenFlight[0]);
+                            bookFlightWindow baggageScreen = new bookFlightWindow(createReservationWindow, chosenFlight[0]);
                             baggageScreen.activate();
                             deactivate();
                             return;

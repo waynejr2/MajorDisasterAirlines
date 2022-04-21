@@ -1,11 +1,11 @@
-package Objects;
+package Objects.CreateReservationWindows;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class confirmedFlight extends JFrame{
+public class reservationSummaryWindow extends JFrame{
     private JButton doneButton;
     private JLabel bookingConLabel;
     private JLabel bookingDateLabel;
@@ -14,12 +14,12 @@ public class confirmedFlight extends JFrame{
     private JLabel thankYouLabel;
     private JPanel confirmedFlightPanel;
 
-    private paymentScreen paymentScreen;
-    private paybudiOption paybudiOption;
+    private creditCardWindow creditCardWindow;
+    private payBudiWindow payBudiWindow;
 
-    public confirmedFlight(paymentScreen paymentScreen){
+    public reservationSummaryWindow(creditCardWindow creditCardWindow){
 
-        this.paymentScreen = paymentScreen;
+        this.creditCardWindow = creditCardWindow;
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenHeight = screenSize.height;
@@ -37,16 +37,16 @@ public class confirmedFlight extends JFrame{
         doneButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                paymentScreen.activate();
+                creditCardWindow.activate();
                 deactivate();
             }
         });
     }
 
 
-    public confirmedFlight(paybudiOption paybudiOption){
+    public reservationSummaryWindow(payBudiWindow payBudiWindow){
 
-        this.paybudiOption = paybudiOption;
+        this.payBudiWindow = payBudiWindow;
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenHeight = screenSize.height;
@@ -64,7 +64,7 @@ public class confirmedFlight extends JFrame{
         doneButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                paybudiOption.activate();
+                payBudiWindow.activate();
                 deactivate();
             }
         });

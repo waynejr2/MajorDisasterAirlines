@@ -1,19 +1,19 @@
-package Objects;
+package Objects.EditReservationWindows;
+
+import Objects.LoginWindows.mainMenuWindow;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-public class editReservation extends JFrame {
+public class editReservationWindow extends JFrame {
     private JButton cancelButton;
     private JPanel editReservationPanel;
 
-    private final mainMenuChoices mainMenuChoicesWindow;
+    private final mainMenuWindow mainMenuChoicesWindow;
 
     private final int userID;
 
-    public editReservation(mainMenuChoices mainMenuChoicesWindow, int id){
+    public editReservationWindow(mainMenuWindow mainMenuChoicesWindow, int id){
 
         this.mainMenuChoicesWindow = mainMenuChoicesWindow;
         this.userID = id;
