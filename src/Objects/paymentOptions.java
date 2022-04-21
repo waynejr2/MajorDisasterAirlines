@@ -30,7 +30,7 @@ public class paymentOptions extends JFrame{
         int windowHeight = 600;
         int windowWidth = 1000;
 
-        paymentOptionsPanel.setLayout(new GridLayout(20, 1, 2, 5));
+
         setContentPane(paymentOptionsPanel);
         setTitle("Payment Options");
         setSize(windowWidth, windowHeight);
@@ -47,7 +47,7 @@ public class paymentOptions extends JFrame{
         paybudiButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                paymentScreen.activate();
+                paybudiScreen.activate();
                 deactivate();
             }
         });

@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 public class addAdditionalyBaggage extends JFrame {
     private JPanel addBagGuestPanel;
@@ -25,10 +26,11 @@ public class addAdditionalyBaggage extends JFrame {
     // PaymentWindow Class Name Temporary
     // Update Class name
 
-    public addAdditionalyBaggage(createReservation createReservationWindow, String fn) {
+    public addAdditionalyBaggage(createReservation createReservationWindow, String fn) throws SQLException {
         //paymentOptionsWindow = new paymentOptions(this);
         this.createReservationWindow = createReservationWindow;
 
+        paymentOptions paymentOptions = new paymentOptions(this);
         this.flightNumber = fn;
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -59,6 +61,8 @@ public class addAdditionalyBaggage extends JFrame {
         nextButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                paymentOptions.activate();
+                deactivate();
                 // code to process if user wants to add baggage and additional passengers once pressed
 
             }

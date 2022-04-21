@@ -24,13 +24,16 @@ public class paybudiOption extends JFrame{
     public paybudiOption(paymentOptions paymentOptions) throws SQLException {
         this.paymentOptions = paymentOptions;
 
+        confirmedFlight confirmedFlightScreen  = new confirmedFlight(this);
+
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenHeight = screenSize.height;
         int screenWidth = screenSize.width;
         int windowHeight = 600;
         int windowWidth = 1000;
+        
+        invalidLoginLabel.setVisible(false);
 
-        payBudiPanel.setLayout(new GridLayout(20, 1, 2, 5));
         setContentPane(payBudiPanel);
         setTitle("Pay Budi");
         setSize(windowWidth, windowHeight);
@@ -45,10 +48,11 @@ public class paybudiOption extends JFrame{
                 String password = passwordTxt.getText();
                 invalidLoginLabel.setVisible(false);
                 boolean found = false;
+                int id =  0;
                 String truePassword = null;
 
                 try{
-                    String sql = "SELECT login, password FROM PAYBUDI_users";
+                    String sql = "SELECT login, password, id FROM PAYBUDI_users";
                     Connection conn = databaseConnector.getConnection();
                     Statement myStmt = conn.createStatement();
                     ResultSet RS = myStmt.executeQuery(sql);
@@ -58,6 +62,8 @@ public class paybudiOption extends JFrame{
                             found = true;
                             //retrieve true password
                             truePassword = RS.getString(2);
+                            id = RS.getInt(3);
+                            System.out.println(RS.getInt(3));
                             break;
                         }
                     }
@@ -69,8 +75,12 @@ public class paybudiOption extends JFrame{
                     invalidLoginLabel.setVisible(true);
                     return;
                 }
-                dispose();
-                paymentOptions.activate();
+                if(!Objects.equals(password, truePassword)){
+                    invalidLoginLabel.setVisible(true);
+                    return;
+                }
+                deactivate();
+                confirmedFlightScreen.activate();
             }
         });
     }

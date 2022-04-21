@@ -54,7 +54,7 @@ public class confirmedFlight extends JFrame{
         int windowHeight = 600;
         int windowWidth = 1000;
 
-        confirmedFlightPanel.setLayout(new GridLayout(20, 1, 2, 5));
+
         setContentPane(confirmedFlightPanel);
         setTitle("Confirmed Flight");
         setSize(windowWidth, windowHeight);
