@@ -47,7 +47,7 @@ public class bookFlightWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 createReservation.activate();
-                deactivate();
+                dispose();
             }
         });
 

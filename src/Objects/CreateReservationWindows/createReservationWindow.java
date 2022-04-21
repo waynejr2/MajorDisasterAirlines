@@ -175,7 +175,6 @@ public class createReservationWindow extends JFrame {
                             public void mouseClicked(MouseEvent e) {
                                 super.mouseClicked(e);
                                 chosenFlight[0] = finalFlightNumber;
-                                System.out.println(chosenFlight[0]);
                                 for (int k = 0; k < finalNumLabels; k++) {
                                     labels.get(k).setBackground(Color.decode("#FFFFFF"));
                                     labels.get(k).setForeground(Color.decode("#b3d7ff"));
@@ -222,7 +221,7 @@ public class createReservationWindow extends JFrame {
         });
     }
 
-    public String printFlightData(int flight) {
+    public static String printFlightData(int flight) {
 
         String statement = "";
 

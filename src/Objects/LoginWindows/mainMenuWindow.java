@@ -1,7 +1,7 @@
 package Objects.LoginWindows;
 
 import Objects.CreateReservationWindows.createReservationWindow;
-import Objects.EditReservationWindows.editReservationWindow;
+import Objects.EditReservationWindows.chooseReservationWindow;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,16 +21,15 @@ public class mainMenuWindow extends JFrame {
     private JLabel picture1;
 
     private final createReservationWindow createReservation;
-    private final editReservationWindow editReservation;
+    private final mainMenuWindow mainMenu = this;
 
     private final int userID;
 
-    public mainMenuWindow(int id){
+    public mainMenuWindow(int id) throws SQLException {
 
         this.userID = id;
 
         createReservation = new createReservationWindow(this, userID);
-        editReservation = new editReservationWindow(this, userID);
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenHeight = screenSize.height;
@@ -62,8 +61,13 @@ public class mainMenuWindow extends JFrame {
         editReservationButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                editReservation.activate();
-                deactivate();
+                try {
+                    chooseReservationWindow chooseReservation = new chooseReservationWindow(mainMenu, userID);
+                    chooseReservation.activate();
+                    deactivate();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
             }
         });
 

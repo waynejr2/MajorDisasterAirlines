@@ -108,7 +108,12 @@ public class LoginWindow extends JFrame {
 
                 //close login window and open main window
 
-                mainMenuWindow mainMenu = new mainMenuWindow(id);
+                mainMenuWindow mainMenu = null;
+                try {
+                    mainMenu = new mainMenuWindow(id);
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
                 mainMenu.activate();
                 dispose();
             }
