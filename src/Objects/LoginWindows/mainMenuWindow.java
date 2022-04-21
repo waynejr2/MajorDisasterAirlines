@@ -20,8 +20,8 @@ public class mainMenuWindow extends JFrame {
     private JLabel picture2;
     private JLabel picture1;
 
-    private final Objects.CreateReservationWindows.createReservationWindow createReservationWindow;
-    private final Objects.EditReservationWindows.editReservationWindow editReservationWindow;
+    private final createReservationWindow createReservation;
+    private final editReservationWindow editReservation;
 
     private final int userID;
 
@@ -29,8 +29,8 @@ public class mainMenuWindow extends JFrame {
 
         this.userID = id;
 
-        createReservationWindow = new createReservationWindow(this, userID);
-        editReservationWindow = new editReservationWindow(this, userID);
+        createReservation = new createReservationWindow(this, userID);
+        editReservation = new editReservationWindow(this, userID);
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenHeight = screenSize.height;
@@ -45,7 +45,7 @@ public class mainMenuWindow extends JFrame {
         picture2.setIcon(editIcon);
 
         setContentPane(mainMenuChoicesPanel);
-        setTitle("Choose");
+        setTitle("Major Disaster Airlines");
         setSize(windowWidth, windowHeight);
         setLocation(screenWidth/2 - windowWidth/2, screenHeight/2 - windowHeight/2 - 100);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -54,16 +54,15 @@ public class mainMenuWindow extends JFrame {
         createReservationButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                createReservationWindow.activate();
+                createReservation.activate();
                 deactivate();
             }
         });
 
-
         editReservationButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                editReservationWindow.activate();
+                editReservation.activate();
                 deactivate();
             }
         });
@@ -72,8 +71,8 @@ public class mainMenuWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    LoginWindow newLoginWindow = new LoginWindow();
-                    newLoginWindow.activate();
+                    LoginWindow login = new LoginWindow();
+                    login.activate();
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }

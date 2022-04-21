@@ -20,11 +20,11 @@ public class creditCardWindow extends JFrame{
     private JLabel cvvLabel;
     private JLabel cardNumberLabel;
 
-    private choosePaymentWindow choosePaymentWindow;
+    private choosePaymentWindow choosePayment;
 
     public creditCardWindow(choosePaymentWindow choosePaymentWindow){
 
-        this.choosePaymentWindow = choosePaymentWindow;
+        this.choosePayment = choosePaymentWindow;
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenHeight = screenSize.height;
@@ -46,7 +46,7 @@ public class creditCardWindow extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 String cardNumberLabelText = cardNumberLabel.getText();
                 String cvvLabelText = cvvLabel.getText();
-                    InvalidCard.setVisible(false);
+                InvalidCard.setVisible(false);
             }
 
         });
@@ -54,7 +54,7 @@ public class creditCardWindow extends JFrame{
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                choosePaymentWindow.activate();
+                choosePayment.activate();
                 deactivate();
             }
         });

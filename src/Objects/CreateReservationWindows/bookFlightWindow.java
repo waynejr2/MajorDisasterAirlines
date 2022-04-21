@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 public class bookFlightWindow extends JFrame {
     private JPanel addBagGuestPanel;
@@ -14,22 +15,17 @@ public class bookFlightWindow extends JFrame {
     private JComboBox baggageComboBox;
     private JComboBox addTicketsComboBox;
 
-    private final String flightNumber;
-    private final Objects.CreateReservationWindows.createReservationWindow createReservationWindow;
-    private final bookFlightWindow bookFlightWindow = this;
+    private String flightNumber;
 
-    // WILL THE PRIV FINAL BE FOR THE PAGES FOLOOWING?
-    //private final createReservation createReservationWindow;
-    //private final paymentOptions paymentOptionsWindow;
+    private final createReservationWindow createReservation;
+    private choosePaymentWindow choosePayment;
+    private final bookFlightWindow bookFlight = this;
 
-    // PaymentWindow Class Name Temporary
-    // Update Class name
-
-    public bookFlightWindow(Objects.CreateReservationWindows.createReservationWindow createReservationWindow, String fn) {
+    public bookFlightWindow(createReservationWindow createReservationWindow, String flightNumber) throws SQLException {
         //paymentOptionsWindow = new paymentOptions(this);
-        this.createReservationWindow = createReservationWindow;
-
-        this.flightNumber = fn;
+        this.createReservation = createReservationWindow;
+        this.flightNumber = flightNumber;
+        choosePaymentWindow choosePayment = new choosePaymentWindow(this, flightNumber);
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenHeight = screenSize.height;
@@ -50,7 +46,7 @@ public class bookFlightWindow extends JFrame {
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                createReservationWindow.activate();
+                createReservation.activate();
                 deactivate();
             }
         });
@@ -60,7 +56,8 @@ public class bookFlightWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // code to process if user wants to add baggage and additional passengers once pressed
-
+                choosePayment.activate();
+                deactivate();
             }
         });
     }

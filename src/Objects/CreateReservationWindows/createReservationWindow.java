@@ -32,16 +32,16 @@ public class createReservationWindow extends JFrame {
     private JLabel dateLabel;
     private JLabel invalidLabel3;
 
-    private final mainMenuWindow mainMenuChoicesWindow;
-    private final createReservationWindow createReservationWindow = this;
+    private final mainMenuWindow mainMenu;
+    private final createReservationWindow createReservation = this;
 
     private final int userID;
 
-    public createReservationWindow(mainMenuWindow mainMenuChoicesWindow, int id){
+    public createReservationWindow(mainMenuWindow mainMenuWindow, int id){
 
         final String[] chosenFlight = {""};
 
-        this.mainMenuChoicesWindow = mainMenuChoicesWindow;
+        this.mainMenu = mainMenuWindow;
         this.userID = id;
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -196,7 +196,7 @@ public class createReservationWindow extends JFrame {
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mainMenuChoicesWindow.activate();
+                mainMenuWindow.activate();
                 deactivate();
             }
         });
@@ -209,7 +209,7 @@ public class createReservationWindow extends JFrame {
                     ResultSet RS = databaseConnector.getResultSet("SELECT flightNumber FROM flights");
                     while (RS.next()) {
                         if(RS.getString(1).equals(chosenFlight[0])){
-                            bookFlightWindow baggageScreen = new bookFlightWindow(createReservationWindow, chosenFlight[0]);
+                            bookFlightWindow baggageScreen = new bookFlightWindow(createReservation, chosenFlight[0]);
                             baggageScreen.activate();
                             deactivate();
                             return;

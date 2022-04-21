@@ -14,12 +14,12 @@ public class reservationSummaryWindow extends JFrame{
     private JLabel thankYouLabel;
     private JPanel confirmedFlightPanel;
 
-    private creditCardWindow creditCardWindow;
-    private payBudiWindow payBudiWindow;
+    private creditCardWindow creditCard;
+    private payBudiWindow payBudi;
 
     public reservationSummaryWindow(creditCardWindow creditCardWindow){
 
-        this.creditCardWindow = creditCardWindow;
+        this.creditCard = creditCardWindow;
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenHeight = screenSize.height;
@@ -43,10 +43,9 @@ public class reservationSummaryWindow extends JFrame{
         });
     }
 
-
     public reservationSummaryWindow(payBudiWindow payBudiWindow){
 
-        this.payBudiWindow = payBudiWindow;
+        this.payBudi = payBudiWindow;
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenHeight = screenSize.height;
@@ -69,8 +68,6 @@ public class reservationSummaryWindow extends JFrame{
             }
         });
     }
-
-
 
     public void activate() {
         setVisible(true);

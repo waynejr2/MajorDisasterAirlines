@@ -58,8 +58,8 @@ public class LoginWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 deactivate();
-                CreateAccountWindow createAccountWindow = new CreateAccountWindow(thisWindow);
-                createAccountWindow.activate();
+                CreateAccountWindow createAccount = new CreateAccountWindow(thisWindow);
+                createAccount.activate();
             }
         });
 
@@ -108,8 +108,8 @@ public class LoginWindow extends JFrame {
 
                 //close login window and open main window
 
-                mainMenuWindow mainMenuChoicesWindow = new mainMenuWindow(id);
-                mainMenuChoicesWindow.activate();
+                mainMenuWindow mainMenu = new mainMenuWindow(id);
+                mainMenu.activate();
                 dispose();
             }
         });

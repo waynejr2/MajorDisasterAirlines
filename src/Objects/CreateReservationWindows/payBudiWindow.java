@@ -20,16 +20,21 @@ public class payBudiWindow extends JFrame{
     private JLabel confirmLabel;
     private JLabel invalidLoginLabel;
 
-    private choosePaymentWindow choosePaymentWindow;
+    private choosePaymentWindow choosePayment;
+    private reservationSummaryWindow reservationSummary;
 
     public payBudiWindow(choosePaymentWindow choosePaymentWindow) throws SQLException {
-        this.choosePaymentWindow = choosePaymentWindow;
+
+        this.choosePayment = choosePaymentWindow;
+        this.reservationSummary = new reservationSummaryWindow(this);
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenHeight = screenSize.height;
         int screenWidth = screenSize.width;
         int windowHeight = 600;
         int windowWidth = 1000;
+
+        invalidLoginLabel.setVisible(false);
 
         payBudiPanel.setLayout(new GridLayout(20, 1, 2, 5));
         setContentPane(payBudiPanel);
@@ -42,11 +47,12 @@ public class payBudiWindow extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
 
+                invalidLoginLabel.setVisible(false);
+
                 String login = loginTxt.getText();
                 String password = passwordTxt.getText();
-                invalidLoginLabel.setVisible(false);
                 boolean found = false;
-                String truePassword = null;
+                String truePassword = "";
 
                 try{
                     ResultSet RS = databaseConnector.getResultSet("SELECT login, password FROM PAYBUDI_users");
@@ -66,8 +72,12 @@ public class payBudiWindow extends JFrame{
                     invalidLoginLabel.setVisible(true);
                     return;
                 }
-                dispose();
-                choosePaymentWindow.activate();
+                if(!Objects.equals(truePassword, password)){
+                    invalidLoginLabel.setVisible(true);
+                    return;
+                }
+                deactivate();
+                reservationSummary.activate();
             }
         });
     }

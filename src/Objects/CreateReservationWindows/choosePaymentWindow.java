@@ -13,15 +13,18 @@ public class choosePaymentWindow extends JFrame{
     private JLabel paymentOptionsLabel;
     private JButton cancelButton;
 
-    private bookFlightWindow baggageScreen;
-    private creditCardWindow creditCardWindow;
-    private payBudiWindow paybudiScreen;
+    private String flightNumber;
 
-    public choosePaymentWindow(bookFlightWindow baggageScreen) throws SQLException {
+    private bookFlightWindow bookFlight;
+    private creditCardWindow creditCard;
+    private payBudiWindow payBudi;
 
-        this.baggageScreen = baggageScreen;
-        creditCardWindow = new creditCardWindow(this);
-        paybudiScreen = new payBudiWindow(this);
+    public choosePaymentWindow(bookFlightWindow bookFlightWindow, String flightNumber) throws SQLException {
+
+        this.bookFlight = bookFlightWindow;
+        this.flightNumber = flightNumber;
+        creditCard = new creditCardWindow(this);
+        payBudi = new payBudiWindow(this);
 
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -40,21 +43,21 @@ public class choosePaymentWindow extends JFrame{
         creditCardButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                creditCardWindow.activate();
+                creditCard.activate();
                 deactivate();
             }
         });
         paybudiButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                creditCardWindow.activate();
+                payBudi.activate();
                 deactivate();
             }
         });
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                baggageScreen.activate();
+                bookFlight.activate();
                 deactivate();
             }
         });

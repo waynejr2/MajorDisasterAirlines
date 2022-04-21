@@ -18,10 +18,12 @@ public class CreateAccountWindow extends JFrame{
     private JLabel invalidLabel1;
     private JLabel invalidLabel2;
     private JLabel invalidLabel3;
-    private final LoginWindow loginWindow;
+
+    private final LoginWindow login;
+
     public CreateAccountWindow(LoginWindow loginWindow){
 
-        this.loginWindow = loginWindow;
+        this.login = loginWindow;
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenHeight = screenSize.height;
@@ -82,7 +84,7 @@ public class CreateAccountWindow extends JFrame{
                 try{
                     User newUser = new User(username, password);
                     deactivate();
-                    loginWindow.activate();
+                    login.activate();
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
@@ -97,7 +99,7 @@ public class CreateAccountWindow extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 //return back to login screen
                 deactivate();
-                loginWindow.activate();
+                login.activate();
             }
         });
 
