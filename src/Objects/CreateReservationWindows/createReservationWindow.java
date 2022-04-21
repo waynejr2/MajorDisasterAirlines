@@ -55,7 +55,6 @@ public class createReservationWindow extends JFrame {
         setLocation(screenWidth/2 - windowWidth/2, screenHeight/2 - windowHeight/2 - 50);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        panel.setLayout(new GridLayout(20, 1, 2, 5));
         setContentPane(createReservationPanel);
 
         invalidLabel1.setVisible(false);
@@ -152,6 +151,7 @@ public class createReservationWindow extends JFrame {
                             }
                         }
                     }
+                    panel.setLayout(new GridLayout(numLabels, 1, 2, 5));
 
                     if(existingFlights == 0) {
                         String[] noResult = new String[1];
