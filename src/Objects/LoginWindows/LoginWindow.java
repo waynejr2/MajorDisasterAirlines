@@ -86,7 +86,6 @@ public class LoginWindow extends JFrame {
                             //retrieve true password
                             truePassword = RS.getString(2);
                             id = RS.getInt(3);
-                            System.out.println(RS.getInt(3));
                             break;
                         }
                     }

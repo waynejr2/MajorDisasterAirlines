@@ -43,7 +43,6 @@ public class chooseReservationWindow extends JFrame {
         int windowHeight = 600;
         int windowWidth = 1000;
 
-        reservationPanel.setLayout(new GridLayout(10, 1, 5, 5));
         setContentPane(choseReservationPanel);
 
         setTitle("Your Reservations");
@@ -51,12 +50,12 @@ public class chooseReservationWindow extends JFrame {
         setLocation(screenWidth/2 - windowWidth/2, screenHeight/2 - windowHeight/2 - 50);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
+        reservationPanel.setLayout(new GridLayout(10, 1, 5, 5));
         reservationPanel.revalidate();
         reservationPanel.repaint();
 
         ArrayList<JList<String>> labels = new ArrayList<>();
         ArrayList<Integer> reservations = new ArrayList<>();
-        int numReservations = 0;
         int numLabels = 0;
 
         ResultSet RS = databaseConnector.getResultSet("SELECT DMAuserID, flightNumber, reservations.flight, departureTime, date, numberOfTickets, numberOfBags, totalCost, reservations.id, status FROM reservations JOIN flights ON reservations.flight = flights.id");
@@ -64,7 +63,6 @@ public class chooseReservationWindow extends JFrame {
         while (RS.next()) {
             if(RS.getInt(1)==userID){
                 numLabels++;
-                numReservations++;
                 reservations.add(RS.getInt(9));
 
 
@@ -96,6 +94,8 @@ public class chooseReservationWindow extends JFrame {
             }
         }
 
+
+        reservationPanel.setLayout(new GridLayout(numLabels, 1, 5, 5));
         reservationPanel.revalidate();
         reservationPanel.repaint();
 

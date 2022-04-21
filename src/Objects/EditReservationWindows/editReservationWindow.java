@@ -26,6 +26,7 @@ public class editReservationWindow extends JFrame{
     private JButton submitButton;
 
     private final mainMenuWindow mainMenu;
+    private final editReservationWindow editReservation = this;
     private final int userID;
 
     public editReservationWindow(mainMenuWindow mainMenuWindow, int reservationNumber, int id) throws SQLException {
@@ -73,16 +74,9 @@ public class editReservationWindow extends JFrame{
         cancelReservationButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
-                    Connection conn = databaseConnector.getConnection();
-                    Statement myStmt = conn.createStatement();
-                    myStmt.executeUpdate("DELETE FROM reservations WHERE id = " + reservationNumber);
-                    chooseReservationWindow chooseReservation = new chooseReservationWindow(mainMenu, userID);
-                    chooseReservation.activate();
-                    dispose();
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                }
+                confirmationWindow confirmation = new confirmationWindow(editReservation, mainMenu, reservationNumber, userID);
+                confirmation.activate();
+                setEnabled(false);
             }
         });
         submitButton.addActionListener(new ActionListener() {
