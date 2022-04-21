@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.sql.*;
 import java.util.Objects;
 import java.sql.Statement;
+import Objects.databaseConnector;
 
 public class payBudiWindow extends JFrame{
     private JLabel payBudiWelcome;
@@ -48,12 +49,8 @@ public class payBudiWindow extends JFrame{
                 String truePassword = null;
 
                 try{
-                    String sql = "SELECT login, password FROM PAYBUDI_users";
-                    Connection conn = databaseConnector.getConnection();
-                    Statement myStmt = conn.createStatement();
-                    ResultSet RS = myStmt.executeQuery(sql);
+                    ResultSet RS = databaseConnector.getResultSet("SELECT login, password FROM PAYBUDI_users");
                     while (RS.next()){
-
                         if(Objects.equals(RS.getString(1), login)){
                             found = true;
                             //retrieve true password

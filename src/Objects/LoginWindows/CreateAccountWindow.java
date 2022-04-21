@@ -67,10 +67,7 @@ public class CreateAccountWindow extends JFrame{
 
                 //check if username already exists in database
                 try {
-                    String sql = "SELECT username FROM DMA_users";
-                    Connection conn = databaseConnector.getConnection();
-                    Statement myStmt = conn.createStatement();
-                    ResultSet RS = myStmt.executeQuery(sql);
+                    ResultSet RS = databaseConnector.getResultSet("SELECT username FROM DMA_users");
                     while (RS.next()) {
                         if(Objects.equals(RS.getString(1), username)){
                             invalidLabel3.setVisible(true);
