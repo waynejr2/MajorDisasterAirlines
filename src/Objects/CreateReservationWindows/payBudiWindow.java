@@ -1,13 +1,14 @@
 package Objects.CreateReservationWindows;
 
+import Objects.databaseConnector;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Objects;
-import java.sql.Statement;
-import Objects.databaseConnector;
 
 public class payBudiWindow extends JFrame{
     private JLabel payBudiWelcome;
@@ -36,7 +37,6 @@ public class payBudiWindow extends JFrame{
 
         invalidLoginLabel.setVisible(false);
 
-        payBudiPanel.setLayout(new GridLayout(20, 1, 2, 5));
         setContentPane(payBudiPanel);
         setTitle("Pay Budi");
         setSize(windowWidth, windowHeight);

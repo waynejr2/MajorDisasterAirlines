@@ -34,7 +34,6 @@ public class creditCardWindow extends JFrame{
 
         InvalidCard.setVisible(false);
 
-        paymentMethodPanel.setLayout(new GridLayout(20, 1, 2, 5));
         setContentPane(paymentMethodPanel);
         setTitle("Payment Method");
         setSize(windowWidth, windowHeight);
@@ -58,6 +57,7 @@ public class creditCardWindow extends JFrame{
                 deactivate();
             }
         });
+
     }
 
     public void activate() {setVisible(true);}
