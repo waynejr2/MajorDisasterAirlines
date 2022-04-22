@@ -16,16 +16,18 @@ public class bookFlightWindow extends JFrame {
     private JComboBox addTicketsComboBox;
 
     private String flightNumber;
+    private String dateDescription;
 
     private final createReservationWindow createReservation;
     private choosePaymentWindow choosePayment;
     private final bookFlightWindow bookFlight = this;
 
-    public bookFlightWindow(createReservationWindow createReservationWindow, String flightNumber) throws SQLException {
-        //paymentOptionsWindow = new paymentOptions(this);
+    public bookFlightWindow(createReservationWindow createReservationWindow, String flightNumber, String dateDescription) throws SQLException {
+
         this.createReservation = createReservationWindow;
         this.flightNumber = flightNumber;
-        choosePaymentWindow choosePayment = new choosePaymentWindow(this, flightNumber);
+        this.dateDescription = dateDescription;
+        this.choosePayment = new choosePaymentWindow(this, flightNumber);
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenHeight = screenSize.height;
