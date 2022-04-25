@@ -1,4 +1,4 @@
-package Objects;
+package Objects.CreateReservationWindows;
 
 import javax.swing.*;
 import java.awt.*;
@@ -6,22 +6,25 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
-public class paymentOptions extends JFrame{
+public class choosePaymentWindow extends JFrame{
     private JButton paybudiButton;
     private JButton creditCardButton;
     private JPanel paymentOptionsPanel;
     private JLabel paymentOptionsLabel;
     private JButton cancelButton;
 
-    private addAdditionalyBaggage baggageScreen;
-    private paymentScreen paymentScreen;
-    private paybudiOption paybudiScreen;
+    private String flightNumber;
 
-    public paymentOptions(addAdditionalyBaggage baggageScreen) throws SQLException {
+    private bookFlightWindow bookFlight;
+    private creditCardWindow creditCard;
+    private payBudiWindow payBudi;
 
-        this.baggageScreen = baggageScreen;
-        paymentScreen = new paymentScreen(this);
-        paybudiScreen = new paybudiOption(this);
+    public choosePaymentWindow(bookFlightWindow bookFlightWindow, String flightNumber) throws SQLException {
+
+        this.bookFlight = bookFlightWindow;
+        this.flightNumber = flightNumber;
+        creditCard = new creditCardWindow(this);
+        payBudi = new payBudiWindow(this);
 
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -30,7 +33,7 @@ public class paymentOptions extends JFrame{
         int windowHeight = 600;
         int windowWidth = 1000;
 
-        paymentOptionsPanel.setLayout(new GridLayout(20, 1, 2, 5));
+
         setContentPane(paymentOptionsPanel);
         setTitle("Payment Options");
         setSize(windowWidth, windowHeight);
@@ -40,21 +43,21 @@ public class paymentOptions extends JFrame{
         creditCardButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                paymentScreen.activate();
+                creditCard.activate();
                 deactivate();
             }
         });
         paybudiButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                paymentScreen.activate();
+                payBudi.activate();
                 deactivate();
             }
         });
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                baggageScreen.activate();
+                bookFlight.activate();
                 deactivate();
             }
         });

@@ -1,10 +1,12 @@
-package Objects;
+package Objects.LoginWindows;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
 import java.util.Objects;
+import Objects.User;
+import Objects.databaseConnector;
 
 public class CreateAccountWindow extends JFrame{
     private JTextField usernameField;
@@ -16,10 +18,12 @@ public class CreateAccountWindow extends JFrame{
     private JLabel invalidLabel1;
     private JLabel invalidLabel2;
     private JLabel invalidLabel3;
-    private final LoginWindow loginWindow;
+
+    private final LoginWindow login;
+
     public CreateAccountWindow(LoginWindow loginWindow){
 
-        this.loginWindow = loginWindow;
+        this.login = loginWindow;
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenHeight = screenSize.height;
@@ -65,10 +69,7 @@ public class CreateAccountWindow extends JFrame{
 
                 //check if username already exists in database
                 try {
-                    String sql = "SELECT username FROM DMA_users";
-                    Connection conn = databaseConnector.getConnection();
-                    Statement myStmt = conn.createStatement();
-                    ResultSet RS = myStmt.executeQuery(sql);
+                    ResultSet RS = databaseConnector.getResultSet("SELECT username FROM DMA_users");
                     while (RS.next()) {
                         if(Objects.equals(RS.getString(1), username)){
                             invalidLabel3.setVisible(true);
@@ -83,7 +84,7 @@ public class CreateAccountWindow extends JFrame{
                 try{
                     User newUser = new User(username, password);
                     deactivate();
-                    loginWindow.activate();
+                    login.activate();
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
@@ -98,7 +99,7 @@ public class CreateAccountWindow extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 //return back to login screen
                 deactivate();
-                loginWindow.activate();
+                login.activate();
             }
         });
 

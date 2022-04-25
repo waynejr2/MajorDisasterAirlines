@@ -47,4 +47,10 @@ public class databaseConnector {
         }
         return connection;
     }
+
+    public static ResultSet getResultSet(String sql) throws SQLException {
+        Connection conn = databaseConnector.getConnection();
+        Statement myStmt = conn.createStatement();
+        return myStmt.executeQuery(sql);
+    }
 }
