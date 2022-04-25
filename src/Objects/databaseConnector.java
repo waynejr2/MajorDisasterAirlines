@@ -1,22 +1,21 @@
 package Objects;
 
 import java.sql.*;
-import java.util.ArrayList;
 
 public class databaseConnector {
-    static Connection conn = null;
-    static String db_url = "jdbc:mysql://sql3.freesqldatabase.com:3306/sql3476516";
-    static String db_user = "sql3476516";
-    static String db_password = "9lmMyhQM6u";
+    static Connection connection = null;
+    static String dbUrl = "jdbc:mysql://sql3.freesqldatabase.com:3306/sql3476516";
+    static String dbUser = "sql3476516";
+    static String dbPassword = "9lmMyhQM6u";
 
     public static Connection getConnection() {
-        if (conn == null) {
+        if(connection == null) {
             try {
-                conn = DriverManager.getConnection(
-                        db_url,
-                        db_user,
-                        db_password);
-                if (conn != null) {
+                connection = DriverManager.getConnection(
+                        dbUrl,
+                        dbUser,
+                        dbPassword);
+                if (connection != null) {
                     System.out.println("Connected to the database!");
                 }
             } catch (SQLException ex) {
@@ -26,17 +25,17 @@ public class databaseConnector {
                 System.out.println("VendorError: " + ex.getErrorCode());
             }
         }
-        return conn;
+        return connection;
     }
 
     public Connection getConnector() {
-        if (conn == null) {
+        if (connection == null) {
             try {
-                conn = DriverManager.getConnection(
-                        db_url,
-                        db_user,
-                        db_password);
-                if (conn != null) {
+                connection = DriverManager.getConnection(
+                        dbUrl,
+                        dbUser,
+                        dbPassword);
+                if (connection != null) {
                     System.out.println("Connected to the database!");
                 }
             } catch (SQLException ex) {
@@ -46,6 +45,6 @@ public class databaseConnector {
                 System.out.println("VendorError: " + ex.getErrorCode());
             }
         }
-        return conn;
+        return connection;
     }
 }
