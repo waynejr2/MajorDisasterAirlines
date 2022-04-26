@@ -5,6 +5,10 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/**
+ * ClassName describe what class does
+ * @author
+ */
 public class User {
 
     public String username;
@@ -15,6 +19,12 @@ public class User {
     public String emailAddress;
     public String phoneNumber;
 
+    /**
+     *
+     * @param username
+     * @param password
+     * @throws SQLException
+     */
     public User(String username, String password) throws SQLException {
         this.username = username;
         this.password = password;

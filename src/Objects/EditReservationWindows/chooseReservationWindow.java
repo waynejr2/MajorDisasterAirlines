@@ -16,6 +16,10 @@ import java.util.ArrayList;
 
 import static javax.swing.BorderFactory.createLineBorder;
 
+/**
+ * ClassName describe what class does
+ * @author
+ */
 public class chooseReservationWindow extends JFrame {
     private JButton cancelButton;
     private JPanel choseReservationPanel;

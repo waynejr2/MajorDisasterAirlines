@@ -4,7 +4,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+/**
+ * ClassName describe what class does
+ * @author
+ */
 public class creditCardWindow extends JFrame{
     private JTextField ownerText;
     private JTextField cvvText;

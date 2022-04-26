@@ -7,7 +7,10 @@ import java.awt.event.ActionListener;
 import java.sql.*;
 import java.util.Objects;
 import Objects.databaseConnector;
-
+/**
+ * ClassName describe what class does
+ * @author
+ */
 public class LoginWindow extends JFrame {
     private JLabel Username;
     private JTextField usernameField;

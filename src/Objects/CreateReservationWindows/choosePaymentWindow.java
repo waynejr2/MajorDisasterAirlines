@@ -5,7 +5,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
-
+/**
+ * ClassName describe what class does
+ * @author
+ */
 public class choosePaymentWindow extends JFrame{
     private JButton paybudiButton;
     private JButton creditCardButton;

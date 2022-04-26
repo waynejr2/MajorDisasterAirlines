@@ -8,7 +8,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
-
+/**
+ * ClassName describe what class does
+ * @author
+ */
 
 public class mainMenuWindow extends JFrame {
     private JPanel mainMenuChoicesPanel;

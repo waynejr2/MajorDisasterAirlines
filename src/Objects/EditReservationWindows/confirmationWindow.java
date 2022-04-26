@@ -10,7 +10,10 @@ import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
-
+/**
+ * ClassName describe what class does
+ * @author
+ */
 public class confirmationWindow extends JFrame{
 
     private JPanel confirmationPanel;

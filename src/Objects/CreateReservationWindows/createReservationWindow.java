@@ -18,7 +18,10 @@ import java.util.Date;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 import static javax.swing.BorderFactory.createLineBorder;
-
+/**
+ * ClassName describe what class does
+ * @author
+ */
 public class createReservationWindow extends JFrame {
     private JPanel createReservationPanel;
     private JTextField fromEntry;

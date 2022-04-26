@@ -4,7 +4,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+/**
+ * ClassName describe what class does
+ * @author
+ */
 public class reservationSummaryWindow extends JFrame{
     private JButton doneButton;
     private JLabel bookingConLabel;

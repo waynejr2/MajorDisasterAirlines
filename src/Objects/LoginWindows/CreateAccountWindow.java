@@ -7,7 +7,10 @@ import java.sql.*;
 import java.util.Objects;
 import Objects.User;
 import Objects.databaseConnector;
-
+/**
+ * ClassName describe what class does
+ * @author
+ */
 public class CreateAccountWindow extends JFrame{
     private JTextField usernameField;
     private JTextField passwordField;

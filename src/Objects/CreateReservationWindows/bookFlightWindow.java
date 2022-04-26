@@ -5,7 +5,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
-
+/**
+ * ClassName describe what class does
+ * @author
+ */
 public class bookFlightWindow extends JFrame {
     private JPanel addBagGuestPanel;
     private JButton backButton;

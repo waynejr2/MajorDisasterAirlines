@@ -4,6 +4,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.SQLException;
+/**
+ * ClassName describe what class does
+ * @author
+ */
 
 public class WelcomeWindow extends JFrame{
     private JPanel mainPanel;

@@ -9,7 +9,10 @@ import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Objects;
-
+/**
+ * ClassName describe what class does
+ * @author
+ */
 public class payBudiWindow extends JFrame{
     private JLabel payBudiWelcome;
     private JTextField loginTxt;

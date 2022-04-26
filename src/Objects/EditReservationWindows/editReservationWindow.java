@@ -14,7 +14,10 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
+/**
+ * ClassName describe what class does
+ * @author
+ */
 public class editReservationWindow extends JFrame{
     private JButton backButton;
     private JPanel editReservationPanel;

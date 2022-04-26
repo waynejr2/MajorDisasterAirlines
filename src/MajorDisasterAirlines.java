@@ -1,7 +1,10 @@
 import Objects.LoginWindows.WelcomeWindow;
 
 import java.sql.*;
-
+/**
+ * MajorDisasterAirlines main class
+ * @author wayne
+ */
 public class MajorDisasterAirlines {
     public static void main(String[] args) throws SQLException {
         WelcomeWindow WW = new WelcomeWindow();
