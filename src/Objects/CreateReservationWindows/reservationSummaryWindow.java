@@ -4,10 +4,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 /**
- * ClassName describe what class does
- * @author
+ * reservationSummaryWindow, this class basically summarizes everything from the Guest Name and flight date and information.
+ * After you are done with the whole process this window will be like your confirmation and then will send you back to the
+ * main menu.
+ * Juanito Herrera Sanchez
  */
+
 public class reservationSummaryWindow extends JFrame{
     private JButton doneButton;
     private JLabel bookingConLabel;

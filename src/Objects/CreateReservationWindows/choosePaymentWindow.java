@@ -6,9 +6,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 /**
- * ClassName describe what class does
- * @author
+ * choosePaymentWindow, this class lets the user choose a payment method after they are done choosing flights and
+ * adding passengers and baggage has two options credit card and pay budi.
+ * Juanito Herrera Sanchez
  */
+
 public class choosePaymentWindow extends JFrame{
     private JButton paybudiButton;
     private JButton creditCardButton;
