@@ -4,6 +4,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.SQLException;
+/**
+ * This class creates the first window that is shown when starting the application, it welcomes the user, the user must click continue to move onto the login window.
+ * @author Rami Chaar
+ */
 
 public class WelcomeWindow extends JFrame{
     private JPanel mainPanel;

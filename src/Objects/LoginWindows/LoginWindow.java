@@ -7,7 +7,10 @@ import java.awt.event.ActionListener;
 import java.sql.*;
 import java.util.Objects;
 import Objects.databaseConnector;
-
+/**
+ * This class created a window that prompts the user to either sign in with an existing account through the two text fields, create an account, or exit the application altogether.
+ * @author Rami Chaar
+ */
 public class LoginWindow extends JFrame {
     private JLabel Username;
     private JTextField usernameField;

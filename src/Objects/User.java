@@ -5,16 +5,21 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/**
+ * This class represents the account the user uses when he is using the application.
+ * @author Rami Chaar
+ */
 public class User {
 
     public String username;
     private String password;
 
-    public String firstName;
-    public String lastName;
-    public String emailAddress;
-    public String phoneNumber;
-
+    /**
+     *
+     * @param username
+     * @param password
+     * @throws SQLException
+     */
     public User(String username, String password) throws SQLException {
         this.username = username;
         this.password = password;

@@ -9,6 +9,11 @@ import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Objects;
+/**
+ * payBudiWindow this class allows the user to pay with a system we named paybudi which just asks you to log in into
+ * your paybudi account and that is enough to verify and take you to the reservation Summary Window.
+ * @author Juanito Herrera Sanchez
+ */
 
 public class payBudiWindow extends JFrame{
     private JLabel payBudiWelcome;

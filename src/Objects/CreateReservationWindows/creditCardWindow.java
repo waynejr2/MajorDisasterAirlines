@@ -4,7 +4,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+/**
+ * CreditCardWindow, This class has the ability to let the user pay for the flight via credit card
+ * if that is the option they choose in the choosePaymentWindow doesn't let them pass unless 16 digit card and 3 CVV num.
+ * After that if everything is okay it will send you to the reservationSummaryWindow.
+ * @author Juanito Herrera Sanchez
+ */
 public class creditCardWindow extends JFrame{
     private JTextField ownerText;
     private JTextField cvvText;

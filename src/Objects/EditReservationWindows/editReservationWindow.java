@@ -14,7 +14,10 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
+/**
+ * This class creates a window based on a selected reservation where the user can edit the number of tickets and/or bags on the reservation, or delete the reservation altogether.
+ * @author Rami Chaar
+ */
 public class editReservationWindow extends JFrame{
     private JButton backButton;
     private JPanel editReservationPanel;

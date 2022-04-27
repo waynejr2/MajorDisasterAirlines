@@ -5,7 +5,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
-
+/**
+ * This window will prompt the user to select the number of tickets and bags they would like to purchase for the flight that they have selected to book a reservation for
+ * @author Kelvin Martinez
+ */
 public class bookFlightWindow extends JFrame {
     private JPanel addBagGuestPanel;
     private JButton backButton;
