@@ -17,8 +17,8 @@ import java.util.ArrayList;
 import static javax.swing.BorderFactory.createLineBorder;
 
 /**
- * ClassName describe what class does
- * @author
+ * This class creates a window that displays all the reservations under the account of the user. The user can also select any reservation and click the edit button to open a window that will allow them to edit or cancel the reservation
+ * @author Rami Chaar
  */
 public class chooseReservationWindow extends JFrame {
     private JButton cancelButton;

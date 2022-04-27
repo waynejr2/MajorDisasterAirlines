@@ -19,8 +19,8 @@ import static java.lang.Math.max;
 import static java.lang.Math.min;
 import static javax.swing.BorderFactory.createLineBorder;
 /**
- * ClassName describe what class does
- * @author
+ * This class Creates a window that allows the user to search for flights. The user enters a departure location, then optionally enters a destination location, then must choose a date, then finally can click the search button. The user can also optionally select one of four ways to sort the generated flights before searching. Once the user searches, a list of existing flights will appear on a scroll panel, the user can then select any flight listed and click create reservation, this will take the user to a new window that will guide the user to book a reservation on that flight.
+ * @author Rami Chaar
  */
 public class createReservationWindow extends JFrame {
     private JPanel createReservationPanel;
@@ -162,10 +162,10 @@ public class createReservationWindow extends JFrame {
                     }
 
                     switch (filterNum) {
-                        case 1 -> filter1();
-                        case 2 -> filter2();
-                        case 3 -> filter3();
-                        case 4 -> filter4();
+                        case 1 -> sort1();
+                        case 2 -> sort2();
+                        case 3 -> sort3();
+                        case 4 -> sort4();
                     }
 
                     String flightNumber = "";
@@ -312,7 +312,7 @@ public class createReservationWindow extends JFrame {
         return statement;
     }
 
-    public void filter1() {
+    public void sort1() {
         int pos;
         double temp1;
         String temp2;
@@ -341,7 +341,7 @@ public class createReservationWindow extends JFrame {
             flights.set(i, temp3);
         }
     }
-    public void filter2() {
+    public void sort2() {
         int pos;
         double temp1;
         String temp2;
@@ -370,7 +370,7 @@ public class createReservationWindow extends JFrame {
             flights.set(i, temp3);
         }
     }
-    public void filter3() {
+    public void sort3() {
         int pos;
         int temp1;
         String temp2;
@@ -398,7 +398,7 @@ public class createReservationWindow extends JFrame {
             flights.set(i, temp1);
         }
     }
-    public void filter4() {
+    public void sort4() {
         int pos;
         int temp1;
         String temp2;

@@ -8,8 +8,8 @@ import java.util.Objects;
 import Objects.User;
 import Objects.databaseConnector;
 /**
- * ClassName describe what class does
- * @author
+ * This class creates a window that reads user input from three text fields: username, password, and confirm password. Then uses this information to insert a new user into the database and create a new account by creating a new User() object passing the inputted username and password as parameters.
+ * @author Rami Chaar
  */
 public class CreateAccountWindow extends JFrame{
     private JTextField usernameField;

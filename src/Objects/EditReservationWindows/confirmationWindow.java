@@ -11,14 +11,14 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 /**
- * ClassName describe what class does
- * @author
+ * This class creates a window that prompts the user to confirm that they want to delete a specific reservation.
+ * @author Rami Chaar
  */
 public class confirmationWindow extends JFrame{
 
     private JPanel confirmationPanel;
-    private JButton cancelButton;
     private JButton confirmButton;
+    private JButton cancelButton;
 
     public confirmationWindow(editReservationWindow editReservation, mainMenuWindow mainMenu, int reservationNumber, int userID) {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();

@@ -1,7 +1,7 @@
 package Objects;
 
 /**
- * ClassName describe what class does
+ * This class will represent a reservation that a user can make under their account
  * @author
  */
 public class Reservation {

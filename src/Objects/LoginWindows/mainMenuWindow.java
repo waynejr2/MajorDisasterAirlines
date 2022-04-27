@@ -9,8 +9,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 /**
- * ClassName describe what class does
- * @author
+ * This Class creates a window that acts as a main window where a user can choose to either search for a flight to make a reservation, view existing reservations on their account, or log out of their account.
+ * @author Kelvin Martinez
  */
 
 public class mainMenuWindow extends JFrame {

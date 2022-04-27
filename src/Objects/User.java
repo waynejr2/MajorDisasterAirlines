@@ -6,18 +6,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 /**
- * ClassName describe what class does
- * @author
+ * This class represents the account the user uses when he is using the application.
+ * @author Rami Chaar
  */
 public class User {
 
     public String username;
     private String password;
-
-    public String firstName;
-    public String lastName;
-    public String emailAddress;
-    public String phoneNumber;
 
     /**
      *
