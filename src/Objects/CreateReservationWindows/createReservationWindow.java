@@ -1,7 +1,7 @@
 package Objects.CreateReservationWindows;
 
-import Objects.databaseConnector;
 import Objects.LoginWindows.mainMenuWindow;
+import Objects.databaseConnector;
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
@@ -10,16 +10,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.sql.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
 import static java.lang.Math.max;
-import static java.lang.Math.min;
 import static javax.swing.BorderFactory.createLineBorder;
 
-public class createReservationWindow extends JFrame {
+public class
+createReservationWindow extends JFrame {
     private JPanel createReservationPanel;
     private JTextField fromEntry;
     private JLabel FromLabel;
