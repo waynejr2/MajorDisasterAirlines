@@ -6,6 +6,11 @@ import java.sql.*;
  * @author wayne
  */
 public class MajorDisasterAirlines {
+    /**
+     *
+     * @param args for future use
+     * @throws SQLException just in case
+     */
     public static void main(String[] args) throws SQLException {
         WelcomeWindow WW = new WelcomeWindow();
         System.out.println("Hello World, Java app");

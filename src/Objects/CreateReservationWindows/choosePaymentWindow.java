@@ -8,7 +8,7 @@ import java.sql.SQLException;
 /**
  * choosePaymentWindow, this class lets the user choose a payment method after they are done choosing flights and
  * adding passengers and baggage has two options credit card and pay budi.
- * Juanito Herrera Sanchez
+ * @author Juanito Herrera Sanchez
  */
 
 public class choosePaymentWindow extends JFrame{
