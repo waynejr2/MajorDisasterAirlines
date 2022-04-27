@@ -26,10 +26,12 @@ public class creditCardWindow extends JFrame{
     private JLabel cardNumberLabel;
 
     private choosePaymentWindow choosePayment;
+    private reservationSummaryWindow reservationSummary;
 
     public creditCardWindow(choosePaymentWindow choosePaymentWindow){
 
         this.choosePayment = choosePaymentWindow;
+        reservationSummary = new reservationSummaryWindow(this);
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenHeight = screenSize.height;
@@ -48,9 +50,36 @@ public class creditCardWindow extends JFrame{
         confirmButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String cardNumberLabelText = cardNumberLabel.getText();
-                String cvvLabelText = cvvLabel.getText();
+                String cardNumberLabelText = cardText.getText();
+                String cvvLabelText = cvvText.getText();
                 InvalidCard.setVisible(false);
+
+                if(cardNumberLabelText.length() == 16) {
+                    for (int i = 0; i < 15; i++) {
+                        if (!((int) cardNumberLabelText.charAt(i) >= 48) || !((int) cardNumberLabelText.charAt(i) <= 57)) {
+                            InvalidCard.setVisible(true);
+                            return;
+                        }
+                    }
+                }
+                else{
+                    InvalidCard.setVisible(true);
+                    return;
+                }
+                if(cvvLabelText.length() == 3) {
+                    for (int j = 0; j < 2; j++) {
+                        if (!((int) cvvLabelText.charAt(j) >= 48) || !((int) cvvLabelText.charAt(j) <= 57)) {
+                            InvalidCard.setVisible(true);
+                            return;
+                        }
+                    }
+                    deactivate();
+                    reservationSummary.activate();
+                } else {
+                    InvalidCard.setVisible(true);
+                }
+
+
             }
 
         });
