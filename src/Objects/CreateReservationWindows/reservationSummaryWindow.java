@@ -1,5 +1,7 @@
 package Objects.CreateReservationWindows;
 
+import Objects.LoginWindows.mainMenuWindow;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -21,18 +23,19 @@ public class reservationSummaryWindow extends JFrame{
     private JLabel thankYouLabel;
     private JPanel confirmedFlightPanel;
 
-    private creditCardWindow creditCard;
-    private payBudiWindow payBudi;
+    private final mainMenuWindow mainMenu;
+    private final bookFlightWindow bookFlight;
 
-    public reservationSummaryWindow(creditCardWindow creditCardWindow){
+    public reservationSummaryWindow(bookFlightWindow bookFlightWindow, mainMenuWindow mainMenuWindow){
 
-        this.creditCard = creditCardWindow;
+        this.bookFlight = bookFlightWindow;
+        this.mainMenu = mainMenuWindow;
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenHeight = screenSize.height;
         int screenWidth = screenSize.width;
-        int windowHeight = 600;
-        int windowWidth = 1000;
+        int windowHeight = 300;
+        int windowWidth = 500;
 
 
         setContentPane(confirmedFlightPanel);
@@ -44,34 +47,9 @@ public class reservationSummaryWindow extends JFrame{
         doneButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                creditCardWindow.activate();
-                deactivate();
-            }
-        });
-    }
-
-    public reservationSummaryWindow(payBudiWindow payBudiWindow){
-
-        this.payBudi = payBudiWindow;
-
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        int screenHeight = screenSize.height;
-        int screenWidth = screenSize.width;
-        int windowHeight = 600;
-        int windowWidth = 1000;
-
-
-        setContentPane(confirmedFlightPanel);
-        setTitle("Confirmed Flight");
-        setSize(windowWidth, windowHeight);
-        setLocation(screenWidth/2 - windowWidth/2, screenHeight/2 - windowHeight/2 - 50);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
-        doneButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                payBudiWindow.activate();
-                deactivate();
+                bookFlight.dispose();
+                dispose();
+                mainMenu.activate();
             }
         });
     }

@@ -31,7 +31,6 @@ public class creditCardWindow extends JFrame{
     public creditCardWindow(choosePaymentWindow choosePaymentWindow){
 
         this.choosePayment = choosePaymentWindow;
-        reservationSummary = new reservationSummaryWindow(this);
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenHeight = screenSize.height;

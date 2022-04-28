@@ -27,12 +27,10 @@ public class payBudiWindow extends JFrame{
     private JLabel invalidLoginLabel;
 
     private choosePaymentWindow choosePayment;
-    private reservationSummaryWindow reservationSummary;
 
     public payBudiWindow(choosePaymentWindow choosePaymentWindow) throws SQLException {
 
         this.choosePayment = choosePaymentWindow;
-        this.reservationSummary = new reservationSummaryWindow(this);
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenHeight = screenSize.height;
@@ -82,7 +80,6 @@ public class payBudiWindow extends JFrame{
                     return;
                 }
                 deactivate();
-                reservationSummary.activate();
             }
 
 

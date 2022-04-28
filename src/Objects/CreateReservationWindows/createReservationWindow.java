@@ -305,7 +305,7 @@ public class createReservationWindow extends JFrame {
                     ResultSet RS = databaseConnector.getResultSet("SELECT flightNumber FROM flights");
                     while (RS.next()) {
                         if(RS.getString(1).equals(chosenFlight[0])){
-                            bookFlightWindow baggageScreen = new bookFlightWindow(createReservation, userID, chosenFlight[0], chosenFlightInt[0], dateDescription, dateString, pricePerTicket);
+                            bookFlightWindow baggageScreen = new bookFlightWindow(createReservation, mainMenu, userID, chosenFlight[0], chosenFlightInt[0], dateDescription, dateString, pricePerTicket);
                             baggageScreen.activate();
                             deactivate();
                             return;

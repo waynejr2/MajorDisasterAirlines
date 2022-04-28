@@ -1,5 +1,6 @@
 package Objects.CreateReservationWindows;
 
+import Objects.LoginWindows.mainMenuWindow;
 import Objects.Reservation;
 
 import javax.swing.*;
@@ -26,20 +27,25 @@ public class bookFlightWindow extends JFrame {
     private final int userID;
     private final String date;
     private final int flightInt;
-    private int numTickets;
+    private int numTickets = 1;
     private int numBags;
+    private final double ticketPrice;
+    private final double bagPrice = 40.0;
     private double totalPrice;
 
     private final createReservationWindow createReservation;
     private choosePaymentWindow choosePayment;
     private final bookFlightWindow bookFlight = this;
+    private final mainMenuWindow mainMenu;
 
-    public bookFlightWindow(createReservationWindow createReservationWindow, int userID, String flightNumber, int flightInt, String dateDescription, String date, double ticketPrice) throws SQLException {
+    public bookFlightWindow(createReservationWindow createReservationWindow, mainMenuWindow mainMenuWindow, int userID, String flightNumber, int flightInt, String dateDescription, String date, double price) throws SQLException {
 
         this.createReservation = createReservationWindow;
+        this.mainMenu = mainMenuWindow;
         this.flightInt = flightInt;
         this.userID = userID;
         this.date = date;
+        this.ticketPrice = price;
 
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -68,9 +74,9 @@ public class bookFlightWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    totalPrice = numTickets*ticketPrice + numBags*40;
-                    choosePayment = new choosePaymentWindow(bookFlight, totalPrice);
+                    choosePayment = new choosePaymentWindow(bookFlight, ticketPrice, bagPrice, numTickets, numBags);
                     choosePayment.activate();
+                    totalPrice = choosePaymentWindow.getPrice();
                     setEnabled(false);
                 } catch (SQLException ex) {
                     ex.printStackTrace();
@@ -103,8 +109,10 @@ public class bookFlightWindow extends JFrame {
         });
     }
 
-    public void createReservation(int paymentMethod) throws SQLException {
+    public void paymentAccepted(double totalPrice, int paymentMethod) throws SQLException {
         Reservation r = new Reservation(userID, flightInt, date, totalPrice, numTickets, numBags, paymentMethod);
+        reservationSummaryWindow reservationSummary = new reservationSummaryWindow(this, mainMenu);
+        deactivate();
     }
 
     public void activate() {
