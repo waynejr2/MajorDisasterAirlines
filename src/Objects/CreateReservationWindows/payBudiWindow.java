@@ -84,6 +84,8 @@ public class payBudiWindow extends JFrame{
                 deactivate();
                 reservationSummary.activate();
             }
+
+
         });
     }
     public void activate() {setVisible(true);}

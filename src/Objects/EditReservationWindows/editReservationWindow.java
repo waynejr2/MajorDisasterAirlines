@@ -108,9 +108,7 @@ public class editReservationWindow extends JFrame{
         ticketsField.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                System.out.println((int)ticketsField.getValue());
                 if((int)ticketsField.getValue() > 99){
-                    System.out.println("here");
                     ticketsField.setValue(99);
                 }
                 if((int)ticketsField.getValue() < 1){

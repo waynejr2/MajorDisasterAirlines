@@ -17,6 +17,7 @@ public class choosePaymentWindow extends JFrame{
     private JPanel paymentOptionsPanel;
     private JLabel paymentOptionsLabel;
     private JButton cancelButton;
+    private JButton flightCreditButton;
 
     private String flightNumber;
 
@@ -24,7 +25,7 @@ public class choosePaymentWindow extends JFrame{
     private creditCardWindow creditCard;
     private payBudiWindow payBudi;
 
-    public choosePaymentWindow(bookFlightWindow bookFlightWindow, String flightNumber) throws SQLException {
+    public choosePaymentWindow(bookFlightWindow bookFlightWindow, double price) throws SQLException {
 
         this.bookFlight = bookFlightWindow;
         this.flightNumber = flightNumber;
@@ -35,14 +36,14 @@ public class choosePaymentWindow extends JFrame{
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenHeight = screenSize.height;
         int screenWidth = screenSize.width;
-        int windowHeight = 600;
-        int windowWidth = 1000;
+        int windowHeight = 300;
+        int windowWidth = 250;
 
 
         setContentPane(paymentOptionsPanel);
         setTitle("Payment Options");
         setSize(windowWidth, windowHeight);
-        setLocation(screenWidth/2 - windowWidth/2, screenHeight/2 - windowHeight/2 - 50);
+        setLocation(screenWidth/2 - windowWidth/2 + 400, screenHeight/2 - windowHeight/2 - 50);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         creditCardButton.addActionListener(new ActionListener() {
@@ -63,7 +64,8 @@ public class choosePaymentWindow extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 bookFlight.activate();
-                deactivate();
+                dispose();
+                bookFlight.setEnabled(true);
             }
         });
     }
