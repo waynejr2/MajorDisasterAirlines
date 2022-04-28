@@ -46,6 +46,7 @@ public class createReservationWindow extends JFrame {
 
     private String dateDescription = "";
     private String dateString = "";
+    private String timeString = "";
     final String[] chosenFlight = {""};
     final int[] chosenFlightInt = {0};
     double pricePerTicket = 0;
@@ -57,6 +58,7 @@ public class createReservationWindow extends JFrame {
     private ArrayList<String> prices = new ArrayList<>();
     private ArrayList<Double> priceValues = new ArrayList<>();
     private ArrayList<Integer> times = new ArrayList<>();
+    private ArrayList<String> timeStrings = new ArrayList<>();
 
     private final int userID;
 
@@ -239,6 +241,7 @@ public class createReservationWindow extends JFrame {
                                 label.setSize(new Dimension(100, 100));
                                 label.setBorder(createLineBorder(new Color(150, 150, 150)));
                                 labels.add(label);
+                                timeStrings.add(time);
                                 flightNumbers.add(flightNumber);
                                 flightInt.add(RS.getInt(4));
                                 panel.add(label);
@@ -272,6 +275,7 @@ public class createReservationWindow extends JFrame {
                                 super.mouseClicked(e);
                                 chosenFlight[0] = finalFlightNumber;
                                 chosenFlightInt[0] = finalFlightInt;
+                                timeString = timeStrings.get(finalI);
                                 pricePerTicket = Double.parseDouble(prices.get(finalI));
                                 for (int k = 0; k < finalNumLabels; k++) {
                                     labels.get(k).setBackground(Color.decode("#FFFFFF"));
@@ -305,7 +309,7 @@ public class createReservationWindow extends JFrame {
                     ResultSet RS = databaseConnector.getResultSet("SELECT flightNumber FROM flights");
                     while (RS.next()) {
                         if(RS.getString(1).equals(chosenFlight[0])){
-                            bookFlightWindow baggageScreen = new bookFlightWindow(createReservation, mainMenu, userID, chosenFlight[0], chosenFlightInt[0], dateDescription, dateString, pricePerTicket);
+                            bookFlightWindow baggageScreen = new bookFlightWindow(createReservation, mainMenu, userID, chosenFlight[0], chosenFlightInt[0], dateDescription, dateString, timeString, pricePerTicket);
                             baggageScreen.activate();
                             deactivate();
                             return;

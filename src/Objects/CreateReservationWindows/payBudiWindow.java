@@ -25,12 +25,18 @@ public class payBudiWindow extends JFrame{
     private JLabel passwordLabel;
     private JLabel confirmLabel;
     private JLabel invalidLoginLabel;
+    private JButton backButton;
 
-    private choosePaymentWindow choosePayment;
+    private final choosePaymentWindow choosePayment;
+    private final bookFlightWindow bookFlight;
 
-    public payBudiWindow(choosePaymentWindow choosePaymentWindow) throws SQLException {
+    private final double totalPrice;
+
+    public payBudiWindow(choosePaymentWindow choosePaymentWindow, bookFlightWindow bookFlightWindow, double totalPrice) throws SQLException {
 
         this.choosePayment = choosePaymentWindow;
+        this.bookFlight = bookFlightWindow;
+        this.totalPrice = totalPrice;
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenHeight = screenSize.height;
@@ -79,12 +85,26 @@ public class payBudiWindow extends JFrame{
                     invalidLoginLabel.setVisible(true);
                     return;
                 }
-                deactivate();
+                dispose();
+                bookFlight.setEnabled(true);
+                try {
+                    bookFlight.paymentAccepted(totalPrice, 2);
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
             }
 
 
         });
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                choosePayment.activate();
+                dispose();
+            }
+        });
     }
+
     public void activate() {setVisible(true);}
     public void deactivate() {setVisible(false);}
 }

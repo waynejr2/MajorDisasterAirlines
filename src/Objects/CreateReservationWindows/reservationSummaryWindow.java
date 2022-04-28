@@ -16,17 +16,20 @@ import java.awt.event.ActionListener;
 
 public class reservationSummaryWindow extends JFrame{
     private JButton doneButton;
-    private JLabel bookingConLabel;
-    private JLabel bookingDateLabel;
-    private JLabel guestLabel;
-    private JLabel flightDetailsLabel;
-    private JLabel thankYouLabel;
     private JPanel confirmedFlightPanel;
+
+    private JLabel locationsLabel;
+    private JLabel dateLabel;
+    private JLabel ticketsLabel;
+    private JLabel bagsLabel;
+    private JLabel priceLabel;
+    private JLabel creditsLabel;
+    private JLabel spacer;
 
     private final mainMenuWindow mainMenu;
     private final bookFlightWindow bookFlight;
 
-    public reservationSummaryWindow(bookFlightWindow bookFlightWindow, mainMenuWindow mainMenuWindow){
+    public reservationSummaryWindow(bookFlightWindow bookFlightWindow, mainMenuWindow mainMenuWindow, String locations, String date, String time, int tickets, int bags, double price, int credits){
 
         this.bookFlight = bookFlightWindow;
         this.mainMenu = mainMenuWindow;
@@ -37,12 +40,18 @@ public class reservationSummaryWindow extends JFrame{
         int windowHeight = 300;
         int windowWidth = 500;
 
-
         setContentPane(confirmedFlightPanel);
-        setTitle("Confirmed Flight");
+        setTitle("Reservation Summary");
         setSize(windowWidth, windowHeight);
         setLocation(screenWidth/2 - windowWidth/2, screenHeight/2 - windowHeight/2 - 50);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+        locationsLabel.setText(locations);
+        dateLabel.setText("Departing: " + date + " at " + time);
+        ticketsLabel.setText(String.valueOf("Tickets: " + tickets));
+        bagsLabel.setText(String.valueOf("Bags: " + bags));
+        priceLabel.setText(String.valueOf("Total Price: $" + price));
+        creditsLabel.setText(String.valueOf("Total Remainaing Flight Credit: " + credits));
 
         doneButton.addActionListener(new ActionListener() {
             @Override

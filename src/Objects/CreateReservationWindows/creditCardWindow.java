@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+
 /**
  * CreditCardWindow, This class has the ability to let the user pay for the flight via credit card
  * if that is the option they choose in the choosePaymentWindow doesn't let them pass unless 16 digit card and 3 CVV num.
@@ -25,12 +27,18 @@ public class creditCardWindow extends JFrame{
     private JLabel cvvLabel;
     private JLabel cardNumberLabel;
 
-    private choosePaymentWindow choosePayment;
+    private final choosePaymentWindow choosePayment;
+    private final bookFlightWindow bookFlight;
     private reservationSummaryWindow reservationSummary;
 
-    public creditCardWindow(choosePaymentWindow choosePaymentWindow){
+    private final double totalPrice;
+
+    public creditCardWindow(choosePaymentWindow choosePaymentWindow, bookFlightWindow bookFlightWindow, double totalPrice){
 
         this.choosePayment = choosePaymentWindow;
+        this.bookFlight = bookFlightWindow;
+
+        this.totalPrice = totalPrice;
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenHeight = screenSize.height;
@@ -60,8 +68,7 @@ public class creditCardWindow extends JFrame{
                             return;
                         }
                     }
-                }
-                else{
+                } else{
                     InvalidCard.setVisible(true);
                     return;
                 }
@@ -72,13 +79,17 @@ public class creditCardWindow extends JFrame{
                             return;
                         }
                     }
-                    deactivate();
-                    reservationSummary.activate();
                 } else {
                     InvalidCard.setVisible(true);
                 }
 
-
+                try {
+                    dispose();
+                    bookFlight.setEnabled(true);
+                    bookFlight.paymentAccepted(totalPrice, 1);
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
             }
 
         });
@@ -87,7 +98,7 @@ public class creditCardWindow extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 choosePayment.activate();
-                deactivate();
+                dispose();
             }
         });
 

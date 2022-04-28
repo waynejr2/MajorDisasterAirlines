@@ -15,5 +15,10 @@ public class MajorDisasterAirlines {
         WelcomeWindow WW = new WelcomeWindow();
         System.out.println("Hello World, Java app");
     }
+
+    //add credit system
+    //fit choose payment option window
+    //add payment overview window
+    //fix edit reservation
 }
 
