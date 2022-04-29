@@ -1,5 +1,7 @@
 package Objects.CreateReservationWindows;
 
+import Objects.EditReservationWindows.editReservationWindow;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -28,7 +30,8 @@ public class creditCardWindow extends JFrame{
     private JLabel cardNumberLabel;
 
     private final choosePaymentWindow choosePayment;
-    private final bookFlightWindow bookFlight;
+    private editReservationWindow editReservation;
+    private bookFlightWindow bookFlight;
     private reservationSummaryWindow reservationSummary;
 
     private final double totalPrice;
@@ -87,6 +90,77 @@ public class creditCardWindow extends JFrame{
                     dispose();
                     bookFlight.setEnabled(true);
                     bookFlight.paymentAccepted(totalPrice, 1);
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+
+        });
+
+        cancelButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                choosePayment.activate();
+                dispose();
+            }
+        });
+
+    }
+
+    public creditCardWindow(choosePaymentWindow choosePaymentWindow, editReservationWindow editReservationWindow, double totalPrice){
+
+        this.choosePayment = choosePaymentWindow;
+        this.editReservation = editReservationWindow;
+
+        this.totalPrice = totalPrice;
+
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int screenHeight = screenSize.height;
+        int screenWidth = screenSize.width;
+        int windowHeight = 600;
+        int windowWidth = 1000;
+
+        InvalidCard.setVisible(false);
+
+        setContentPane(paymentMethodPanel);
+        setTitle("Payment Method");
+        setSize(windowWidth, windowHeight);
+        setLocation(screenWidth/2 - windowWidth/2, screenHeight/2 - windowHeight/2 - 50);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+        confirmButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String cardNumberLabelText = cardText.getText();
+                String cvvLabelText = cvvText.getText();
+                InvalidCard.setVisible(false);
+
+                if(cardNumberLabelText.length() == 16) {
+                    for (int i = 0; i < 15; i++) {
+                        if (!((int) cardNumberLabelText.charAt(i) >= 48) || !((int) cardNumberLabelText.charAt(i) <= 57)) {
+                            InvalidCard.setVisible(true);
+                            return;
+                        }
+                    }
+                } else{
+                    InvalidCard.setVisible(true);
+                    return;
+                }
+                if(cvvLabelText.length() == 3) {
+                    for (int j = 0; j < 2; j++) {
+                        if (!((int) cvvLabelText.charAt(j) >= 48) || !((int) cvvLabelText.charAt(j) <= 57)) {
+                            InvalidCard.setVisible(true);
+                            return;
+                        }
+                    }
+                } else {
+                    InvalidCard.setVisible(true);
+                }
+
+                try {
+                    dispose();
+                    editReservation.setEnabled(true);
+                    editReservation.paid();
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }

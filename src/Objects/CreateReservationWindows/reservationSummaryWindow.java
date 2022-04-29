@@ -24,14 +24,15 @@ public class reservationSummaryWindow extends JFrame{
     private JLabel bagsLabel;
     private JLabel priceLabel;
     private JLabel creditsLabel;
-    private JLabel spacer;
 
     private final mainMenuWindow mainMenu;
+    private final createReservationWindow createReservation;
     private final bookFlightWindow bookFlight;
 
-    public reservationSummaryWindow(bookFlightWindow bookFlightWindow, mainMenuWindow mainMenuWindow, String locations, String date, String time, int tickets, int bags, double price, int credits){
+    public reservationSummaryWindow(bookFlightWindow bookFlightWindow, createReservationWindow createReservationWindow, mainMenuWindow mainMenuWindow, String locations, String date, String time, int tickets, int bags, double price, int credits){
 
         this.bookFlight = bookFlightWindow;
+        this.createReservation = createReservationWindow;
         this.mainMenu = mainMenuWindow;
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -57,6 +58,7 @@ public class reservationSummaryWindow extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 bookFlight.dispose();
+                createReservation.dispose();
                 dispose();
                 mainMenu.activate();
             }

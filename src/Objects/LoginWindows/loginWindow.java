@@ -11,7 +11,7 @@ import Objects.databaseConnector;
  * This class created a window that prompts the user to either sign in with an existing account through the two text fields, create an account, or exit the application altogether.
  * @author Rami Chaar
  */
-public class LoginWindow extends JFrame {
+public class loginWindow extends JFrame {
     private JLabel Username;
     private JTextField usernameField;
     private JLabel Password;
@@ -26,9 +26,9 @@ public class LoginWindow extends JFrame {
     private String username;
     private String password;
 
-    public LoginWindow() throws SQLException{
+    public loginWindow() throws SQLException{
 
-        LoginWindow thisWindow = this;
+        loginWindow thisWindow = this;
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenHeight = screenSize.height;
@@ -61,7 +61,7 @@ public class LoginWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 deactivate();
-                CreateAccountWindow createAccount = new CreateAccountWindow(thisWindow);
+                createAccountWindow createAccount = new createAccountWindow(thisWindow);
                 createAccount.activate();
             }
         });

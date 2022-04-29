@@ -22,8 +22,10 @@ public class mainMenuWindow extends JFrame {
     private JButton backButton;
     private JLabel picture2;
     private JLabel picture1;
+    private JButton accountButton;
 
-    private final createReservationWindow createReservation;
+    private createReservationWindow createReservation;
+    private final accountWindow account;
     private final mainMenuWindow mainMenu = this;
 
     private final int userID;
@@ -31,8 +33,7 @@ public class mainMenuWindow extends JFrame {
     public mainMenuWindow(int id) throws SQLException {
 
         this.userID = id;
-
-        createReservation = new createReservationWindow(this, userID);
+        this.account = new accountWindow(this, userID);
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenHeight = screenSize.height;
@@ -52,10 +53,12 @@ public class mainMenuWindow extends JFrame {
         setLocation(screenWidth/2 - windowWidth/2, screenHeight/2 - windowHeight/2 - 100);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
+
         //action listener for button to go to create reservation window
         createReservationButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                createReservationWindow createReservation = new createReservationWindow(mainMenu, userID);
                 createReservation.activate();
                 deactivate();
             }
@@ -78,12 +81,19 @@ public class mainMenuWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    LoginWindow login = new LoginWindow();
+                    loginWindow login = new loginWindow();
                     login.activate();
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
                 dispose();
+            }
+        });
+        accountButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                deactivate();
+                account.activate();
             }
         });
     }

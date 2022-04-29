@@ -19,8 +19,9 @@ public class confirmationWindow extends JFrame{
     private JPanel confirmationPanel;
     private JButton confirmButton;
     private JButton cancelButton;
+    private JLabel label;
 
-    public confirmationWindow(editReservationWindow editReservation, mainMenuWindow mainMenu, int reservationNumber, int userID) {
+    public confirmationWindow(editReservationWindow editReservation, mainMenuWindow mainMenu, int reservationNumber, int userID, int credits) {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenHeight = screenSize.height;
         int screenWidth = screenSize.width;
@@ -32,6 +33,8 @@ public class confirmationWindow extends JFrame{
         setLocation(screenWidth / 2 - windowWidth / 2, screenHeight / 2 - windowHeight / 2 - 50);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setContentPane(confirmationPanel);
+
+        label.setText(credits + " credits will be added to your account");
 
         cancelButton.addActionListener(new ActionListener() {
             @Override
@@ -49,6 +52,7 @@ public class confirmationWindow extends JFrame{
                     myStmt.executeUpdate("DELETE FROM reservations WHERE id = " + reservationNumber);
                     chooseReservationWindow chooseReservation = new chooseReservationWindow(mainMenu, userID);
                     chooseReservation.activate();
+                    editReservation.cancel();
                     editReservation.dispose();
                     dispose();
                 } catch (SQLException ex) {

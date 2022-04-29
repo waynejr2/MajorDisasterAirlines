@@ -308,7 +308,7 @@ public class bookFlightWindow extends JFrame {
 
         Reservation r = new Reservation(userID, flightInt, date, totalPrice, numTickets, numBags, paymentMethod);
 
-        reservationSummaryWindow reservationSummary = new reservationSummaryWindow(this, mainMenu, details, dateDescription, time, numTickets, numBags, totalPrice, flightCredit);
+        reservationSummaryWindow reservationSummary = new reservationSummaryWindow(this, createReservation, mainMenu, details, dateDescription, time, numTickets, numBags, totalPrice, flightCredit);
         reservationSummary.activate();
         setEnabled(false);
     }

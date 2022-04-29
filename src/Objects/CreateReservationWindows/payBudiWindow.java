@@ -1,5 +1,6 @@
 package Objects.CreateReservationWindows;
 
+import Objects.EditReservationWindows.editReservationWindow;
 import Objects.databaseConnector;
 
 import javax.swing.*;
@@ -28,7 +29,8 @@ public class payBudiWindow extends JFrame{
     private JButton backButton;
 
     private final choosePaymentWindow choosePayment;
-    private final bookFlightWindow bookFlight;
+    private bookFlightWindow bookFlight;
+    private editReservationWindow editReservation;
 
     private final double totalPrice;
 
@@ -104,6 +106,80 @@ public class payBudiWindow extends JFrame{
             }
         });
     }
+
+    public payBudiWindow(choosePaymentWindow choosePaymentWindow, editReservationWindow editReservationWindow, double totalPrice) throws SQLException {
+
+        this.choosePayment = choosePaymentWindow;
+        this.editReservation = editReservationWindow;
+        this.totalPrice = totalPrice;
+
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int screenHeight = screenSize.height;
+        int screenWidth = screenSize.width;
+        int windowHeight = 600;
+        int windowWidth = 1000;
+
+        invalidLoginLabel.setVisible(false);
+
+        setContentPane(payBudiPanel);
+        setTitle("Pay Budi");
+        setSize(windowWidth, windowHeight);
+        setLocation(screenWidth/2 - windowWidth/2, screenHeight/2 - windowHeight/2 - 50);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+        confirmButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                invalidLoginLabel.setVisible(false);
+
+                String login = loginTxt.getText();
+                String password = passwordTxt.getText();
+                boolean found = false;
+                String truePassword = "";
+
+                try{
+                    ResultSet RS = databaseConnector.getResultSet("SELECT login, password FROM PAYBUDI_users");
+                    while (RS.next()){
+                        if(Objects.equals(RS.getString(1), login)){
+                            found = true;
+                            //retrieve true password
+                            truePassword = RS.getString(2);
+                            break;
+                        }
+                    }
+                } catch (SQLException ex){
+                    ex.printStackTrace();
+                }
+
+                if(!found){
+                    invalidLoginLabel.setVisible(true);
+                    return;
+                }
+                if(!Objects.equals(truePassword, password)){
+                    invalidLoginLabel.setVisible(true);
+                    return;
+                }
+                dispose();
+                editReservation.setEnabled(true);
+                try {
+                    editReservation.paid();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+
+
+        });
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                choosePayment.activate();
+                dispose();
+            }
+        });
+    }
+
 
     public void activate() {setVisible(true);}
     public void deactivate() {setVisible(false);}

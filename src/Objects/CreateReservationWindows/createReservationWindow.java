@@ -298,7 +298,7 @@ public class createReservationWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 mainMenuWindow.activate();
-                deactivate();
+                dispose();
             }
         });
         createReservationButton.addActionListener(new ActionListener() {

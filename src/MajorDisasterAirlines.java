@@ -1,4 +1,4 @@
-import Objects.LoginWindows.WelcomeWindow;
+import Objects.LoginWindows.welcomeWindow;
 
 import java.sql.*;
 /**
@@ -12,13 +12,8 @@ public class MajorDisasterAirlines {
      * @throws SQLException just in case
      */
     public static void main(String[] args) throws SQLException {
-        WelcomeWindow WW = new WelcomeWindow();
+        welcomeWindow WW = new welcomeWindow();
         System.out.println("Hello World, Java app");
     }
-
-    //add credit system
-    //fit choose payment option window
-    //add payment overview window
-    //fix edit reservation
 }
 
