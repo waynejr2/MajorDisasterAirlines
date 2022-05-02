@@ -54,7 +54,7 @@ public class reservationSummaryWindow extends JFrame{
         ticketsLabel.setText(String.valueOf("Tickets: " + tickets));
         bagsLabel.setText(String.valueOf("Bags: " + bags));
         priceLabel.setText(String.valueOf("Total Price: $" + price));
-        creditsLabel.setText(String.valueOf("Total Remainaing Flight Credit: " + credits));
+        creditsLabel.setText(String.valueOf("Total Remaining Flight Credit: " + credits));
 
         doneButton.addActionListener(new ActionListener() {
             @Override

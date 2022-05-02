@@ -2,45 +2,22 @@
 CSUN COMP 380 Spring 2022 Project
 
 ## GUI to Implement ##
-- [x] Welcome 
-- [x] Log In
-- [x] Create Account
-- [x] Main Menu of Choices
-- [x] Create a Reservation / To View Flights
-  - [x] Flight Chosen - Add Passenger&Bags
-    - [x] Payment Screen
-      - [x] Reservation Success Summary
-- [x] View Flight Status
-- [x] Edit Reservation
-  - [ ] Menu to Choose what to Edit
-    - [ ] Cancel entire Reservation
-      - [ ] Confirm Cancel Screen
-    - [ ] Edit Destination
-      - [ ] Input Cancel Request
-        - [ ] Confirmation/ Unsucessful Change
-    - [ ] Edit People Travelling Amount
-      - [ ] Input People Change
-        - [ ] Confirmation/ Unsucessful Change
-    - [ ] Edit Baggage
-      - [ ] Input Baggage Change
-        - [ ] Confirmation/ Unsuccessful Change
+- [ ] Account Details 
+  - Username 
+  - Password (****)
+  - Name 
+  - Flight Credits
 
+- [ ] Refund Window 
+  - Refund Window 
+  - Fix Cost, refund credit issues - Rami
 
-## User Flow ##
-- #### Welcome Window ####
-- #### Login Window #####
-  - #### Create Account Window #####
-- #### Main Menu Choices ####
-  - #### Create Reservation #### 
-    - #### Add Additional Baggage #### 
-    - #### Payment Screen  #### 
-    - #### Confirmation Flight ####
-
-  - #### Edit Reservation #### 
-    - #### Cancel Entire Reservation #### 
-    - #### Edit Destination #### 
-    - #### Edit People Travelling with #### 
-    -  #### Edit Baggage #### 
-  - #### Flight status #### 
-    - #### Input Confirmation Number #### 
-      -  #### View Flight #### 
+- [ ] Credit Card window 
+  - Not allow CC used before current day - Kelvin
+- [ ] Reservation 
+  - +/- seats available as reservation follows through Rami
+  - if booked flight -> can only add up to flight capacity Rami 
+  - Fix search efficiency Rami 
+  - Add a drop down when searching through flights(cities) Kelvin
+- [ ] Paybuddi
+  - Fix the checkbox if selected then processed, else NO
