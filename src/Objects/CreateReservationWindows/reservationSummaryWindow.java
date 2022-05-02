@@ -29,7 +29,9 @@ public class reservationSummaryWindow extends JFrame{
     private final createReservationWindow createReservation;
     private final bookFlightWindow bookFlight;
 
-    public reservationSummaryWindow(bookFlightWindow bookFlightWindow, createReservationWindow createReservationWindow, mainMenuWindow mainMenuWindow, String locations, String date, String time, int tickets, int bags, double price, int credits){
+    public reservationSummaryWindow(bookFlightWindow bookFlightWindow, createReservationWindow createReservationWindow,
+                                    mainMenuWindow mainMenuWindow, String locations, String date, String time, int tickets,
+                                    int bags, double price, int credits){
 
         this.bookFlight = bookFlightWindow;
         this.createReservation = createReservationWindow;
