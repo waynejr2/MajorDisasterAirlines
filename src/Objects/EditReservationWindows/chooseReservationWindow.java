@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import static java.lang.Math.max;
 import static javax.swing.BorderFactory.createLineBorder;
 
 /**
@@ -35,6 +36,8 @@ public class chooseReservationWindow extends JFrame {
     private final int userID;
     private int chosenReservation = -1;
 
+    private double reservationCost;
+
     public chooseReservationWindow(mainMenuWindow mainMenuWindow, int id) throws SQLException {
 
         this.mainMenu = mainMenuWindow;
@@ -48,27 +51,31 @@ public class chooseReservationWindow extends JFrame {
         int windowWidth = 1000;
 
         setContentPane(choseReservationPanel);
+        reservationPanel.setLayout(new GridLayout(6, 1, 5, 5));
+        reservationPanel.revalidate();
+        reservationPanel.repaint();
 
         setTitle("Your Reservations");
         setSize(windowWidth, windowHeight);
         setLocation(screenWidth/2 - windowWidth/2, screenHeight/2 - windowHeight/2 - 50);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        reservationPanel.setLayout(new GridLayout(10, 1, 5, 5));
-        reservationPanel.revalidate();
-        reservationPanel.repaint();
-
         ArrayList<JList<String>> labels = new ArrayList<>();
         ArrayList<Integer> reservations = new ArrayList<>();
+        ArrayList<Double> prices = new ArrayList<>();
         int numLabels = 0;
 
         ResultSet RS = databaseConnector.getResultSet("SELECT DMAuserID, flightNumber, reservations.flight, departureTime, date, numberOfTickets, numberOfBags, totalCost, reservations.id, status FROM reservations JOIN flights ON reservations.flight = flights.id");
         ResultSet RS1;
+
+        int count = 0;
+
         while (RS.next()) {
             if(RS.getInt(1)==userID){
                 numLabels++;
                 reservations.add(RS.getInt(9));
 
+                prices.add(RS.getDouble(8));
 
                 RS1 = databaseConnector.getResultSet("SELECT description FROM reservation_status WHERE id = " + RS.getString(10));
                 RS1.next();
@@ -95,19 +102,38 @@ public class chooseReservationWindow extends JFrame {
                 label.setBorder(createLineBorder(new Color(150, 150, 150)));
                 labels.add(label);
                 reservationPanel.add(label);
+                count++;
             }
         }
+        if(count == 0){
+            String info1 = "You currently have no reservations.";
 
+            String[] flightInfo = new String[6];
+            flightInfo[0] = info1;
+            flightInfo[1] = " ";
+            flightInfo[2] = " ";
+            flightInfo[3] = " ";
+            flightInfo[4] = " ";
+            flightInfo[5] = " ";
 
-        reservationPanel.setLayout(new GridLayout(numLabels, 1, 5, 5));
+            JList<String> label = new JList<String>(flightInfo);
+            label.setEnabled(false);
+            label.setSize(new Dimension(100, 100));
+            label.setBorder(createLineBorder(new Color(150, 150, 150)));
+            labels.add(label);
+            reservationPanel.add(label);
+        }
+
+        reservationPanel.setLayout(new GridLayout(max(4, numLabels), 1, 5, 5));
         reservationPanel.revalidate();
         reservationPanel.repaint();
+
 
         for(int i = 0; i < numLabels;i++) {
             JList<String> label = labels.get(i);
             int finalNumLabels = numLabels;
             int curr = reservations.get(i);
-
+            int finalI = i;
             label.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
@@ -118,10 +144,10 @@ public class chooseReservationWindow extends JFrame {
                     }
                     label.setBackground(Color.decode("#b3d7ff"));
                     chosenReservation = curr;
+                    reservationCost = prices.get(finalI);
                 }
             });
         }
-
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -129,13 +155,12 @@ public class chooseReservationWindow extends JFrame {
                 dispose();
             }
         });
-
         editButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(chosenReservation != -1){
                     try {
-                        editReservation = new editReservationWindow(mainMenu, chosenReservation, userID);
+                        editReservation = new editReservationWindow(mainMenu, chosenReservation, userID, reservationCost);
                     } catch (SQLException ex) {
                         ex.printStackTrace();
                     }

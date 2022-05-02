@@ -1,5 +1,7 @@
 package Objects.CreateReservationWindows;
 
+import Objects.LoginWindows.mainMenuWindow;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -14,64 +16,51 @@ import java.awt.event.ActionListener;
 
 public class reservationSummaryWindow extends JFrame{
     private JButton doneButton;
-    private JLabel bookingConLabel;
-    private JLabel bookingDateLabel;
-    private JLabel guestLabel;
-    private JLabel flightDetailsLabel;
-    private JLabel thankYouLabel;
     private JPanel confirmedFlightPanel;
 
-    private creditCardWindow creditCard;
-    private payBudiWindow payBudi;
+    private JLabel locationsLabel;
+    private JLabel dateLabel;
+    private JLabel ticketsLabel;
+    private JLabel bagsLabel;
+    private JLabel priceLabel;
+    private JLabel creditsLabel;
 
-    public reservationSummaryWindow(creditCardWindow creditCardWindow){
+    private final mainMenuWindow mainMenu;
+    private final createReservationWindow createReservation;
+    private final bookFlightWindow bookFlight;
 
-        this.creditCard = creditCardWindow;
+    public reservationSummaryWindow(bookFlightWindow bookFlightWindow, createReservationWindow createReservationWindow, mainMenuWindow mainMenuWindow, String locations, String date, String time, int tickets, int bags, double price, int credits){
 
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        int screenHeight = screenSize.height;
-        int screenWidth = screenSize.width;
-        int windowHeight = 600;
-        int windowWidth = 1000;
-
-
-        setContentPane(confirmedFlightPanel);
-        setTitle("Confirmed Flight");
-        setSize(windowWidth, windowHeight);
-        setLocation(screenWidth/2 - windowWidth/2, screenHeight/2 - windowHeight/2 - 50);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
-        doneButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                creditCardWindow.activate();
-                deactivate();
-            }
-        });
-    }
-
-    public reservationSummaryWindow(payBudiWindow payBudiWindow){
-
-        this.payBudi = payBudiWindow;
+        this.bookFlight = bookFlightWindow;
+        this.createReservation = createReservationWindow;
+        this.mainMenu = mainMenuWindow;
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenHeight = screenSize.height;
         int screenWidth = screenSize.width;
-        int windowHeight = 600;
-        int windowWidth = 1000;
-
+        int windowHeight = 300;
+        int windowWidth = 500;
 
         setContentPane(confirmedFlightPanel);
-        setTitle("Confirmed Flight");
+        setTitle("Reservation Summary");
         setSize(windowWidth, windowHeight);
         setLocation(screenWidth/2 - windowWidth/2, screenHeight/2 - windowHeight/2 - 50);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
+        locationsLabel.setText(locations);
+        dateLabel.setText("Departing: " + date + " at " + time);
+        ticketsLabel.setText(String.valueOf("Tickets: " + tickets));
+        bagsLabel.setText(String.valueOf("Bags: " + bags));
+        priceLabel.setText(String.valueOf("Total Price: $" + price));
+        creditsLabel.setText(String.valueOf("Total Remainaing Flight Credit: " + credits));
+
         doneButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                payBudiWindow.activate();
-                deactivate();
+                bookFlight.dispose();
+                createReservation.dispose();
+                dispose();
+                mainMenu.activate();
             }
         });
     }

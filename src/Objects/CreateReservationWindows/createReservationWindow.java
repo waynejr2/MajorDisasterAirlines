@@ -42,6 +42,11 @@ public class createReservationWindow extends JFrame {
     private JDateChooser calendar = new JDateChooser(date.getTime());
 
     private String dateDescription = "";
+    private String dateString = "";
+    private String timeString = "";
+    final String[] chosenFlight = {""};
+    final int[] chosenFlightInt = {0};
+    double pricePerTicket = 0;
 
     private final mainMenuWindow mainMenu;
     private final createReservationWindow createReservation = this;
@@ -50,12 +55,11 @@ public class createReservationWindow extends JFrame {
     private ArrayList<String> prices = new ArrayList<>();
     private ArrayList<Double> priceValues = new ArrayList<>();
     private ArrayList<Integer> times = new ArrayList<>();
+    private ArrayList<String> timeStrings = new ArrayList<>();
 
     private final int userID;
 
     public createReservationWindow(mainMenuWindow mainMenuWindow, int id){
-
-        final String[] chosenFlight = {""};
 
         this.mainMenu = mainMenuWindow;
         this.userID = id;
@@ -76,6 +80,10 @@ public class createReservationWindow extends JFrame {
 
         invalidLabel1.setVisible(false);
         invalidLabel2.setVisible(false);
+
+        panel.revalidate();
+        panel.repaint();
+
         searchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -88,6 +96,8 @@ public class createReservationWindow extends JFrame {
                 int month = monthToInt(date.getTime().toString().substring(4, 7));
                 int day = dayToInt(date.getTime().toString().substring(8, 10));
                 int year = yearToInt(date.getTime().toString().substring(24, 28));
+
+                dateString = selectedYear + "-" + selectedMonth + "-" + selectedDay;
 
                 int filterNum = filterOption.getSelectedIndex();
 
@@ -133,10 +143,40 @@ public class createReservationWindow extends JFrame {
                     }
 
                     if(selectedYear < year){
+                        String[] noResult = new String[1];
+                        noResult[0] = "Please enter a valid flight date.";
+                        JList<String> label = new JList<String>(noResult);
+                        label.setEnabled(false);
+                        label.setSize(new Dimension(100, 100));
+                        label.setBorder(createLineBorder(new Color(150, 150, 150)));
+                        panel.add(label);
+                        panel.revalidate();
+                        panel.repaint();
+                        panel.setLayout(new GridLayout(6, 1, 2, 5));
                         return;
                     } else if(selectedYear == year && selectedMonth < month) {
+                        String[] noResult = new String[1];
+                        noResult[0] = "Please enter a valid flight date.";
+                        JList<String> label = new JList<String>(noResult);
+                        label.setEnabled(false);
+                        label.setSize(new Dimension(100, 100));
+                        label.setBorder(createLineBorder(new Color(150, 150, 150)));
+                        panel.add(label);
+                        panel.revalidate();
+                        panel.repaint();
+                        panel.setLayout(new GridLayout(6, 1, 2, 5));
                         return;
                     } else if(selectedYear == year && selectedMonth == month && selectedDay < day){
+                        String[] noResult = new String[1];
+                        noResult[0] = "Please enter a valid flight date.";
+                        JList<String> label = new JList<String>(noResult);
+                        label.setEnabled(false);
+                        label.setSize(new Dimension(100, 100));
+                        label.setBorder(createLineBorder(new Color(150, 150, 150)));
+                        panel.add(label);
+                        panel.revalidate();
+                        panel.repaint();
+                        panel.setLayout(new GridLayout(6, 1, 2, 5));
                         return;
                     }
 
@@ -170,6 +210,7 @@ public class createReservationWindow extends JFrame {
                     String time = "";
 
                     ArrayList<String> flightNumbers = new ArrayList<>();
+                    ArrayList<Integer> flightInt = new ArrayList<>();
                     ArrayList<JList<String>> labels = new ArrayList<>();
                     int numLabels = 0;
                     int existingFlights = 0;
@@ -197,7 +238,9 @@ public class createReservationWindow extends JFrame {
                                 label.setSize(new Dimension(100, 100));
                                 label.setBorder(createLineBorder(new Color(150, 150, 150)));
                                 labels.add(label);
+                                timeStrings.add(time);
                                 flightNumbers.add(flightNumber);
+                                flightInt.add(RS.getInt(4));
                                 panel.add(label);
                             }
                         }
@@ -219,13 +262,18 @@ public class createReservationWindow extends JFrame {
                     for(int i = 0; i < numLabels;i++) {
                         JList<String> label = labels.get(i);
                         String finalFlightNumber = flightNumbers.get(i);
+                        int finalFlightInt = flightInt.get(i);
                         int finalNumLabels = numLabels;
 
+                        int finalI = i;
                         label.addMouseListener(new MouseAdapter() {
                             @Override
                             public void mouseClicked(MouseEvent e) {
                                 super.mouseClicked(e);
                                 chosenFlight[0] = finalFlightNumber;
+                                chosenFlightInt[0] = finalFlightInt;
+                                timeString = timeStrings.get(finalI);
+                                pricePerTicket = Double.parseDouble(prices.get(finalI));
                                 for (int k = 0; k < finalNumLabels; k++) {
                                     labels.get(k).setBackground(Color.decode("#FFFFFF"));
                                     labels.get(k).setForeground(Color.decode("#b3d7ff"));
@@ -247,7 +295,7 @@ public class createReservationWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 mainMenuWindow.activate();
-                deactivate();
+                dispose();
             }
         });
         createReservationButton.addActionListener(new ActionListener() {
@@ -258,7 +306,7 @@ public class createReservationWindow extends JFrame {
                     ResultSet RS = databaseConnector.getResultSet("SELECT flightNumber FROM flights");
                     while (RS.next()) {
                         if(RS.getString(1).equals(chosenFlight[0])){
-                            bookFlightWindow baggageScreen = new bookFlightWindow(createReservation, chosenFlight[0], dateDescription);
+                            bookFlightWindow baggageScreen = new bookFlightWindow(createReservation, mainMenu, userID, chosenFlight[0], chosenFlightInt[0], dateDescription, dateString, timeString, pricePerTicket);
                             baggageScreen.activate();
                             deactivate();
                             return;

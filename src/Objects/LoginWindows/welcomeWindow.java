@@ -9,16 +9,16 @@ import java.sql.SQLException;
  * @author Rami Chaar
  */
 
-public class WelcomeWindow extends JFrame{
+public class welcomeWindow extends JFrame{
     private JPanel mainPanel;
     private JButton continueButton;
     private JLabel picture;
 
-    private final LoginWindow login;
+    private final loginWindow login;
 
-    public WelcomeWindow()  throws SQLException{
+    public welcomeWindow()  throws SQLException{
 
-        login = new LoginWindow();
+        login = new loginWindow();
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenHeight = screenSize.height;
