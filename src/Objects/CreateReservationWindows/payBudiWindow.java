@@ -24,9 +24,9 @@ public class payBudiWindow extends JFrame{
     private JPanel payBudiPanel;
     private JLabel loginlabel;
     private JLabel passwordLabel;
-    private JLabel confirmLabel;
     private JLabel invalidLoginLabel;
     private JButton backButton;
+    private JCheckBox checkBox;
 
     private final choosePaymentWindow choosePayment;
     private bookFlightWindow bookFlight;
