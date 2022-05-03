@@ -58,6 +58,7 @@ public class createReservationWindow extends JFrame {
     private ArrayList<String> timeStrings = new ArrayList<>();
     private ArrayList<String> flightNumbers = new ArrayList<>();
     private ArrayList<Integer> flightType = new ArrayList<>();
+    private ArrayList<String> flightData = new ArrayList<>();
 
     private final int userID;
 
@@ -205,7 +206,7 @@ public class createReservationWindow extends JFrame {
                     int numFlights = 0;
 
                     RS = databaseConnector.getResultSet("SELECT source_id, destination_id, flights.id, ticketPrice, " +
-                            "departureTime, flights.flightNumber, flights.flight FROM airline_connecting_flights JOIN flights ON airline_connecting_flights.id = " +
+                            "departureTime, flights.flightNumber, flights.flight, description FROM airline_connecting_flights JOIN flights ON airline_connecting_flights.id = " +
                             "flights.flight WHERE flights.departureDate = '" + dateStringSQL + "' AND source_id = '" + fromID + "'");
                     while (RS.next()) {
                         if(toID == RS.getInt(2) || toID == 0){
@@ -221,7 +222,7 @@ public class createReservationWindow extends JFrame {
                             timeStrings.add(time);
                             flightNumbers.add(RS.getString(6));
                             flightType.add(RS.getInt(7));
-
+                            flightData.add(RS.getString(8));
                         }
                     }
 
@@ -251,7 +252,7 @@ public class createReservationWindow extends JFrame {
                         int flight = flightType.get(i);
                         flightNumber = flightNumbers.get(i);
                         time = timeStrings.get(i);
-                        info = printFlightData(flight);
+                        info = flightData.get(i);
 
                         String[] flightInfo = new String[5];
                         flightInfo[0] = "Flight " + flightNumber + ": " + info;
@@ -343,40 +344,14 @@ public class createReservationWindow extends JFrame {
     }
 
     public static String printFlightData(int flight) {
-
         String statement = "";
-
         try {
-            int departureID = 0;
-            int destinationID = 0;
-
-            String departure = "";
-            String destination = "";
-
-            ResultSet RS = databaseConnector.getResultSet("SELECT id, source_id, destination_id FROM airline_connecting_flights");
-            while (RS.next()) {
-                if (flight == RS.getInt(1)) {
-                    departureID = RS.getInt(2);
-                    destinationID = RS.getInt(3);
-                }
-            }
-
-            RS = databaseConnector.getResultSet("SELECT id, location_name FROM airport_locations");
-            while (RS.next()) {
-                if (departureID == RS.getInt(1)) {
-                    departure = RS.getString(2);
-                }
-                if (destinationID == RS.getInt(1)) {
-                    destination = RS.getString(2);
-                }
-            }
-
-            statement = departure + " to " + destination;
-
+            ResultSet RS = databaseConnector.getResultSet("SELECT description FROM airline_connecting_flights WHERE id = " + flight);
+            RS.next();
+            statement = RS.getString(1);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-
         return statement;
     }
 
@@ -408,6 +383,10 @@ public class createReservationWindow extends JFrame {
             temp2 = timeStrings.get(pos);
             timeStrings.set(pos, timeStrings.get(i));
             timeStrings.set(i, temp2);
+
+            temp2 = flightData.get(pos);
+            flightData.set(pos, flightData.get(i));
+            flightData.set(i, temp2);
 
             temp2 = flightNumbers.get(pos);
             flightNumbers.set(pos, flightNumbers.get(i));
@@ -445,6 +424,10 @@ public class createReservationWindow extends JFrame {
             temp2 = prices.get(pos);            //swap the current element with the minimum element
             prices.set(pos, prices.get(i));
             prices.set(i, temp2);
+
+            temp2 = flightData.get(pos);
+            flightData.set(pos, flightData.get(i));
+            flightData.set(i, temp2);
 
             temp2 = timeStrings.get(pos);
             timeStrings.set(pos, timeStrings.get(i));
@@ -486,6 +469,10 @@ public class createReservationWindow extends JFrame {
             flightType.set(pos, flightType.get(i));
             flightType.set(i, temp1);
 
+            temp2 = flightData.get(pos);
+            flightData.set(pos, flightData.get(i));
+            flightData.set(i, temp2);
+
             temp2 = timeStrings.get(pos);
             timeStrings.set(pos, timeStrings.get(i));
             timeStrings.set(i, temp2);
@@ -525,6 +512,10 @@ public class createReservationWindow extends JFrame {
             temp1 = flightType.get(pos);
             flightType.set(pos, flightType.get(i));
             flightType.set(i, temp1);
+
+            temp2 = flightData.get(pos);
+            flightData.set(pos, flightData.get(i));
+            flightData.set(i, temp2);
 
             temp2 = timeStrings.get(pos);
             timeStrings.set(pos, timeStrings.get(i));
