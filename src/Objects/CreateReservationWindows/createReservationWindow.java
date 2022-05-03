@@ -203,6 +203,11 @@ public class createReservationWindow extends JFrame {
                     prices.clear();
                     priceValues.clear();
                     times.clear();
+                    timeStrings.clear();
+                    flightNumbers.clear();
+                    flightType.clear();
+                    flightData.clear();
+                    
                     int numFlights = 0;
 
                     RS = databaseConnector.getResultSet("SELECT source_id, destination_id, flights.id, ticketPrice, " +
@@ -241,10 +246,6 @@ public class createReservationWindow extends JFrame {
                     int numLabels = 0;
                     int existingFlights = 0;
 
-                    for(int i : flights){
-                        System.out.print(i + " ");
-                    }
-
                     for(int i = 0; i < numFlights; i++){
                         existingFlights++;
                         numLabels++;
@@ -268,7 +269,6 @@ public class createReservationWindow extends JFrame {
                         labels.add(label);
                         panel.add(label);
                     }
-                    System.out.println("\nDONE");
                     panel.setLayout(new GridLayout(max(numLabels, 6), 1, 2, 5));
 
                     if(existingFlights == 0) {
