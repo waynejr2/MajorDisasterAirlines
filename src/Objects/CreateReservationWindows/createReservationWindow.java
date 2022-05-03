@@ -56,6 +56,8 @@ public class createReservationWindow extends JFrame {
     private ArrayList<Double> priceValues = new ArrayList<>();
     private ArrayList<Integer> times = new ArrayList<>();
     private ArrayList<String> timeStrings = new ArrayList<>();
+    private ArrayList<String> flightNumbers = new ArrayList<>();
+    private ArrayList<Integer> flightType = new ArrayList<>();
 
     private final int userID;
 
@@ -98,6 +100,22 @@ public class createReservationWindow extends JFrame {
                 int year = yearToInt(date.getTime().toString().substring(24, 28));
 
                 dateString = selectedYear + "-" + selectedMonth + "-" + selectedDay;
+
+                String selectedDay1;
+                String selectedMonth1;
+
+                if(selectedMonth <10){
+                    selectedMonth1 = "0" + String.valueOf(selectedMonth);
+                } else {
+                    selectedMonth1 = String.valueOf(selectedMonth);
+                }
+                if(selectedDay <10){
+                    selectedDay1 = "0" + String.valueOf(selectedDay);
+                } else {
+                    selectedDay1 = String.valueOf(selectedDay);
+                }
+
+                String dateStringSQL = selectedYear + "-" + selectedMonth1 + "-" + selectedDay1;
 
                 int filterNum = filterOption.getSelectedIndex();
 
@@ -186,15 +204,24 @@ public class createReservationWindow extends JFrame {
                     times.clear();
                     int numFlights = 0;
 
-                    RS = databaseConnector.getResultSet("SELECT source_id, destination_id, flights.id, ticketPrice, departureTime FROM airline_connecting_flights JOIN flights ON airline_connecting_flights.id = flights.flight");
+                    RS = databaseConnector.getResultSet("SELECT source_id, destination_id, flights.id, ticketPrice, " +
+                            "departureTime, flights.flightNumber, flights.flight FROM airline_connecting_flights JOIN flights ON airline_connecting_flights.id = " +
+                            "flights.flight WHERE flights.departureDate = '" + dateStringSQL + "' AND source_id = '" + fromID + "'");
                     while (RS.next()) {
-                        if(fromID == RS.getInt(1) && (toID == RS.getInt(2) || toID == 0)){
+                        if(toID == RS.getInt(2) || toID == 0){
                             numFlights++;
 
+                            String time = RS.getString(5);
+                            double price = RS.getDouble(4);
+
                             flights.add(RS.getInt(3));
-                            prices.add(RS.getString(4));
-                            priceValues.add(RS.getDouble(4));
-                            times.add(timeToInt(RS.getString(5)));
+                            prices.add(String.valueOf(price));
+                            priceValues.add(price);
+                            times.add(timeToInt(time));
+                            timeStrings.add(time);
+                            flightNumbers.add(RS.getString(6));
+                            flightType.add(RS.getInt(7));
+
                         }
                     }
 
@@ -209,42 +236,38 @@ public class createReservationWindow extends JFrame {
                     String info = "";
                     String time = "";
 
-                    ArrayList<String> flightNumbers = new ArrayList<>();
-                    ArrayList<Integer> flightInt = new ArrayList<>();
                     ArrayList<JList<String>> labels = new ArrayList<>();
                     int numLabels = 0;
                     int existingFlights = 0;
 
-                    for (int i = 0; i < numFlights; i++) {
-                        RS = databaseConnector.getResultSet("SELECT id, departureTime, flightNumber, flight FROM flights");
-                        while (RS.next()) {
-                            if (RS.getInt(1) == flights.get(i)) {
-                                existingFlights++;
-                                numLabels++;
-
-                                flightNumber = RS.getString(3);
-                                time = RS.getString(2);
-                                info = printFlightData(RS.getInt(4));
-
-                                String[] flightInfo = new String[5];
-                                flightInfo[0] = "Flight " + flightNumber + ": " + info;
-                                flightInfo[1] = " ";
-                                flightInfo[2] = "Departure Time: " + time;
-                                flightInfo[3] = " ";
-                                flightInfo[4] = "Price: $" + prices.get(i);
-
-                                JList<String> label = new JList<String>(flightInfo);
-                                label.setEnabled(false);
-                                label.setSize(new Dimension(100, 100));
-                                label.setBorder(createLineBorder(new Color(150, 150, 150)));
-                                labels.add(label);
-                                timeStrings.add(time);
-                                flightNumbers.add(flightNumber);
-                                flightInt.add(RS.getInt(4));
-                                panel.add(label);
-                            }
-                        }
+                    for(int i : flights){
+                        System.out.print(i + " ");
                     }
+
+                    for(int i = 0; i < numFlights; i++){
+                        existingFlights++;
+                        numLabels++;
+
+                        int flight = flightType.get(i);
+                        flightNumber = flightNumbers.get(i);
+                        time = timeStrings.get(i);
+                        info = printFlightData(flight);
+
+                        String[] flightInfo = new String[5];
+                        flightInfo[0] = "Flight " + flightNumber + ": " + info;
+                        flightInfo[1] = " ";
+                        flightInfo[2] = "Departure Time: " + time;
+                        flightInfo[3] = " ";
+                        flightInfo[4] = "Price: $" + prices.get(i);
+
+                        JList<String> label = new JList<String>(flightInfo);
+                        label.setEnabled(false);
+                        label.setSize(new Dimension(100, 100));
+                        label.setBorder(createLineBorder(new Color(150, 150, 150)));
+                        labels.add(label);
+                        panel.add(label);
+                    }
+                    System.out.println("\nDONE");
                     panel.setLayout(new GridLayout(max(numLabels, 6), 1, 2, 5));
 
                     if(existingFlights == 0) {
@@ -262,7 +285,7 @@ public class createReservationWindow extends JFrame {
                     for(int i = 0; i < numLabels;i++) {
                         JList<String> label = labels.get(i);
                         String finalFlightNumber = flightNumbers.get(i);
-                        int finalFlightInt = flightInt.get(i);
+                        int finalFlightInt = flightType.get(i);
                         int finalNumLabels = numLabels;
 
                         int finalI = i;
@@ -373,6 +396,7 @@ public class createReservationWindow extends JFrame {
                 }
             }
 
+
             temp1 = priceValues.get(pos);            //swap the current element with the minimum element
             priceValues.set(pos, priceValues.get(i));
             priceValues.set(i, temp1);
@@ -380,6 +404,18 @@ public class createReservationWindow extends JFrame {
             temp2 = prices.get(pos);            //swap the current element with the minimum element
             prices.set(pos, prices.get(i));
             prices.set(i, temp2);
+
+            temp2 = timeStrings.get(pos);
+            timeStrings.set(pos, timeStrings.get(i));
+            timeStrings.set(i, temp2);
+
+            temp2 = flightNumbers.get(pos);
+            flightNumbers.set(pos, flightNumbers.get(i));
+            flightNumbers.set(i, temp2);
+
+            temp3 = flightType.get(pos);
+            flightType.set(pos, flightType.get(i));
+            flightType.set(i, temp3);
 
             temp3 = flights.get(pos);            //swap the current element with the minimum element
             flights.set(pos, flights.get(i));
@@ -410,6 +446,18 @@ public class createReservationWindow extends JFrame {
             prices.set(pos, prices.get(i));
             prices.set(i, temp2);
 
+            temp2 = timeStrings.get(pos);
+            timeStrings.set(pos, timeStrings.get(i));
+            timeStrings.set(i, temp2);
+
+            temp2 = flightNumbers.get(pos);
+            flightNumbers.set(pos, flightNumbers.get(i));
+            flightNumbers.set(i, temp2);
+
+            temp3 = flightType.get(pos);
+            flightType.set(pos, flightType.get(i));
+            flightType.set(i, temp3);
+
             temp3 = flights.get(pos);            //swap the current element with the minimum element
             flights.set(pos, flights.get(i));
             flights.set(i, temp3);
@@ -433,6 +481,18 @@ public class createReservationWindow extends JFrame {
             temp1 = times.get(pos);            //swap the current element with the minimum element
             times.set(pos, times.get(i));
             times.set(i, temp1);
+
+            temp1 = flightType.get(pos);
+            flightType.set(pos, flightType.get(i));
+            flightType.set(i, temp1);
+
+            temp2 = timeStrings.get(pos);
+            timeStrings.set(pos, timeStrings.get(i));
+            timeStrings.set(i, temp2);
+
+            temp2 = flightNumbers.get(pos);
+            flightNumbers.set(pos, flightNumbers.get(i));
+            flightNumbers.set(i, temp2);
 
             temp2 = prices.get(pos);            //swap the current element with the minimum element
             prices.set(pos, prices.get(i));
@@ -461,6 +521,18 @@ public class createReservationWindow extends JFrame {
             temp1 = times.get(pos);            //swap the current element with the minimum element
             times.set(pos, times.get(i));
             times.set(i, temp1);
+
+            temp1 = flightType.get(pos);
+            flightType.set(pos, flightType.get(i));
+            flightType.set(i, temp1);
+
+            temp2 = timeStrings.get(pos);
+            timeStrings.set(pos, timeStrings.get(i));
+            timeStrings.set(i, temp2);
+
+            temp2 = flightNumbers.get(pos);
+            flightNumbers.set(pos, flightNumbers.get(i));
+            flightNumbers.set(i, temp2);
 
             temp2 = prices.get(pos);            //swap the current element with the minimum element
             prices.set(pos, prices.get(i));
