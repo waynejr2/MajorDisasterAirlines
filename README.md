@@ -19,5 +19,3 @@ CSUN COMP 380 Spring 2022 Project
   - if booked flight -> can only add up to flight capacity Rami 
   - Fix search efficiency Rami 
   - Add a drop down when searching through flights(cities) Kelvin
-- [ ] Paybuddi
-  - Fix the checkbox if selected then processed, else NO
