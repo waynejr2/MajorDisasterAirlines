@@ -10,7 +10,7 @@ CSUN COMP 380 Spring 2022 Project
 
 - [ ] Refund
   - Fix Cost, refund credit issues - Rami
-- [ ] Credit Card window 
+- [x] Credit Card window 
   - Not allow CC used before current day - Kelvin
 - [ ] Reservation 
   - +/- seats available as reservation follows through Rami
