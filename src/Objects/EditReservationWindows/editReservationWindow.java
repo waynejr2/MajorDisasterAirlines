@@ -116,7 +116,7 @@ public class editReservationWindow extends JFrame{
         ticketsField.setValue(RS.getInt(5));
         bagsField.setValue(RS.getInt(6));
 
-        ResultSet RS1 = databaseConnector.getResultSet("SELECT ticketPrice FROM airline_connecting_flights  WHERE id = " + RS.getInt(2));
+        ResultSet RS1 = databaseConnector.getResultSet("SELECT adjustedTicketPrice FROM flights  WHERE id = " + flightID);
         RS1.next();
         ticketPrice = RS1.getDouble(1);
 

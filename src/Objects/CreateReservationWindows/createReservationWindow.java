@@ -210,7 +210,7 @@ public class createReservationWindow extends JFrame {
                     
                     int numFlights = 0;
 
-                    RS = databaseConnector.getResultSet("SELECT source_id, destination_id, flights.id, ticketPrice, " +
+                    RS = databaseConnector.getResultSet("SELECT source_id, destination_id, flights.id, adjustedTicketPrice, " +
                             "departureTime, flights.flightNumber, flights.flight, description, availableTickets FROM airline_connecting_flights JOIN flights ON airline_connecting_flights.id = " +
                             "flights.flight WHERE flights.departureDate = '" + dateStringSQL + "' AND source_id = '" + fromID + "'");
                     while (RS.next()) {
