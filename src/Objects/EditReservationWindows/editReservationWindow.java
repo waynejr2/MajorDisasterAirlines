@@ -56,6 +56,11 @@ public class editReservationWindow extends JFrame{
     private final double taxRate = .075;
     private final int reservationNumber;
 
+    private int availableTickets;
+    private int availableBags;
+    private int maxBags;
+    private int maxTickets;
+
     private String time;
     private String date;
     private String details;
@@ -66,7 +71,7 @@ public class editReservationWindow extends JFrame{
     private final mainMenuWindow mainMenu;
     private final editReservationWindow editReservation = this;
     private final int userID;
-    private final int flight;
+    private final int flightID;
 
     public editReservationWindow(mainMenuWindow mainMenuWindow, int reservationNumber, int id, double reservationPrice) throws SQLException {
 
@@ -87,8 +92,16 @@ public class editReservationWindow extends JFrame{
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setContentPane(editReservationPanel);
 
-        ResultSet RS = databaseConnector.getResultSet("SELECT flightNumber, reservations.flight, departureTime, date, numberOfTickets, numberOfBags, totalCost, reservations.id, status, departureTime FROM reservations JOIN flights ON reservations.flight = flights.id WHERE reservations.id = " + reservationNumber);
+        ResultSet RS = databaseConnector.getResultSet("SELECT flightNumber, flights.flight, departureTime, date, numberOfTickets, numberOfBags, totalCost, reservations.id, status, departureTime, availableTickets, availableBaggage, flights.id FROM reservations JOIN flights ON reservations.flight = flights.id WHERE reservations.id = " + reservationNumber);
         RS.next();
+
+        availableTickets = RS.getInt(11);
+        availableBags = RS.getInt(12);
+        flightID = RS.getInt(13);
+        numTickets = RS.getInt(5);
+        numBags = RS.getInt(6);
+        maxBags = (numTickets)*4;
+        maxTickets = numTickets + availableTickets;
 
         details = "Flight " + RS.getString(1) + ": " + createReservationWindow.printFlightData(RS.getInt(2));
         date = RS.getString(4);
@@ -103,11 +116,7 @@ public class editReservationWindow extends JFrame{
         ticketsField.setValue(RS.getInt(5));
         bagsField.setValue(RS.getInt(6));
 
-        ResultSet RS1 = databaseConnector.getResultSet("SELECT flight FROM flights WHERE id = " + RS.getInt(2));
-        RS1.next();
-        flight = RS1.getInt(1);
-
-        RS1 = databaseConnector.getResultSet("SELECT ticketPrice FROM airline_connecting_flights  WHERE id = " + flight);
+        ResultSet RS1 = databaseConnector.getResultSet("SELECT ticketPrice FROM airline_connecting_flights  WHERE id = " + RS.getInt(2));
         RS1.next();
         ticketPrice = RS1.getDouble(1);
 
@@ -127,13 +136,9 @@ public class editReservationWindow extends JFrame{
         panel.revalidate();
         panel.repaint();
 
-        ResultSet RS3 = databaseConnector.getResultSet("SELECT id, flightCredit FROM DMA_users");
-
-        while(RS3.next()){
-            if(RS3.getInt(1) == userID){
-                flightCredit = RS3.getInt(2);
-            }
-        }
+        ResultSet RS3 = databaseConnector.getResultSet("SELECT flightCredit FROM DMA_users WHERE id = " + userID);
+        RS3.next();
+        flightCredit = RS3.getInt(1);
 
         backButton.addActionListener(new ActionListener() {
             @Override
@@ -150,19 +155,23 @@ public class editReservationWindow extends JFrame{
         ticketsField.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                if((int)ticketsField.getValue() > 99){
-                    ticketsField.setValue(99);
+                if((int)ticketsField.getValue() > maxTickets){
+                    ticketsField.setValue(maxTickets);
                 }
                 if((int)ticketsField.getValue() < 1){
                     ticketsField.setValue(1);
+                }
+                maxBags = (int)ticketsField.getValue()*4;
+                if((int) bagsField.getValue() > maxBags){
+                    bagsField.setValue(maxBags);
                 }
             }
         });
         bagsField.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                if ((int) bagsField.getValue() > 99) {
-                    bagsField.setValue(99);
+                if ((int) bagsField.getValue() > maxBags) {
+                    bagsField.setValue(maxBags);
                 }
                 if ((int) bagsField.getValue() < 0) {
                     bagsField.setValue(0);
@@ -174,14 +183,9 @@ public class editReservationWindow extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 changes = true;
-                try {
-                    numTickets = RS.getInt(5);
-                    numBags = RS.getInt(6);
-                    chosenTickets = (int)ticketsField.getValue();
-                    chosenBags = (int)bagsField.getValue();
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                }
+
+                chosenTickets = (int)ticketsField.getValue();
+                chosenBags = (int)bagsField.getValue();
 
                 difference = (chosenTickets - numTickets)*ticketPrice + (chosenBags - numBags)*bagPrice;
                 totalPrice = (taxRate + 1) * difference;
@@ -463,15 +467,19 @@ public class editReservationWindow extends JFrame{
                         myStmt.executeUpdate("UPDATE reservations SET numberOfBags = " + chosenBags + " WHERE id = " + reservationNumber);
                         myStmt.executeUpdate("UPDATE reservations SET totalCost = " + p + " WHERE id = " + reservationNumber);
                         myStmt.executeUpdate("UPDATE DMA_users SET flightCredit = " + flightCredit + " WHERE id = " + userID);
+                        myStmt.executeUpdate("UPDATE flights SET availableTickets = " + (availableTickets - chosenTickets + numTickets) + " WHERE id = " + flightID);
+                        myStmt.executeUpdate("UPDATE flights SET availableBaggage = " + (availableBags - chosenBags + numBags) + " WHERE id = " + flightID);
 
                         creditRefundWindow creditRefund = new creditRefundWindow(editReservation, mainMenu, details, date, time, chosenTickets, chosenBags, p, flightCredit);
                         creditRefund.activate();
+                        setEnabled(false);
 
                     } else if(changes && chargePrice == 0) {
                         paid();
                     } else if (changes){
                         choosePaymentWindow choosePayment = new choosePaymentWindow(editReservation, chargePrice);
                         choosePayment.activate();
+                        setVisible(false);
                     }
                 } catch (SQLException ex) {
                     ex.printStackTrace();
@@ -500,9 +508,12 @@ public class editReservationWindow extends JFrame{
         myStmt.executeUpdate("UPDATE reservations SET numberOfBags = " + chosenBags + " WHERE id = " + reservationNumber);
         myStmt.executeUpdate("UPDATE reservations SET totalCost = " + p + " WHERE id = " + reservationNumber);
         myStmt.executeUpdate("UPDATE DMA_users SET flightCredit = " + flightCredit + " WHERE id = " + userID);
+        myStmt.executeUpdate("UPDATE flights SET availableTickets = " + (availableTickets - chosenTickets + numTickets) + " WHERE id = " + flightID);
+        myStmt.executeUpdate("UPDATE flights SET availableBaggage = " + (availableBags - chosenBags + numBags) + " WHERE id = " + flightID);
 
         creditRefundWindow creditRefund = new creditRefundWindow(editReservation, mainMenu, details, date, time, chosenTickets, chosenBags, p, flightCredit);
         creditRefund.activate();
+        setEnabled(false);
     }
     public void cancel() throws SQLException {
         creditDue = (int)floor(reservationPrice);
@@ -510,6 +521,8 @@ public class editReservationWindow extends JFrame{
         Connection conn = databaseConnector.getConnection();
         Statement myStmt = conn.createStatement();
         myStmt.executeUpdate("UPDATE DMA_users SET flightCredit = " + flightCredit + " WHERE id = " + userID);
+        myStmt.executeUpdate("UPDATE flights SET availableTickets = " + (availableTickets + numTickets) + " WHERE id = " + flightID);
+        myStmt.executeUpdate("UPDATE flights SET availableBaggage = " + (availableBags + numBags) + " WHERE id = " + flightID);
     }
 
 

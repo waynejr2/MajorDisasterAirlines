@@ -45,6 +45,7 @@ public class createReservationWindow extends JFrame {
     private String timeString = "";
     final String[] chosenFlight = {""};
     final int[] chosenFlightInt = {0};
+    private int chosenFlightID;
     double pricePerTicket = 0;
 
     private final mainMenuWindow mainMenu;
@@ -210,10 +211,10 @@ public class createReservationWindow extends JFrame {
                     int numFlights = 0;
 
                     RS = databaseConnector.getResultSet("SELECT source_id, destination_id, flights.id, ticketPrice, " +
-                            "departureTime, flights.flightNumber, flights.flight, description FROM airline_connecting_flights JOIN flights ON airline_connecting_flights.id = " +
+                            "departureTime, flights.flightNumber, flights.flight, description, availableTickets FROM airline_connecting_flights JOIN flights ON airline_connecting_flights.id = " +
                             "flights.flight WHERE flights.departureDate = '" + dateStringSQL + "' AND source_id = '" + fromID + "'");
                     while (RS.next()) {
-                        if(toID == RS.getInt(2) || toID == 0){
+                        if((toID == RS.getInt(2) || toID == 0 )&& RS.getInt(9) > 0){
                             numFlights++;
 
                             String time = RS.getString(5);
@@ -286,7 +287,6 @@ public class createReservationWindow extends JFrame {
                         String finalFlightNumber = flightNumbers.get(i);
                         int finalFlightInt = flightType.get(i);
                         int finalNumLabels = numLabels;
-
                         int finalI = i;
                         label.addMouseListener(new MouseAdapter() {
                             @Override
@@ -294,6 +294,7 @@ public class createReservationWindow extends JFrame {
                                 super.mouseClicked(e);
                                 chosenFlight[0] = finalFlightNumber;
                                 chosenFlightInt[0] = finalFlightInt;
+                                chosenFlightID = flights.get(finalI);
                                 timeString = timeStrings.get(finalI);
                                 pricePerTicket = Double.parseDouble(prices.get(finalI));
                                 for (int k = 0; k < finalNumLabels; k++) {
@@ -328,7 +329,7 @@ public class createReservationWindow extends JFrame {
                     ResultSet RS = databaseConnector.getResultSet("SELECT flightNumber FROM flights");
                     while (RS.next()) {
                         if(RS.getString(1).equals(chosenFlight[0])){
-                            bookFlightWindow baggageScreen = new bookFlightWindow(createReservation, mainMenu, userID, chosenFlight[0], chosenFlightInt[0], dateDescription, dateString, timeString, pricePerTicket);
+                            bookFlightWindow baggageScreen = new bookFlightWindow(createReservation, mainMenu, userID, chosenFlight[0], chosenFlightInt[0], dateDescription, dateString, timeString, pricePerTicket, chosenFlightID);
                             baggageScreen.activate();
                             deactivate();
                             return;
