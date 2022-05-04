@@ -65,7 +65,7 @@ public class chooseReservationWindow extends JFrame {
         ArrayList<Double> prices = new ArrayList<>();
         int numLabels = 0;
 
-        ResultSet RS = databaseConnector.getResultSet("SELECT DMAuserID, flightNumber, reservations.flight, departureTime, date, numberOfTickets, numberOfBags, totalCost, reservations.id, status FROM reservations JOIN flights ON reservations.flight = flights.id");
+        ResultSet RS = databaseConnector.getResultSet("SELECT DMAuserID, flightNumber, flights.flight, departureTime, date, numberOfTickets, numberOfBags, totalCost, reservations.id, status FROM reservations JOIN flights ON reservations.flight = flights.id");
         ResultSet RS1;
 
         int count = 0;

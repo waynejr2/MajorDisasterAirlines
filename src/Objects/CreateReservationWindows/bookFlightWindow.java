@@ -47,6 +47,7 @@ public class bookFlightWindow extends JFrame {
     private static double totalPrice;
     private final double taxRate = .075;
     private int flightCredit;
+    private int flightID;
 
     private final createReservationWindow createReservation;
     private choosePaymentWindow choosePayment;
@@ -59,10 +60,14 @@ public class bookFlightWindow extends JFrame {
     private String[] priceInfo = new String[8];
     private int len = 32;
 
+    private int availableTickets;
+    private int availableBags;
+    private int maxBags = 4;
+
     private int creditUsed;
     private double chargePrice = totalPrice;
 
-    public bookFlightWindow(createReservationWindow createReservationWindow, mainMenuWindow mainMenuWindow, int userID, String flightNumber, int flightInt, String dateDescription, String date, String time, double price) throws SQLException {
+    public bookFlightWindow(createReservationWindow createReservationWindow, mainMenuWindow mainMenuWindow, int userID, String flightNumber, int flightInt, String dateDescription, String date, String time, double price, int flightID) throws SQLException {
 
         this.createReservation = createReservationWindow;
         this.mainMenu = mainMenuWindow;
@@ -72,6 +77,7 @@ public class bookFlightWindow extends JFrame {
         this.ticketPrice = price;
         this.dateDescription = dateDescription;
         this.time = time;
+        this.flightID = flightID;
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenHeight = screenSize.height;
@@ -109,13 +115,14 @@ public class bookFlightWindow extends JFrame {
         panel.revalidate();
         panel.repaint();
 
-        ResultSet RS = databaseConnector.getResultSet("SELECT id, flightCredit FROM DMA_users");
+        ResultSet RS = databaseConnector.getResultSet("SELECT flightCredit FROM DMA_users WHERE id = " + userID);
+        RS.next();
+        flightCredit = RS.getInt(1);
 
-        while(RS.next()){
-            if(RS.getInt(1) == userID){
-                flightCredit = RS.getInt(2);
-            }
-        }
+        RS = databaseConnector.getResultSet("SELECT availableTickets, availableBaggage FROM flights WHERE id = " + flightID);
+        RS.next();
+        availableTickets = RS.getInt(1);
+        availableBags = RS.getInt(2);
 
         backButton.addActionListener(new ActionListener() {
             @Override
@@ -143,20 +150,24 @@ public class bookFlightWindow extends JFrame {
         ticketsField.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                if((int)ticketsField.getValue() > 99){
-                    ticketsField.setValue(99);
+                if((int)ticketsField.getValue() > availableTickets){
+                    ticketsField.setValue(availableTickets);
                 }
                 if((int)ticketsField.getValue() < 1){
                     ticketsField.setValue(1);
                 }
                 numTickets = (int) ticketsField.getValue();
+                maxBags = numTickets*4;
+                if((int) bagsField.getValue() > maxBags){
+                    bagsField.setValue(maxBags);
+                }
             }
         });
         bagsField.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                if ((int) bagsField.getValue() > 99) {
-                    bagsField.setValue(99);
+                if ((int) bagsField.getValue() > maxBags) {
+                    bagsField.setValue(maxBags);
                 }
                 if ((int) bagsField.getValue() < 0) {
                     bagsField.setValue(0);
@@ -306,7 +317,7 @@ public class bookFlightWindow extends JFrame {
         String sql = "UPDATE DMA_users SET flightCredit = " + flightCredit + " WHERE id = " + userID;
         myStmt.executeUpdate(sql);
 
-        Reservation r = new Reservation(userID, flightInt, date, totalPrice, numTickets, numBags, paymentMethod);
+        Reservation r = new Reservation(userID, flightInt, date, totalPrice, numTickets, numBags, paymentMethod, availableTickets, availableBags, flightID);
 
         reservationSummaryWindow reservationSummary = new reservationSummaryWindow(this, createReservation, mainMenu, details, dateDescription, time, numTickets, numBags, totalPrice, flightCredit);
         reservationSummary.activate();

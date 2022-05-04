@@ -122,6 +122,7 @@ public class choosePaymentWindow extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 dispose();
                 editReservation.activate();
+                editReservation.setVisible(true);
             }
         });
     }
