@@ -8,7 +8,7 @@ CSUN COMP 380 Spring 2022 Project
   - Name 
   - Flight Credits
 
-- [ ] Refund
+- [x] Refund
   - Fix Cost, refund credit issues - Rami
 - [x] Credit Card window 
   - Not allow CC used before current day - Kelvin
