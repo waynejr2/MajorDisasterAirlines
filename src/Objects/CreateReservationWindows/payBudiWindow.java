@@ -59,6 +59,13 @@ public class payBudiWindow extends JFrame{
             public void actionPerformed(ActionEvent e) {
 
                 invalidLoginLabel.setVisible(false);
+                invalidLoginLabel.setText("Invalid Login Credentials");
+
+                if(!checkBox.isSelected()) {
+                    invalidLoginLabel.setText("Please Accept Terms To Continue");
+                    invalidLoginLabel.setVisible(true);
+                    return;
+                }
 
                 String login = loginTxt.getText();
                 String password = passwordTxt.getText();

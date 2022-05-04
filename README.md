@@ -8,16 +8,11 @@ CSUN COMP 380 Spring 2022 Project
   - Name 
   - Flight Credits
 
-- [ ] Refund Window 
-  - Refund Window 
+- [ ] Refund
   - Fix Cost, refund credit issues - Rami
-
 - [ ] Credit Card window 
   - Not allow CC used before current day - Kelvin
 - [ ] Reservation 
   - +/- seats available as reservation follows through Rami
   - if booked flight -> can only add up to flight capacity Rami 
-  - Fix search efficiency Rami 
   - Add a drop down when searching through flights(cities) Kelvin
-- [ ] Paybuddi
-  - Fix the checkbox if selected then processed, else NO
