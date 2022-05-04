@@ -7,6 +7,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
 
 /**
  * CreditCardWindow, This class has the ability to let the user pay for the flight via credit card
@@ -17,7 +19,6 @@ import java.sql.SQLException;
 public class creditCardWindow extends JFrame{
     private JTextField ownerText;
     private JTextField cvvText;
-    private JTextField exText;
     private JButton confirmButton;
     private JButton cancelButton;
     private JTextField cardText;
@@ -28,6 +29,9 @@ public class creditCardWindow extends JFrame{
     private JLabel experationDateLabel;
     private JLabel cvvLabel;
     private JLabel cardNumberLabel;
+    private JLabel invalidExpDateLabel;
+    private JComboBox monthInput;
+    private JComboBox yearInput;
 
     private final choosePaymentWindow choosePayment;
     private editReservationWindow editReservation;
@@ -63,6 +67,12 @@ public class creditCardWindow extends JFrame{
                 String cardNumberLabelText = cardText.getText();
                 String cvvLabelText = cvvText.getText();
                 InvalidCard.setVisible(false);
+                invalidExpDateLabel.setVisible(false);//add
+
+                // date checker
+                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/yy");
+                LocalDateTime now = LocalDateTime.now();
+                System.out.println(dtf.format(now));
 
                 if(cardNumberLabelText.length() == 16) {
                     for (int i = 0; i < 15; i++) {
