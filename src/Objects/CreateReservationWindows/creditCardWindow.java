@@ -7,8 +7,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
-import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * CreditCardWindow, This class has the ability to let the user pay for the flight via credit card
@@ -54,6 +54,15 @@ public class creditCardWindow extends JFrame{
         int windowWidth = 1000;
 
         InvalidCard.setVisible(false);
+        invalidExpDateLabel.setVisible(false);//add
+
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM");
+        DateTimeFormatter yearNow = DateTimeFormatter.ofPattern("yy");
+        LocalDateTime now = LocalDateTime.now(); //get current date
+        String nowMonthValue = String.valueOf(dtf.format(now));
+        String nowYearValue = String.valueOf(yearNow.format(now));
+        int nowMonth = Integer.parseInt(nowMonthValue);
+        int nowYear = Integer.parseInt(nowYearValue);
 
         setContentPane(paymentMethodPanel);
         setTitle("Payment Method");
@@ -66,13 +75,20 @@ public class creditCardWindow extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 String cardNumberLabelText = cardText.getText();
                 String cvvLabelText = cvvText.getText();
-                InvalidCard.setVisible(false);
-                invalidExpDateLabel.setVisible(false);//add
 
-                // date checker
-                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/yy");
-                LocalDateTime now = LocalDateTime.now();
-                System.out.println(dtf.format(now));
+                String expDate = String.valueOf(monthInput.getSelectedItem());
+                String expYear = String.valueOf(yearInput.getSelectedItem());
+                if(expDate == "Month" || expYear == "Year(20YY)"){
+                    invalidExpDateLabel.setVisible(true);
+                    return;
+                }
+
+                int inputMonth = Integer.parseInt(expDate);
+                int inputYear = Integer.parseInt(expYear);
+
+
+                //String yearInputText = yearInput.getText();
+                InvalidCard.setVisible(false);
 
                 if(cardNumberLabelText.length() == 16) {
                     for (int i = 0; i < 15; i++) {
@@ -95,6 +111,11 @@ public class creditCardWindow extends JFrame{
                 } else {
                     InvalidCard.setVisible(true);
                 }
+                if(inputMonth < nowMonth && inputYear == nowYear ){
+                    invalidExpDateLabel.setVisible(true);
+                    return;
+                }
+
 
                 try {
                     dispose();

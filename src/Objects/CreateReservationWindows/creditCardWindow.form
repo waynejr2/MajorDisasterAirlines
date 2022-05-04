@@ -78,7 +78,9 @@
             <preferred-size width="150" height="-1"/>
           </grid>
         </constraints>
-        <properties/>
+        <properties>
+          <text value=""/>
+        </properties>
       </component>
       <component id="aa4a6" class="javax.swing.JButton" binding="cancelButton">
         <constraints>
@@ -128,18 +130,18 @@
         <properties>
           <model>
             <item value="Month"/>
-            <item value="Jan"/>
-            <item value="Feb"/>
-            <item value="Mar"/>
-            <item value="Apr"/>
-            <item value="May"/>
-            <item value="Jun"/>
-            <item value="Jul"/>
-            <item value="Aug"/>
-            <item value="Sep"/>
-            <item value="Oct"/>
-            <item value="Nov"/>
-            <item value="Dec"/>
+            <item value="01"/>
+            <item value="02"/>
+            <item value="03"/>
+            <item value="04"/>
+            <item value="05"/>
+            <item value="06"/>
+            <item value="07"/>
+            <item value="08"/>
+            <item value="09"/>
+            <item value="10"/>
+            <item value="11"/>
+            <item value="12"/>
           </model>
         </properties>
       </component>
