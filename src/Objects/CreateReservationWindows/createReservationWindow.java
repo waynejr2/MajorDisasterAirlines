@@ -534,7 +534,7 @@ public class createReservationWindow extends JFrame {
         }
     }
 
-    public int monthToInt(String m) {
+    public static int monthToInt(String m) {
         switch (m){
             case "Jan": return 1;
             case "Feb": return 2;
@@ -551,10 +551,10 @@ public class createReservationWindow extends JFrame {
             default: return 0;
         }
     }
-    public int dayToInt(String d) {
+    public static int dayToInt(String d) {
         return ((int)d.charAt(1)-48) + ((int)d.charAt(0)-48)*10;
     }
-    public int yearToInt(String y) {
+    public static int yearToInt(String y) {
         return ((int)y.charAt(0)-48)*1000 + ((int)y.charAt(1)-48)*100 + ((int)y.charAt(2)-48)*10 + ((int)y.charAt(3)-48);
     }
     public int timeToInt(String t) {

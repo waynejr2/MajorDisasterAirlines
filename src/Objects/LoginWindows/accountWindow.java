@@ -9,9 +9,16 @@ public class accountWindow extends JFrame{
     private JLabel header;
     private JButton returnButton;
     private JPanel accountPanel;
-    private JLabel nameLabel;
-    private JLabel usernameLabel;
-    private JLabel totalBookedLabel;
+    private JLabel l1;
+    private JLabel l2;
+    private JButton changePassButton;
+    private JButton changeUserButton;
+    private JLabel completedReservationsLabel;
+    private JLabel futureReservationsLabel;
+    private JLabel flightCreditLabel;
+    private JButton closeAccountButton;
+    private JTextField usernameField;
+    private JTextField passwordField;
 
     private final mainMenuWindow mainMenu;
     private final int userID;

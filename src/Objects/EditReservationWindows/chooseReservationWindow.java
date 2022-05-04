@@ -13,7 +13,9 @@ import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 
+import static java.lang.Integer.parseInt;
 import static java.lang.Math.max;
 import static javax.swing.BorderFactory.createLineBorder;
 
@@ -55,7 +57,7 @@ public class chooseReservationWindow extends JFrame {
         reservationPanel.revalidate();
         reservationPanel.repaint();
 
-        setTitle("Your Reservations");
+        setTitle("Your Future Reservations");
         setSize(windowWidth, windowHeight);
         setLocation(screenWidth/2 - windowWidth/2, screenHeight/2 - windowHeight/2 - 50);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -70,8 +72,24 @@ public class chooseReservationWindow extends JFrame {
 
         int count = 0;
 
+        Calendar date = Calendar.getInstance();
+        int currMonth = createReservationWindow.monthToInt(date.getTime().toString().substring(4, 7));
+        int currDay = createReservationWindow.dayToInt(date.getTime().toString().substring(8, 10));
+        int currYear = createReservationWindow.yearToInt(date.getTime().toString().substring(24, 28));
         while (RS.next()) {
-            if(RS.getInt(1)==userID){
+            int year = parseInt(RS.getString(5).substring(0, 4));
+            int month = parseInt(RS.getString(5).substring(5, 7));
+            int day = parseInt(RS.getString(5).substring(8, 10));
+            boolean future = true;
+            if(year < currYear) {
+                future = false;
+            } else if (month < currMonth) {
+                future = false;
+            } else if (day < currDay) {
+                future = false;
+            }
+
+            if(RS.getInt(1)==userID && future){
                 numLabels++;
                 reservations.add(RS.getInt(9));
 
