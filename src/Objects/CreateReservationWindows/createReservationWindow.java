@@ -16,7 +16,6 @@ import java.util.Calendar;
 import java.util.Date;
 
 import static java.lang.Math.max;
-import static java.lang.Math.min;
 import static javax.swing.BorderFactory.createLineBorder;
 
 public class createReservationWindow extends JFrame {
@@ -238,9 +237,9 @@ public class createReservationWindow extends JFrame {
                         case 4 -> filter4();
                     }
 
-                    String flightNumber = "";
-                    String info = "";
-                    String time = "";
+                    String flightNumber;
+                    String info;
+                    String time;
 
                     ArrayList<JList<String>> labels = new ArrayList<>();
                     int numLabels = 0;
@@ -250,7 +249,6 @@ public class createReservationWindow extends JFrame {
                         existingFlights++;
                         numLabels++;
 
-                        int flight = flightType.get(i);
                         flightNumber = flightNumbers.get(i);
                         time = timeStrings.get(i);
                         info = flightData.get(i);
