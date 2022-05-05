@@ -63,55 +63,9 @@ public class accountWindow extends JFrame{
         setLocation(screenWidth/2 - windowWidth/2, screenHeight/2 - windowHeight/2 - 100);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        ResultSet RS = databaseConnector.getResultSet("SELECT flightCredit FROM DMA_users WHERE id = " + userID);
-        RS.next();
-        flightCreditLabel.setText(String.valueOf(RS.getInt(1)));
+        refreshDetails();
 
-        Calendar date = Calendar.getInstance();
-        currMonth = createReservationWindow.monthToInt(date.getTime().toString().substring(4, 7));
-        currDay = createReservationWindow.dayToInt(date.getTime().toString().substring(8, 10));
-        currYear = createReservationWindow.yearToInt(date.getTime().toString().substring(24, 28));
-        currTime = parseLong(date.getTime().toString().substring(11,13) + date.getTime().toString().substring(14,16));
 
-        int completed = 0;
-        int future = 0;
-
-        RS = databaseConnector.getResultSet("SELECT date, departureTime FROM reservations JOIN flights ON reservations.flight = flights.id WHERE DMAuserID = " + userID);
-        while(RS.next()) {
-            long year = parseLong(RS.getString(1).substring(0, 4));
-            long month = parseLong(RS.getString(1).substring(5, 7));
-            long day = parseLong(RS.getString(1).substring(8, 10));
-            String timeString = RS.getString(2);
-            long time = parseLong(timeString.substring(0, 2) + timeString.substring(3, 5));
-
-            if (year < currYear) {
-                completed++;
-            } else if (year == currYear && month < currMonth) {
-                completed++;
-            } else if (year == currYear && month == currMonth && day < currDay) {
-                completed++;
-            } else if(year == currYear && month == currMonth && day == currDay && time < currTime) {
-                completed++;
-            } else {
-                future++;
-            }
-        }
-
-        completedReservationsLabel.setText(String.valueOf(completed));
-        futureReservationsLabel.setText(String.valueOf(future));
-
-        RS = databaseConnector.getResultSet("SELECT username, password FROM DMA_users WHERE id = " + userID);
-        RS.next();
-
-        oldUsername = RS.getString(1);
-        oldPassword = RS.getString(2);
-
-        usernameField.setText(oldUsername);
-        usernameField.setEnabled(false);
-
-        stars.append("*".repeat(oldPassword.length()));
-        passwordField.setText(String.valueOf(stars));
-        passwordField.setEnabled(false);
 
         returnButton.addActionListener(new ActionListener() {
             @Override
@@ -250,8 +204,62 @@ public class accountWindow extends JFrame{
         login.activate();
     }
 
-    public void activate() {
+    public void refreshDetails() throws SQLException {
+        ResultSet RS = databaseConnector.getResultSet("SELECT flightCredit FROM DMA_users WHERE id = " + userID);
+        RS.next();
+        flightCreditLabel.setText(String.valueOf(RS.getInt(1)));
+
+        Calendar date = Calendar.getInstance();
+        currMonth = createReservationWindow.monthToInt(date.getTime().toString().substring(4, 7));
+        currDay = createReservationWindow.dayToInt(date.getTime().toString().substring(8, 10));
+        currYear = createReservationWindow.yearToInt(date.getTime().toString().substring(24, 28));
+        currTime = parseLong(date.getTime().toString().substring(11,13) + date.getTime().toString().substring(14,16));
+
+        int completed = 0;
+        int future = 0;
+
+        RS = databaseConnector.getResultSet("SELECT date, departureTime FROM reservations JOIN flights ON reservations.flight = flights.id WHERE DMAuserID = " + userID);
+        while(RS.next()) {
+            long year = parseLong(RS.getString(1).substring(0, 4));
+            long month = parseLong(RS.getString(1).substring(5, 7));
+            long day = parseLong(RS.getString(1).substring(8, 10));
+            String timeString = RS.getString(2);
+            long time = parseLong(timeString.substring(0, 2) + timeString.substring(3, 5));
+
+            if (year < currYear) {
+                completed++;
+            } else if (year == currYear && month < currMonth) {
+                completed++;
+            } else if (year == currYear && month == currMonth && day < currDay) {
+                completed++;
+            } else if(year == currYear && month == currMonth && day == currDay && time < currTime) {
+                completed++;
+            } else {
+                future++;
+            }
+        }
+
+        completedReservationsLabel.setText(String.valueOf(completed));
+        futureReservationsLabel.setText(String.valueOf(future));
+
+        RS = databaseConnector.getResultSet("SELECT username, password FROM DMA_users WHERE id = " + userID);
+        RS.next();
+
+        oldUsername = RS.getString(1);
+        oldPassword = RS.getString(2);
+
+        usernameField.setText(oldUsername);
+        usernameField.setEnabled(false);
+
+        stars = new StringBuilder("");
+        stars.append("*".repeat(oldPassword.length()));
+        passwordField.setText(String.valueOf(stars));
+        passwordField.setEnabled(false);
+    }
+
+    public void activate() throws SQLException {
         setVisible(true);
+        refreshDetails();
     }
     public void deactivate() {
         setVisible(false);
