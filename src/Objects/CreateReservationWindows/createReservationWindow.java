@@ -1,7 +1,7 @@
 package Objects.CreateReservationWindows;
 
-import Objects.databaseConnector;
 import Objects.LoginWindows.mainMenuWindow;
+import Objects.databaseConnector;
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
@@ -10,7 +10,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.sql.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -20,10 +21,8 @@ import static javax.swing.BorderFactory.createLineBorder;
 
 public class createReservationWindow extends JFrame {
     private JPanel createReservationPanel;
-    private JTextField fromEntry;
     private JLabel FromLabel;
     private JLabel AvailReservation;
-    private JTextField toEntry;
     private JButton searchButton;
     private JButton backButton;
     private JLabel ToLabel;
@@ -36,6 +35,9 @@ public class createReservationWindow extends JFrame {
     private JLabel dateLabel;
     private JPanel calendarPanel;
     private JComboBox filterOption;
+    private JComboBox fromEntry;
+    private JComboBox toEntry;
+    private JLabel invalidLabel3;
 
     private Calendar date = Calendar.getInstance();
     private JDateChooser calendar = new JDateChooser(date.getTime());
@@ -62,6 +64,10 @@ public class createReservationWindow extends JFrame {
 
     private final int userID;
 
+    private final static String [] CITIES = new String []{"Los Angeles", "New York", "Atlanta"};
+
+
+
     public createReservationWindow(mainMenuWindow mainMenuWindow, int id){
 
         this.mainMenu = mainMenuWindow;
@@ -83,6 +89,7 @@ public class createReservationWindow extends JFrame {
 
         invalidLabel1.setVisible(false);
         invalidLabel2.setVisible(false);
+        invalidLabel3.setVisible(false);
 
         panel.revalidate();
         panel.repaint();
@@ -123,12 +130,25 @@ public class createReservationWindow extends JFrame {
                 try {
                     invalidLabel1.setVisible(false);
                     invalidLabel2.setVisible(false);
+                    invalidLabel3.setVisible(false);
+
                     panel.removeAll();
                     panel.revalidate();
                     panel.repaint();
 
-                    String fromInput = fromEntry.getText().toLowerCase();
-                    String toInput = toEntry.getText().toLowerCase();
+
+                    String fromInput = "";
+                    String toInput = "";
+
+                    int fromChoice = fromEntry.getSelectedIndex();
+                    int toChoice = toEntry.getSelectedIndex();
+                    if(fromChoice == toChoice){
+                        invalidLabel3.setVisible(true);
+                        return;
+                    }
+                    fromInput = choseCity(fromChoice);
+                    toInput = choseCity(toChoice);
+
 
                     chosenFlight[0] = "";
 
@@ -340,6 +360,9 @@ public class createReservationWindow extends JFrame {
                 }
             }
         });
+
+
+
     }
 
     public static String printFlightData(int flight) {
@@ -567,4 +590,62 @@ public class createReservationWindow extends JFrame {
     public void deactivate() {
         setVisible(false);
     }
+    public String choseCity(int choice){
+        String fromInput;
+        switch(choice){
+            case 1:
+                fromInput = "Los Angeles".toLowerCase();
+                break;
+            case 2:
+                fromInput = "New York City".toLowerCase();
+                break;
+            case 3:
+                fromInput = "Chicago".toLowerCase();
+                break;
+            case 4:
+                fromInput = "Dallas".toLowerCase();
+                break;
+            case 5:
+                fromInput = "Atlanta".toLowerCase();
+                break;
+            case 6:
+                fromInput = "Washington DC".toLowerCase();
+                break;
+            case 7:
+                fromInput = "San Francisco".toLowerCase();
+                break;
+            case 8:
+                fromInput = "Seattle".toLowerCase();
+                break;
+            case 9:
+                fromInput = "San Diego".toLowerCase();
+                break;
+            default:
+                fromInput = "null";
+                break;
+        }
+        return fromInput;
+    }
+    public static void predict(JTextField field){
+        String text = field.getText ();
+
+        String prediction = null;
+
+        for (String city: CITIES) {
+            if (city.startsWith (text) && !city.equals (text)) {
+                if (prediction != null) return;
+
+                prediction = city;
+            }
+        }
+
+        if (prediction != null) {
+            field.setText (prediction);
+
+            field.setCaretPosition (text.length ());
+            field.select (text.length (), prediction.length ());
+        }
+
+    }
+
 }
