@@ -40,6 +40,12 @@ public class accountWindow extends JFrame{
     private String oldUsername;
     private String oldPassword;
 
+    Calendar date = Calendar.getInstance();
+    int currMonth = createReservationWindow.monthToInt(date.getTime().toString().substring(4, 7));
+    int currDay = createReservationWindow.dayToInt(date.getTime().toString().substring(8, 10));
+    int currYear = createReservationWindow.yearToInt(date.getTime().toString().substring(24, 28));
+    long currTime = parseLong(date.getTime().toString().substring(11,13) + date.getTime().toString().substring(14,16));
+
     public accountWindow (mainMenuWindow mainMenuWindow, int userID) throws SQLException {
 
         this.mainMenu = mainMenuWindow;
@@ -62,10 +68,10 @@ public class accountWindow extends JFrame{
         flightCreditLabel.setText(String.valueOf(RS.getInt(1)));
 
         Calendar date = Calendar.getInstance();
-        int currMonth = createReservationWindow.monthToInt(date.getTime().toString().substring(4, 7));
-        int currDay = createReservationWindow.dayToInt(date.getTime().toString().substring(8, 10));
-        int currYear = createReservationWindow.yearToInt(date.getTime().toString().substring(24, 28));
-        long currTime = parseLong(date.getTime().toString().substring(11,13) + date.getTime().toString().substring(14,16));
+        currMonth = createReservationWindow.monthToInt(date.getTime().toString().substring(4, 7));
+        currDay = createReservationWindow.dayToInt(date.getTime().toString().substring(8, 10));
+        currYear = createReservationWindow.yearToInt(date.getTime().toString().substring(24, 28));
+        currTime = parseLong(date.getTime().toString().substring(11,13) + date.getTime().toString().substring(14,16));
 
         int completed = 0;
         int future = 0;
@@ -220,14 +226,22 @@ public class accountWindow extends JFrame{
         ResultSet RS = databaseConnector.getResultSet("SELECT id FROM reservations WHERE DMAuserID = " + userID);
 
         while(RS.next()){
-            ResultSet RS1 = databaseConnector.getResultSet("SELECT numberOfTickets, numberOfBags, availableTickets, availableBaggage, flights.id FROM reservations JOIN flights on reservations.flight = flights.id WHERE reservations.id = " + RS.getInt(1));
+            ResultSet RS1 = databaseConnector.getResultSet("SELECT numberOfTickets, numberOfBags, availableTickets, availableBaggage, flights.id, date, departureTime FROM reservations JOIN flights on reservations.flight = flights.id WHERE reservations.id = " + RS.getInt(1));
             RS1.next();
-            myStmt.executeUpdate("UPDATE flights SET availableTickets = " + (RS1.getInt(1) + RS1.getInt(3)) + " WHERE id = " + RS1.getInt(5));
-            myStmt.executeUpdate("UPDATE flights SET availableBaggage = " + (RS1.getInt(2) + RS1.getInt(4)) + " WHERE id = " + RS1.getInt(5));
+
+            long year = parseLong(RS1.getString(6).substring(0, 4));
+            long month = parseLong(RS1.getString(6).substring(5, 7));
+            long day = parseLong(RS1.getString(6).substring(8, 10));
+            String timeString = RS1.getString(7);
+            long time = parseLong(timeString.substring(0, 2) + timeString.substring(3, 5));
+
+            if(year > currYear || ((year == currYear && month > currMonth) || (year == currYear && month == currMonth && day > currDay) || (year == currYear && month == currMonth && day == currDay && time > currTime))){
+                myStmt.executeUpdate("UPDATE flights SET availableTickets = " + (RS1.getInt(1) + RS1.getInt(3)) + " WHERE id = " + RS1.getInt(5));
+                myStmt.executeUpdate("UPDATE flights SET availableBaggage = " + (RS1.getInt(2) + RS1.getInt(4)) + " WHERE id = " + RS1.getInt(5));
+            }
         }
 
         myStmt.executeUpdate("DELETE FROM reservations WHERE DMAuserID = " + userID);
-
         myStmt.executeUpdate("DELETE FROM DMA_users WHERE id = " + userID);
 
         mainMenu.dispose();
