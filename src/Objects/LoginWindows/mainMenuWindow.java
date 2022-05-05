@@ -93,7 +93,11 @@ public class mainMenuWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 deactivate();
-                account.activate();
+                try {
+                    account.activate();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
             }
         });
     }

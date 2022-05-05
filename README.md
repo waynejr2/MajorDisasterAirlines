@@ -15,4 +15,4 @@ CSUN COMP 380 Spring 2022 Project
 - [ ] Reservation 
   - +/- seats available as reservation follows through Rami
   - if booked flight -> can only add up to flight capacity Rami 
-  - [x] Add a drop down when searching through flights(cities) Kelvin
+  - Add a drop down when searching through flights(cities) Kelvin

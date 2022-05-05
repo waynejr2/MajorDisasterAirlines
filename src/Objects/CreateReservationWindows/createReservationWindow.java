@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import static java.lang.Long.parseLong;
 import static java.lang.Math.max;
 import static javax.swing.BorderFactory.createLineBorder;
 
@@ -97,6 +98,8 @@ public class createReservationWindow extends JFrame {
         searchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                boolean today = false;
+
                 Date d = calendar.getDate();
                 dateDescription = d.toString().substring(4, 10) + ", " + d.toString().substring(24, 28);
                 int selectedMonth = monthToInt(d.toString().substring(4,7));
@@ -106,6 +109,8 @@ public class createReservationWindow extends JFrame {
                 int month = monthToInt(date.getTime().toString().substring(4, 7));
                 int day = dayToInt(date.getTime().toString().substring(8, 10));
                 int year = yearToInt(date.getTime().toString().substring(24, 28));
+
+                long currTime = parseLong(date.getTime().toString().substring(11,13) + date.getTime().toString().substring(14,16));
 
                 dateString = selectedYear + "-" + selectedMonth + "-" + selectedDay;
 
@@ -217,6 +222,8 @@ public class createReservationWindow extends JFrame {
                         panel.repaint();
                         panel.setLayout(new GridLayout(6, 1, 2, 5));
                         return;
+                    } else if(selectedYear == year && selectedMonth == month && selectedDay == day){
+                        today = true;
                     }
 
                     flights.clear();
@@ -230,11 +237,13 @@ public class createReservationWindow extends JFrame {
                     
                     int numFlights = 0;
 
-                    RS = databaseConnector.getResultSet("SELECT source_id, destination_id, flights.id, ticketPrice, " +
+                    RS = databaseConnector.getResultSet("SELECT source_id, destination_id, flights.id, adjustedTicketPrice, " +
                             "departureTime, flights.flightNumber, flights.flight, description, availableTickets FROM airline_connecting_flights JOIN flights ON airline_connecting_flights.id = " +
                             "flights.flight WHERE flights.departureDate = '" + dateStringSQL + "' AND source_id = '" + fromID + "'");
                     while (RS.next()) {
-                        if((toID == RS.getInt(2) || toID == 0 )&& RS.getInt(9) > 0){
+
+                        long flightTime = parseLong(RS.getString(5).substring(0,2) + RS.getString(5).substring(3,5));
+                        if((toID == RS.getInt(2) || toID == 0 )&& RS.getInt(9) > 0 && (!today || flightTime > currTime)){
                             numFlights++;
 
                             String time = RS.getString(5);
@@ -557,7 +566,7 @@ public class createReservationWindow extends JFrame {
         }
     }
 
-    public int monthToInt(String m) {
+    public static int monthToInt(String m) {
         switch (m){
             case "Jan": return 1;
             case "Feb": return 2;
@@ -574,10 +583,10 @@ public class createReservationWindow extends JFrame {
             default: return 0;
         }
     }
-    public int dayToInt(String d) {
+    public static int dayToInt(String d) {
         return ((int)d.charAt(1)-48) + ((int)d.charAt(0)-48)*10;
     }
-    public int yearToInt(String y) {
+    public static int yearToInt(String y) {
         return ((int)y.charAt(0)-48)*1000 + ((int)y.charAt(1)-48)*100 + ((int)y.charAt(2)-48)*10 + ((int)y.charAt(3)-48);
     }
     public int timeToInt(String t) {
