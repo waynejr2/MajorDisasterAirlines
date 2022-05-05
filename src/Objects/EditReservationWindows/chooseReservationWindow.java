@@ -131,22 +131,25 @@ public class chooseReservationWindow extends JFrame {
             int count = 0;
 
             Calendar date = Calendar.getInstance();
-            int currMonth = createReservationWindow.monthToInt(date.getTime().toString().substring(4, 7));
-            int currDay = createReservationWindow.dayToInt(date.getTime().toString().substring(8, 10));
-            int currYear = createReservationWindow.yearToInt(date.getTime().toString().substring(24, 28));
+            long currMonth = createReservationWindow.monthToInt(date.getTime().toString().substring(4, 7));
+            long currDay = createReservationWindow.dayToInt(date.getTime().toString().substring(8, 10));
+            long currYear = createReservationWindow.yearToInt(date.getTime().toString().substring(24, 28));
+            long currTime = parseLong(date.getTime().toString().substring(11,13) + date.getTime().toString().substring(14,16));
 
             while (RS.next()) {
                 long year = parseLong(RS.getString(5).substring(0, 4));
                 long month = parseLong(RS.getString(5).substring(5, 7));
                 long day = parseLong(RS.getString(5).substring(8, 10));
                 String timeString = RS.getString(4);
-                Long time = parseLong(timeString.substring(0, 2) + timeString.substring(3, 5));
+                long time = parseLong(timeString.substring(0, 2) + timeString.substring(3, 5));
                 boolean future = true;
                 if (year < currYear) {
                     future = false;
-                } else if (month < currMonth) {
+                } else if (year == currYear && month < currMonth) {
                     future = false;
-                } else if (day < currDay) {
+                } else if (year == currYear && month == currMonth && day < currDay) {
+                    future = false;
+                } else if(year == currYear && month == currMonth && day == currDay && time < currTime) {
                     future = false;
                 }
 
@@ -245,7 +248,7 @@ public class chooseReservationWindow extends JFrame {
             for (int i = 0; i < numPastLabels; i++) {
                 reservationPanel.add(labels.get(i));
             }
-            for (int i = numPastLabels; i < numLabels; i++) {
+            for (int i = numPastLabels; i < numLabels + numPastLabels; i++) {
                 JList<String> label = labels.get(i);
                 reservationPanel.add(labels.get(i));
                 int finalNumLabels = numLabels;
@@ -267,7 +270,7 @@ public class chooseReservationWindow extends JFrame {
                 });
             }
 
-            reservationPanel.setLayout(new GridLayout(max(4, numLabels), 1, 5, 5));
+            reservationPanel.setLayout(new GridLayout(max(4, numLabels + numPastLabels), 1, 5, 5));
             reservationPanel.revalidate();
             reservationPanel.repaint();
         } else {
@@ -282,19 +285,22 @@ public class chooseReservationWindow extends JFrame {
             int currMonth = createReservationWindow.monthToInt(date.getTime().toString().substring(4, 7));
             int currDay = createReservationWindow.dayToInt(date.getTime().toString().substring(8, 10));
             int currYear = createReservationWindow.yearToInt(date.getTime().toString().substring(24, 28));
+            long currTime = parseLong(date.getTime().toString().substring(11,13) + date.getTime().toString().substring(14,16));
 
             while (RS.next()) {
                 long year = parseLong(RS.getString(5).substring(0, 4));
                 long month = parseLong(RS.getString(5).substring(5, 7));
                 long day = parseLong(RS.getString(5).substring(8, 10));
                 String timeString = RS.getString(4);
-                Long time = parseLong(timeString.substring(0, 2) + timeString.substring(3, 5));
+                long time = parseLong(timeString.substring(0, 2) + timeString.substring(3, 5));
                 boolean future = true;
                 if (year < currYear) {
                     future = false;
-                } else if (month < currMonth) {
+                } else if (year == currYear && month < currMonth) {
                     future = false;
-                } else if (day < currDay) {
+                } else if (year == currYear && month == currMonth && day < currDay) {
+                    future = false;
+                } else if(year == currYear && month == currMonth && day == currDay && time < currTime) {
                     future = false;
                 }
 

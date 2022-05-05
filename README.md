@@ -2,17 +2,17 @@
 CSUN COMP 380 Spring 2022 Project
 
 ## GUI to Implement ##
-- [ ] Account Details 
+- [x] Account Details 
   - Username 
   - Password (****)
-  - Name 
   - Flight Credits
 
 - [x] Refund
   - Fix Cost, refund credit issues - Rami
 - [x] Credit Card window 
   - Not allow CC used before current day - Kelvin
-- [ ] Reservation 
+- [x] Reservation 
   - +/- seats available as reservation follows through Rami
   - if booked flight -> can only add up to flight capacity Rami 
+- [ ] Reservation
   - Add a drop down when searching through flights(cities) Kelvin
