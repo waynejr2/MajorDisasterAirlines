@@ -259,7 +259,7 @@ public class chooseReservationWindow extends JFrame {
                     @Override
                     public void mouseClicked(MouseEvent e) {
                         super.mouseClicked(e);
-                        for (int k = finalNumPastLabels; k < finalNumLabels; k++) {
+                        for (int k = finalNumPastLabels; k < finalNumLabels + finalNumPastLabels; k++) {
                             labels.get(k).setBackground(Color.decode("#FFFFFF"));
                             labels.get(k).setForeground(Color.decode("#b3d7ff"));
                         }
