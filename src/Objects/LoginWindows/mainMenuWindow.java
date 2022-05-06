@@ -58,7 +58,12 @@ public class mainMenuWindow extends JFrame {
         createReservationButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                createReservationWindow createReservation = new createReservationWindow(mainMenu, userID);
+                createReservationWindow createReservation = null;
+                try {
+                    createReservation = new createReservationWindow(mainMenu, userID);
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
                 createReservation.activate();
                 deactivate();
             }

@@ -15,6 +15,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 import static java.lang.Long.parseLong;
 import static java.lang.Math.max;
@@ -29,8 +30,6 @@ public class createReservationWindow extends JFrame {
     private JLabel ToLabel;
     private JScrollPane availabilityPane;
     private JPanel panel;
-    private JLabel invalidLabel1;
-    private JLabel invalidLabel2;
     private JTextField flightNumberField;
     private JButton createReservationButton;
     private JLabel dateLabel;
@@ -38,7 +37,6 @@ public class createReservationWindow extends JFrame {
     private JComboBox filterOption;
     private JComboBox fromEntry;
     private JComboBox toEntry;
-    private JLabel invalidLabel3;
 
     private Calendar date = Calendar.getInstance();
     private JDateChooser calendar = new JDateChooser(date.getTime());
@@ -63,13 +61,15 @@ public class createReservationWindow extends JFrame {
     private ArrayList<Integer> flightType = new ArrayList<>();
     private ArrayList<String> flightData = new ArrayList<>();
 
+    private ArrayList<String> cities = new ArrayList<>();
+
+
     private final int userID;
 
-    private final static String [] CITIES = new String []{"Los Angeles", "New York", "Atlanta"};
+    private final static String[] CITIES = new String[]{"Los Angeles", "New York", "Atlanta"};
 
 
-
-    public createReservationWindow(mainMenuWindow mainMenuWindow, int id){
+    public createReservationWindow(mainMenuWindow mainMenuWindow, int id) throws SQLException {
 
         this.mainMenu = mainMenuWindow;
         this.userID = id;
@@ -82,18 +82,28 @@ public class createReservationWindow extends JFrame {
 
         setTitle("Choose");
         setSize(windowWidth, windowHeight);
-        setLocation(screenWidth/2 - windowWidth/2, screenHeight/2 - windowHeight/2 - 50);
+        setLocation(screenWidth / 2 - windowWidth / 2, screenHeight / 2 - windowHeight / 2 - 50);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setContentPane(createReservationPanel);
 
         calendarPanel.add(calendar);
 
-        invalidLabel1.setVisible(false);
-        invalidLabel2.setVisible(false);
-        invalidLabel3.setVisible(false);
-
         panel.revalidate();
         panel.repaint();
+
+        toEntry.setEnabled(false);
+
+        ResultSet RS = databaseConnector.getResultSet("SELECT location_name FROM airport_locations");
+        while (RS.next()) {
+            cities.add(RS.getString(1));
+        }
+
+        fromEntry.addItem("");
+        toEntry.addItem("");
+        for (int i = 0; i < cities.size(); i++) {
+            fromEntry.addItem(cities.get(i));
+            toEntry.addItem(cities.get(i));
+        }
 
         searchButton.addActionListener(new ActionListener() {
             @Override
@@ -102,7 +112,7 @@ public class createReservationWindow extends JFrame {
 
                 Date d = calendar.getDate();
                 dateDescription = d.toString().substring(4, 10) + ", " + d.toString().substring(24, 28);
-                int selectedMonth = monthToInt(d.toString().substring(4,7));
+                int selectedMonth = monthToInt(d.toString().substring(4, 7));
                 int selectedDay = dayToInt(d.toString().substring(8, 10));
                 int selectedYear = yearToInt(d.toString().substring(24, 28));
 
@@ -110,19 +120,19 @@ public class createReservationWindow extends JFrame {
                 int day = dayToInt(date.getTime().toString().substring(8, 10));
                 int year = yearToInt(date.getTime().toString().substring(24, 28));
 
-                long currTime = parseLong(date.getTime().toString().substring(11,13) + date.getTime().toString().substring(14,16));
+                long currTime = parseLong(date.getTime().toString().substring(11, 13) + date.getTime().toString().substring(14, 16));
 
                 dateString = selectedYear + "-" + selectedMonth + "-" + selectedDay;
 
                 String selectedDay1;
                 String selectedMonth1;
 
-                if(selectedMonth <10){
+                if (selectedMonth < 10) {
                     selectedMonth1 = "0" + String.valueOf(selectedMonth);
                 } else {
                     selectedMonth1 = String.valueOf(selectedMonth);
                 }
-                if(selectedDay <10){
+                if (selectedDay < 10) {
                     selectedDay1 = "0" + String.valueOf(selectedDay);
                 } else {
                     selectedDay1 = String.valueOf(selectedDay);
@@ -133,60 +143,40 @@ public class createReservationWindow extends JFrame {
                 int filterNum = filterOption.getSelectedIndex();
 
                 try {
-                    invalidLabel1.setVisible(false);
-                    invalidLabel2.setVisible(false);
-                    invalidLabel3.setVisible(false);
 
                     panel.removeAll();
                     panel.revalidate();
                     panel.repaint();
-
 
                     String fromInput = "";
                     String toInput = "";
 
                     int fromChoice = fromEntry.getSelectedIndex();
                     int toChoice = toEntry.getSelectedIndex();
-                    if(fromChoice == toChoice){
-                        invalidLabel3.setVisible(true);
-                        return;
-                    }
-                    fromInput = choseCity(fromChoice);
-                    toInput = choseCity(toChoice);
 
+                    fromInput = fromEntry.getItemAt(fromChoice).toString().toLowerCase();
+                    toInput = toEntry.getItemAt(toChoice).toString().toLowerCase();
 
                     chosenFlight[0] = "";
-
-                    if(fromInput.equals("") && toInput.equals("")){
-                        return;
-                    }
 
                     int fromID = 0;
                     int toID = 0;
 
                     ResultSet RS = databaseConnector.getResultSet("SELECT location_name, id FROM airport_locations");
                     while (RS.next()) {
-                        if(fromInput.equals(RS.getString(1).toLowerCase())){
+                        if (fromInput.equals(RS.getString(1).toLowerCase())) {
                             fromID = RS.getInt(2);
                         }
-                        if(toInput.equals(RS.getString(1).toLowerCase())){
+                        if (toInput.equals(RS.getString(1).toLowerCase())) {
                             toID = RS.getInt(2);
                         }
                     }
 
-                    if(fromID == 0){
-                        if(toID == 0 && !toInput.equals("")){
-                            invalidLabel2.setVisible(true);
-                        }
-                        invalidLabel1.setVisible(true);
-                        return;
-                    }
-                    if(toID == 0 && !toInput.equals("")){
-                        invalidLabel2.setVisible(true);
+                    if (fromID == 0) {
                         return;
                     }
 
-                    if(selectedYear < year){
+                    if (selectedYear < year) {
                         String[] noResult = new String[1];
                         noResult[0] = "Please enter a valid flight date.";
                         JList<String> label = new JList<String>(noResult);
@@ -198,7 +188,7 @@ public class createReservationWindow extends JFrame {
                         panel.repaint();
                         panel.setLayout(new GridLayout(6, 1, 2, 5));
                         return;
-                    } else if(selectedYear == year && selectedMonth < month) {
+                    } else if (selectedYear == year && selectedMonth < month) {
                         String[] noResult = new String[1];
                         noResult[0] = "Please enter a valid flight date.";
                         JList<String> label = new JList<String>(noResult);
@@ -210,7 +200,7 @@ public class createReservationWindow extends JFrame {
                         panel.repaint();
                         panel.setLayout(new GridLayout(6, 1, 2, 5));
                         return;
-                    } else if(selectedYear == year && selectedMonth == month && selectedDay < day){
+                    } else if (selectedYear == year && selectedMonth == month && selectedDay < day) {
                         String[] noResult = new String[1];
                         noResult[0] = "Please enter a valid flight date.";
                         JList<String> label = new JList<String>(noResult);
@@ -222,7 +212,7 @@ public class createReservationWindow extends JFrame {
                         panel.repaint();
                         panel.setLayout(new GridLayout(6, 1, 2, 5));
                         return;
-                    } else if(selectedYear == year && selectedMonth == month && selectedDay == day){
+                    } else if (selectedYear == year && selectedMonth == month && selectedDay == day) {
                         today = true;
                     }
 
@@ -234,16 +224,17 @@ public class createReservationWindow extends JFrame {
                     flightNumbers.clear();
                     flightType.clear();
                     flightData.clear();
-                    
+
                     int numFlights = 0;
 
                     RS = databaseConnector.getResultSet("SELECT source_id, destination_id, flights.id, adjustedTicketPrice, " +
                             "departureTime, flights.flightNumber, flights.flight, description, availableTickets FROM airline_connecting_flights JOIN flights ON airline_connecting_flights.id = " +
                             "flights.flight WHERE flights.departureDate = '" + dateStringSQL + "' AND source_id = '" + fromID + "'");
+
                     while (RS.next()) {
 
-                        long flightTime = parseLong(RS.getString(5).substring(0,2) + RS.getString(5).substring(3,5));
-                        if((toID == RS.getInt(2) || toID == 0 )&& RS.getInt(9) > 0 && (!today || flightTime > currTime)){
+                        long flightTime = parseLong(RS.getString(5).substring(0, 2) + RS.getString(5).substring(3, 5));
+                        if ((toID == RS.getInt(2) || toID == 0) && RS.getInt(9) > 0 && (!today || flightTime > currTime)) {
                             numFlights++;
 
                             String time = RS.getString(5);
@@ -275,7 +266,7 @@ public class createReservationWindow extends JFrame {
                     int numLabels = 0;
                     int existingFlights = 0;
 
-                    for(int i = 0; i < numFlights; i++){
+                    for (int i = 0; i < numFlights; i++) {
                         existingFlights++;
                         numLabels++;
 
@@ -299,7 +290,7 @@ public class createReservationWindow extends JFrame {
                     }
                     panel.setLayout(new GridLayout(max(numLabels, 6), 1, 2, 5));
 
-                    if(existingFlights == 0) {
+                    if (existingFlights == 0) {
                         String[] noResult = new String[1];
                         noResult[0] = "No Flights Found.";
                         JList<String> label = new JList<String>(noResult);
@@ -311,7 +302,7 @@ public class createReservationWindow extends JFrame {
                     panel.revalidate();
                     panel.repaint();
 
-                    for(int i = 0; i < numLabels;i++) {
+                    for (int i = 0; i < numLabels; i++) {
                         JList<String> label = labels.get(i);
                         String finalFlightNumber = flightNumbers.get(i);
                         int finalFlightInt = flightType.get(i);
@@ -357,7 +348,7 @@ public class createReservationWindow extends JFrame {
 
                     ResultSet RS = databaseConnector.getResultSet("SELECT flightNumber FROM flights");
                     while (RS.next()) {
-                        if(RS.getString(1).equals(chosenFlight[0])){
+                        if (RS.getString(1).equals(chosenFlight[0])) {
                             bookFlightWindow baggageScreen = new bookFlightWindow(createReservation, mainMenu, userID, chosenFlight[0], chosenFlightInt[0], dateDescription, dateString, timeString, pricePerTicket, chosenFlightID);
                             baggageScreen.activate();
                             deactivate();
@@ -370,8 +361,17 @@ public class createReservationWindow extends JFrame {
             }
         });
 
-
-
+        fromEntry.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (fromEntry.getSelectedIndex() != 0) {
+                    toEntry.setEnabled(true);
+                } else {
+                    toEntry.setSelectedIndex(0);
+                    toEntry.setEnabled(false);
+                }
+            }
+        });
     }
 
     public static String printFlightData(int flight) {
@@ -391,12 +391,10 @@ public class createReservationWindow extends JFrame {
         double temp1;
         String temp2;
         int temp3;
-        for (int i = 0; i < priceValues.size(); i++)
-        {
+        for (int i = 0; i < priceValues.size(); i++) {
             pos = i;
-            for (int j = i+1; j <  priceValues.size(); j++)
-            {
-                if ( priceValues.get(j) < priceValues.get(pos))                  //find the index of the minimum element
+            for (int j = i + 1; j < priceValues.size(); j++) {
+                if (priceValues.get(j) < priceValues.get(pos))                  //find the index of the minimum element
                 {
                     pos = j;
                 }
@@ -432,17 +430,16 @@ public class createReservationWindow extends JFrame {
             flights.set(i, temp3);
         }
     }
+
     public void filter2() {
         int pos;
         double temp1;
         String temp2;
         int temp3;
-        for (int i = 0; i < priceValues.size(); i++)
-        {
+        for (int i = 0; i < priceValues.size(); i++) {
             pos = i;
-            for (int j = i+1; j <  priceValues.size(); j++)
-            {
-                if ( priceValues.get(j) > priceValues.get(pos))                  //find the index of the minimum element
+            for (int j = i + 1; j < priceValues.size(); j++) {
+                if (priceValues.get(j) > priceValues.get(pos))                  //find the index of the minimum element
                 {
                     pos = j;
                 }
@@ -477,15 +474,14 @@ public class createReservationWindow extends JFrame {
             flights.set(i, temp3);
         }
     }
+
     public void filter3() {
         int pos;
         int temp1;
         String temp2;
-        for (int i = 0; i < times.size(); i++)
-        {
+        for (int i = 0; i < times.size(); i++) {
             pos = i;
-            for (int j = i+1; j <  times.size(); j++)
-            {
+            for (int j = i + 1; j < times.size(); j++) {
                 if (times.get(j) < times.get(pos))                  //find the index of the minimum element
                 {
                     pos = j;
@@ -521,15 +517,14 @@ public class createReservationWindow extends JFrame {
             flights.set(i, temp1);
         }
     }
+
     public void filter4() {
         int pos;
         int temp1;
         String temp2;
-        for (int i = 0; i < times.size(); i++)
-        {
+        for (int i = 0; i < times.size(); i++) {
             pos = i;
-            for (int j = i+1; j <  times.size(); j++)
-            {
+            for (int j = i + 1; j < times.size(); j++) {
                 if (times.get(j) > times.get(pos))                  //find the index of the minimum element
                 {
                     pos = j;
@@ -567,94 +562,53 @@ public class createReservationWindow extends JFrame {
     }
 
     public static int monthToInt(String m) {
-        switch (m){
-            case "Jan": return 1;
-            case "Feb": return 2;
-            case "Mar": return 3;
-            case "Apr": return 4;
-            case "May": return 5;
-            case "Jun": return 6;
-            case "Jul": return 7;
-            case "Aug": return 8;
-            case "Sep": return 9;
-            case "Oct": return 10;
-            case "Nov": return 11;
-            case "Dec": return 12;
-            default: return 0;
+        switch (m) {
+            case "Jan":
+                return 1;
+            case "Feb":
+                return 2;
+            case "Mar":
+                return 3;
+            case "Apr":
+                return 4;
+            case "May":
+                return 5;
+            case "Jun":
+                return 6;
+            case "Jul":
+                return 7;
+            case "Aug":
+                return 8;
+            case "Sep":
+                return 9;
+            case "Oct":
+                return 10;
+            case "Nov":
+                return 11;
+            case "Dec":
+                return 12;
+            default:
+                return 0;
         }
     }
+
     public static int dayToInt(String d) {
-        return ((int)d.charAt(1)-48) + ((int)d.charAt(0)-48)*10;
+        return ((int) d.charAt(1) - 48) + ((int) d.charAt(0) - 48) * 10;
     }
+
     public static int yearToInt(String y) {
-        return ((int)y.charAt(0)-48)*1000 + ((int)y.charAt(1)-48)*100 + ((int)y.charAt(2)-48)*10 + ((int)y.charAt(3)-48);
+        return ((int) y.charAt(0) - 48) * 1000 + ((int) y.charAt(1) - 48) * 100 + ((int) y.charAt(2) - 48) * 10 + ((int) y.charAt(3) - 48);
     }
+
     public int timeToInt(String t) {
-        return ((int)t.charAt(7)-48)+((int)t.charAt(6)-48)*10+((int)t.charAt(4)-48)*100+((int)t.charAt(3)-48)*1000+((int)t.charAt(1)-48)*10000+((int)t.charAt(0)-48)*100000;
+        return ((int) t.charAt(7) - 48) + ((int) t.charAt(6) - 48) * 10 + ((int) t.charAt(4) - 48) * 100 + ((int) t.charAt(3) - 48) * 1000 + ((int) t.charAt(1) - 48) * 10000 + ((int) t.charAt(0) - 48) * 100000;
     }
 
     public void activate() {
         setVisible(true);
     }
+
     public void deactivate() {
         setVisible(false);
     }
-    public String choseCity(int choice){
-        String fromInput;
-        switch(choice){
-            case 1:
-                fromInput = "Los Angeles".toLowerCase();
-                break;
-            case 2:
-                fromInput = "New York City".toLowerCase();
-                break;
-            case 3:
-                fromInput = "Chicago".toLowerCase();
-                break;
-            case 4:
-                fromInput = "Dallas".toLowerCase();
-                break;
-            case 5:
-                fromInput = "Atlanta".toLowerCase();
-                break;
-            case 6:
-                fromInput = "Washington DC".toLowerCase();
-                break;
-            case 7:
-                fromInput = "San Francisco".toLowerCase();
-                break;
-            case 8:
-                fromInput = "Seattle".toLowerCase();
-                break;
-            case 9:
-                fromInput = "San Diego".toLowerCase();
-                break;
-            default:
-                fromInput = "null";
-                break;
-        }
-        return fromInput;
-    }
-    public static void predict(JTextField field){
-        String text = field.getText ();
-
-        String prediction = null;
-
-        for (String city: CITIES) {
-            if (city.startsWith (text) && !city.equals (text)) {
-                if (prediction != null) return;
-
-                prediction = city;
-            }
-        }
-
-        if (prediction != null) {
-            field.setText (prediction);
-
-            field.setCaretPosition (text.length ());
-            field.select (text.length (), prediction.length ());
-        }
-
-    }
-
 }
