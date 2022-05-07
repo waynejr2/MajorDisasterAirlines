@@ -51,21 +51,8 @@ public class accountWindow extends JFrame{
         this.mainMenu = mainMenuWindow;
         this.userID = userID;
 
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        int screenHeight = screenSize.height;
-        int screenWidth = screenSize.width;
-        int windowHeight = 500;
-        int windowWidth = 600;
-
-        setContentPane(accountPanel);
-        setTitle("Account");
-        setSize(windowWidth, windowHeight);
-        setLocation(screenWidth/2 - windowWidth/2, screenHeight/2 - windowHeight/2 - 100);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
+        setWindow();
         refreshDetails();
-
-
 
         returnButton.addActionListener(new ActionListener() {
             @Override
@@ -255,6 +242,20 @@ public class accountWindow extends JFrame{
         stars.append("*".repeat(oldPassword.length()));
         passwordField.setText(String.valueOf(stars));
         passwordField.setEnabled(false);
+    }
+
+    public void setWindow() {
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int screenHeight = screenSize.height;
+        int screenWidth = screenSize.width;
+        int windowHeight = 500;
+        int windowWidth = 600;
+
+        setContentPane(accountPanel);
+        setTitle("Account");
+        setSize(windowWidth, windowHeight);
+        setLocation(screenWidth/2 - windowWidth/2, screenHeight/2 - windowHeight/2 - 100);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
     public void activate() throws SQLException {

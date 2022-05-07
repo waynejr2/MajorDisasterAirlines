@@ -16,7 +16,8 @@ public class MajorDisasterAirlines {
      */
     public static void main(String[] args) throws SQLException {
         welcomeWindow WW = new welcomeWindow();
-        System.out.println("Hello World, Java app");
+        WW.activate();
+        System.out.println("Program Running!");
     }
 }
 

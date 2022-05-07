@@ -63,47 +63,15 @@ public class createReservationWindow extends JFrame {
 
     private ArrayList<String> cities = new ArrayList<>();
 
-
     private final int userID;
-
-    private final static String[] CITIES = new String[]{"Los Angeles", "New York", "Atlanta"};
-
 
     public createReservationWindow(mainMenuWindow mainMenuWindow, int id) throws SQLException {
 
         this.mainMenu = mainMenuWindow;
         this.userID = id;
 
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        int screenHeight = screenSize.height;
-        int screenWidth = screenSize.width;
-        int windowHeight = 600;
-        int windowWidth = 1000;
-
-        setTitle("Choose");
-        setSize(windowWidth, windowHeight);
-        setLocation(screenWidth / 2 - windowWidth / 2, screenHeight / 2 - windowHeight / 2 - 50);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setContentPane(createReservationPanel);
-
-        calendarPanel.add(calendar);
-
-        panel.revalidate();
-        panel.repaint();
-
-        toEntry.setEnabled(false);
-
-        ResultSet RS = databaseConnector.getResultSet("SELECT location_name FROM airport_locations");
-        while (RS.next()) {
-            cities.add(RS.getString(1));
-        }
-
-        fromEntry.addItem("");
-        toEntry.addItem("");
-        for (int i = 0; i < cities.size(); i++) {
-            fromEntry.addItem(cities.get(i));
-            toEntry.addItem(cities.get(i));
-        }
+        setWindow();
+        addCities();
 
         searchButton.addActionListener(new ActionListener() {
             @Override
@@ -430,7 +398,6 @@ public class createReservationWindow extends JFrame {
             flights.set(i, temp3);
         }
     }
-
     public void filter2() {
         int pos;
         double temp1;
@@ -474,7 +441,6 @@ public class createReservationWindow extends JFrame {
             flights.set(i, temp3);
         }
     }
-
     public void filter3() {
         int pos;
         int temp1;
@@ -517,7 +483,6 @@ public class createReservationWindow extends JFrame {
             flights.set(i, temp1);
         }
     }
-
     public void filter4() {
         int pos;
         int temp1;
@@ -591,23 +556,54 @@ public class createReservationWindow extends JFrame {
                 return 0;
         }
     }
-
     public static int dayToInt(String d) {
         return ((int) d.charAt(1) - 48) + ((int) d.charAt(0) - 48) * 10;
     }
-
     public static int yearToInt(String y) {
         return ((int) y.charAt(0) - 48) * 1000 + ((int) y.charAt(1) - 48) * 100 + ((int) y.charAt(2) - 48) * 10 + ((int) y.charAt(3) - 48);
     }
-
     public int timeToInt(String t) {
         return ((int) t.charAt(7) - 48) + ((int) t.charAt(6) - 48) * 10 + ((int) t.charAt(4) - 48) * 100 + ((int) t.charAt(3) - 48) * 1000 + ((int) t.charAt(1) - 48) * 10000 + ((int) t.charAt(0) - 48) * 100000;
+    }
+
+    public void setWindow() {
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int screenHeight = screenSize.height;
+        int screenWidth = screenSize.width;
+        int windowHeight = 600;
+        int windowWidth = 1000;
+
+        setTitle("Choose");
+        setSize(windowWidth, windowHeight);
+        setLocation(screenWidth / 2 - windowWidth / 2, screenHeight / 2 - windowHeight / 2 - 50);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setContentPane(createReservationPanel);
+
+        calendarPanel.add(calendar);
+
+        panel.revalidate();
+        panel.repaint();
+
+        toEntry.setEnabled(false);
+    }
+
+    public void addCities() throws SQLException {
+        ResultSet RS = databaseConnector.getResultSet("SELECT location_name FROM airport_locations");
+        while (RS.next()) {
+            cities.add(RS.getString(1));
+        }
+
+        fromEntry.addItem("");
+        toEntry.addItem("");
+        for (int i = 0; i < cities.size(); i++) {
+            fromEntry.addItem(cities.get(i));
+            toEntry.addItem(cities.get(i));
+        }
     }
 
     public void activate() {
         setVisible(true);
     }
-
     public void deactivate() {
         setVisible(false);
     }

@@ -22,17 +22,8 @@ public class confirmationWindow extends JFrame{
     private JLabel label;
 
     public confirmationWindow(editReservationWindow editReservation, mainMenuWindow mainMenu, int reservationNumber, int userID, int credits) {
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        int screenHeight = screenSize.height;
-        int screenWidth = screenSize.width;
-        int windowHeight = 200;
-        int windowWidth = 400;
 
-        setTitle("Confirm Cancellation");
-        setSize(windowWidth, windowHeight);
-        setLocation(screenWidth / 2 - windowWidth / 2, screenHeight / 2 - windowHeight / 2 - 50);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setContentPane(confirmationPanel);
+        setWindow();
 
         label.setText(credits + " credits will be added to your account");
 
@@ -63,6 +54,19 @@ public class confirmationWindow extends JFrame{
         });
     }
 
+    public void setWindow() {
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int screenHeight = screenSize.height;
+        int screenWidth = screenSize.width;
+        int windowHeight = 200;
+        int windowWidth = 400;
+
+        setTitle("Confirm Cancellation");
+        setSize(windowWidth, windowHeight);
+        setLocation(screenWidth / 2 - windowWidth / 2, screenHeight / 2 - windowHeight / 2 - 50);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setContentPane(confirmationPanel);
+    }
     public void activate() {
         setVisible(true);
     }

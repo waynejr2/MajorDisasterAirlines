@@ -52,21 +52,7 @@ public class chooseReservationWindow extends JFrame {
         this.mainMenu = mainMenuWindow;
         this.userID = id;
 
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        int screenHeight = screenSize.height;
-        int screenWidth = screenSize.width;
-        int windowHeight = 600;
-        int windowWidth = 1000;
-
-        setContentPane(choseReservationPanel);
-        reservationPanel.setLayout(new GridLayout(6, 1, 5, 5));
-        reservationPanel.revalidate();
-        reservationPanel.repaint();
-
-        setTitle("Your Reservations");
-        setSize(windowWidth, windowHeight);
-        setLocation(screenWidth/2 - windowWidth/2, screenHeight/2 - windowHeight/2 - 50);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setWindow();
 
         loadReservations(false);
 
@@ -107,6 +93,22 @@ public class chooseReservationWindow extends JFrame {
                 }
             }
         });
+    }
+
+    public void setWindow() {
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int screenHeight = screenSize.height;
+        int screenWidth = screenSize.width;
+        int windowHeight = 600;
+        int windowWidth = 1000;
+        setContentPane(choseReservationPanel);
+        reservationPanel.setLayout(new GridLayout(6, 1, 5, 5));
+        reservationPanel.revalidate();
+        reservationPanel.repaint();
+        setTitle("Your Reservations");
+        setSize(windowWidth, windowHeight);
+        setLocation(screenWidth/2 - windowWidth/2, screenHeight/2 - windowHeight/2 - 50);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
     public void loadReservations(boolean all) throws SQLException {

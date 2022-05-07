@@ -38,6 +38,7 @@ public class bookFlightWindow extends JFrame {
     private JButton useCreditButton;
 
     private final int userID;
+    private final String flightNumber;
     private final String date;
     private final int flightInt;
     private int numTickets = 1;
@@ -58,7 +59,9 @@ public class bookFlightWindow extends JFrame {
     private String dateDescription;
     private String time;
     private String[] priceInfo = new String[8];
-    private int len = 32;
+    private final int len = 32;
+
+    private StringBuilder spacer;
 
     private int availableTickets;
     private int availableBags;
@@ -68,67 +71,30 @@ public class bookFlightWindow extends JFrame {
     private double chargePrice = totalPrice;
 
     public bookFlightWindow(createReservationWindow createReservationWindow, mainMenuWindow mainMenuWindow, int userID, String flightNumber, int flightInt, String dateDescription, String date, String time, double price, int flightID) throws SQLException {
-
         this.createReservation = createReservationWindow;
         this.mainMenu = mainMenuWindow;
         this.flightInt = flightInt;
         this.userID = userID;
+        this.flightNumber = flightNumber;
         this.date = date;
         this.ticketPrice = price;
         this.dateDescription = dateDescription;
         this.time = time;
         this.flightID = flightID;
 
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        int screenHeight = screenSize.height;
-        int screenWidth = screenSize.width;
-        int windowHeight = 500;
-        int windowWidth = 800;
-
-        setContentPane(reservationPanel);
-        setTitle("Book Flight");
-        setSize(windowWidth, windowHeight);
-        setLocation(screenWidth/2 - windowWidth/2, screenHeight/2 - windowHeight/2 - 50);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
-        useCreditButton.setText("                      ");
-        makePaymentButton.setText("                    ");
-
-
-        details = "Flight " + flightNumber + ": " + createReservation.printFlightData(flightInt);
-        detailsLabel.setText(details + " on " + dateDescription);
-        ticketsField.setValue(1);
-
-        StringBuilder spacer = new StringBuilder();
-        for(int i = 0; i < len; i++){
-            spacer.append(" ");
-        }
-        for(int i = 0; i < 8; i++) {
-            priceInfo[i] = spacer.toString();
-        }
-
-        JList<String> label = new JList<String>(priceInfo);
-        label.setEnabled(false);
-        label.setSize(new Dimension(100, 100));
-        label.setFont(new Font("Monospaced", Font.PLAIN, 12));
-        panel.add(label);
-        panel.revalidate();
-        panel.repaint();
-
-        ResultSet RS = databaseConnector.getResultSet("SELECT flightCredit FROM DMA_users WHERE id = " + userID);
-        RS.next();
-        flightCredit = RS.getInt(1);
-
-        RS = databaseConnector.getResultSet("SELECT availableTickets, availableBaggage FROM flights WHERE id = " + flightID);
-        RS.next();
-        availableTickets = RS.getInt(1);
-        availableBags = RS.getInt(2);
+        setWindow();
+        setFlightDetails();
 
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                createReservation.activate();
-                dispose();
+                try {
+                    createReservationWindow newCreateReservation = new createReservationWindow(mainMenu, userID);
+                    newCreateReservation.activate();
+                    dispose();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
             }
         });
         makePaymentButton.addActionListener(new ActionListener() {
@@ -322,6 +288,54 @@ public class bookFlightWindow extends JFrame {
         reservationSummaryWindow reservationSummary = new reservationSummaryWindow(this, createReservation, mainMenu, details, dateDescription, time, numTickets, numBags, totalPrice, flightCredit);
         reservationSummary.activate();
         setEnabled(false);
+    }
+
+    public void setWindow() {
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int screenHeight = screenSize.height;
+        int screenWidth = screenSize.width;
+        int windowHeight = 500;
+        int windowWidth = 800;
+
+        setContentPane(reservationPanel);
+        setTitle("Book Flight");
+        setSize(windowWidth, windowHeight);
+        setLocation(screenWidth/2 - windowWidth/2, screenHeight/2 - windowHeight/2 - 50);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+        useCreditButton.setText("                      ");
+        makePaymentButton.setText("                    ");
+    }
+
+    public void setFlightDetails() throws SQLException {
+        details = "Flight " + flightNumber + ": " + createReservation.printFlightData(flightInt);
+        detailsLabel.setText(details + " on " + dateDescription);
+        ticketsField.setValue(1);
+
+        spacer = new StringBuilder();
+        for(int i = 0; i < len; i++){
+            spacer.append(" ");
+        }
+        for(int i = 0; i < 8; i++) {
+            priceInfo[i] = spacer.toString();
+        }
+
+        JList<String> label = new JList<String>(priceInfo);
+        label.setEnabled(false);
+        label.setSize(new Dimension(100, 100));
+        label.setFont(new Font("Monospaced", Font.PLAIN, 12));
+        panel.add(label);
+        panel.revalidate();
+        panel.repaint();
+
+        ResultSet RS = databaseConnector.getResultSet("SELECT flightCredit FROM DMA_users WHERE id = " + userID);
+        RS.next();
+        flightCredit = RS.getInt(1);
+
+        RS = databaseConnector.getResultSet("SELECT availableTickets, availableBaggage FROM flights WHERE id = " + flightID);
+        RS.next();
+        availableTickets = RS.getInt(1);
+        availableBags = RS.getInt(2);
     }
 
     public void activate() {

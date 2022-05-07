@@ -23,30 +23,14 @@ public class loginWindow extends JFrame {
     private JButton createAccountButton;
     private JLabel invalidLabel;
 
+    private loginWindow thisWindow = this;
+
     private String username;
     private String password;
 
     public loginWindow() throws SQLException{
 
-        loginWindow thisWindow = this;
-
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        int screenHeight = screenSize.height;
-        int screenWidth = screenSize.width;
-        int windowHeight = 350;
-        int windowWidth = 400;
-
-        //add plane image
-        ImageIcon plane = new ImageIcon("lib/plane.png");
-        picture.setIcon(plane);
-
-        //create panel
-        setContentPane(mainPanel);
-        invalidLabel.setVisible(false);
-        setTitle("Major Disaster Airlines");
-        setSize(windowWidth, windowHeight);
-        setLocation(screenWidth/2 - windowWidth/2, screenHeight/2 - windowHeight/2 - 100);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setWindow();
 
         //action listener to exit
         btnCancel.addActionListener(new ActionListener() {
@@ -120,6 +104,26 @@ public class loginWindow extends JFrame {
                 dispose();
             }
         });
+    }
+
+    public void setWindow() {
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int screenHeight = screenSize.height;
+        int screenWidth = screenSize.width;
+        int windowHeight = 350;
+        int windowWidth = 400;
+
+        //add plane image
+        ImageIcon plane = new ImageIcon("lib/plane.png");
+        picture.setIcon(plane);
+
+        //create panel
+        setContentPane(mainPanel);
+        invalidLabel.setVisible(false);
+        setTitle("Major Disaster Airlines");
+        setSize(windowWidth, windowHeight);
+        setLocation(screenWidth/2 - windowWidth/2, screenHeight/2 - windowHeight/2 - 100);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
     public void activate() {

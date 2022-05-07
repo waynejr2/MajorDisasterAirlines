@@ -51,7 +51,7 @@ public class editReservationWindow extends JFrame{
     private int numBags;
     private int chosenTickets;
     private int chosenBags;
-    private final double ticketPrice;
+    private double ticketPrice;
     private final double bagPrice = 40.0;
     private final double taxRate = .075;
     private final int reservationNumber;
@@ -65,13 +65,15 @@ public class editReservationWindow extends JFrame{
     private String date;
     private String details;
 
+    private StringBuilder spacer;
+
     private String[] priceInfo = new String[8];
     private int len = 32;
 
     private final mainMenuWindow mainMenu;
     private final editReservationWindow editReservation = this;
     private final int userID;
-    private final int flightID;
+    private int flightID;
 
     public editReservationWindow(mainMenuWindow mainMenuWindow, int reservationNumber, int id, double reservationPrice) throws SQLException {
 
@@ -80,65 +82,8 @@ public class editReservationWindow extends JFrame{
         this.reservationPrice = reservationPrice;
         this.reservationNumber = reservationNumber;
 
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        int screenHeight = screenSize.height;
-        int screenWidth = screenSize.width;
-        int windowHeight = 600;
-        int windowWidth = 1000;
-
-        setTitle("Edit Reservation");
-        setSize(windowWidth, windowHeight);
-        setLocation(screenWidth / 2 - windowWidth / 2, screenHeight / 2 - windowHeight / 2 - 50);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setContentPane(editReservationPanel);
-
-        ResultSet RS = databaseConnector.getResultSet("SELECT flightNumber, flights.flight, departureTime, date, numberOfTickets, numberOfBags, totalCost, reservations.id, status, departureTime, availableTickets, availableBaggage, flights.id FROM reservations JOIN flights ON reservations.flight = flights.id WHERE reservations.id = " + reservationNumber);
-        RS.next();
-
-        availableTickets = RS.getInt(11);
-        availableBags = RS.getInt(12);
-        flightID = RS.getInt(13);
-        numTickets = RS.getInt(5);
-        numBags = RS.getInt(6);
-        maxBags = (numTickets)*4;
-        maxTickets = numTickets + availableTickets;
-
-        details = "Flight " + RS.getString(1) + ": " + createReservationWindow.printFlightData(RS.getInt(2));
-        date = RS.getString(4);
-        time = RS.getString(10);
-
-        reservationTitle.setText("        " + details);
-        reservationTitle.setFont(new Font(reservationTitle.getFont().getName(), Font.PLAIN, 20));
-
-        flightTime.setText(RS.getString(4) + " (" + RS.getString(3) + ")        ");
-        flightTime.setFont(new Font(flightTime.getFont().getName(), Font.PLAIN, 20));
-
-        ticketsField.setValue(RS.getInt(5));
-        bagsField.setValue(RS.getInt(6));
-
-        ResultSet RS1 = databaseConnector.getResultSet("SELECT adjustedTicketPrice FROM flights  WHERE id = " + flightID);
-        RS1.next();
-        ticketPrice = RS1.getDouble(1);
-
-        StringBuilder spacer = new StringBuilder();
-        for(int i = 0; i < len; i++){
-            spacer.append(" ");
-        }
-        for(int i = 0; i < 8; i++) {
-            priceInfo[i] = spacer.toString();
-        }
-
-        JList<String> label = new JList<String>(priceInfo);
-        label.setEnabled(false);
-        label.setSize(new Dimension(100, 100));
-        label.setFont(new Font("Monospaced", Font.PLAIN, 12));
-        panel.add(label);
-        panel.revalidate();
-        panel.repaint();
-
-        ResultSet RS3 = databaseConnector.getResultSet("SELECT flightCredit FROM DMA_users WHERE id = " + userID);
-        RS3.next();
-        flightCredit = RS3.getInt(1);
+        setWindow();
+        setDetails();
 
         backButton.addActionListener(new ActionListener() {
             @Override
@@ -152,6 +97,7 @@ public class editReservationWindow extends JFrame{
                 }
             }
         });
+
         ticketsField.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
@@ -525,7 +471,69 @@ public class editReservationWindow extends JFrame{
         myStmt.executeUpdate("UPDATE flights SET availableBaggage = " + (availableBags + numBags) + " WHERE id = " + flightID);
     }
 
+    public void setDetails() throws SQLException {
+        ResultSet RS = databaseConnector.getResultSet("SELECT flightNumber, flights.flight, departureTime, date, numberOfTickets, numberOfBags, totalCost, reservations.id, status, departureTime, availableTickets, availableBaggage, flights.id FROM reservations JOIN flights ON reservations.flight = flights.id WHERE reservations.id = " + reservationNumber);
+        RS.next();
 
+        availableTickets = RS.getInt(11);
+        availableBags = RS.getInt(12);
+        flightID = RS.getInt(13);
+        numTickets = RS.getInt(5);
+        numBags = RS.getInt(6);
+        maxBags = (numTickets)*4;
+        maxTickets = numTickets + availableTickets;
+
+        details = "Flight " + RS.getString(1) + ": " + createReservationWindow.printFlightData(RS.getInt(2));
+        date = RS.getString(4);
+        time = RS.getString(10);
+
+        reservationTitle.setText("        " + details);
+        reservationTitle.setFont(new Font(reservationTitle.getFont().getName(), Font.PLAIN, 20));
+
+        flightTime.setText(RS.getString(4) + " (" + RS.getString(3) + ")        ");
+        flightTime.setFont(new Font(flightTime.getFont().getName(), Font.PLAIN, 20));
+
+        ticketsField.setValue(RS.getInt(5));
+        bagsField.setValue(RS.getInt(6));
+
+        ResultSet RS1 = databaseConnector.getResultSet("SELECT adjustedTicketPrice FROM flights  WHERE id = " + flightID);
+        RS1.next();
+        ticketPrice = RS1.getDouble(1);
+
+        spacer = new StringBuilder();
+        for(int i = 0; i < len; i++){
+            spacer.append(" ");
+        }
+        for(int i = 0; i < 8; i++) {
+            priceInfo[i] = spacer.toString();
+        }
+
+        JList<String> label = new JList<String>(priceInfo);
+        label.setEnabled(false);
+        label.setSize(new Dimension(100, 100));
+        label.setFont(new Font("Monospaced", Font.PLAIN, 12));
+        panel.add(label);
+        panel.revalidate();
+        panel.repaint();
+
+        ResultSet RS3 = databaseConnector.getResultSet("SELECT flightCredit FROM DMA_users WHERE id = " + userID);
+        RS3.next();
+        flightCredit = RS3.getInt(1);
+    }
+
+    public void setWindow() {
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int screenHeight = screenSize.height;
+        int screenWidth = screenSize.width;
+        int windowHeight = 600;
+        int windowWidth = 1000;
+
+        setTitle("Edit Reservation");
+        setSize(windowWidth, windowHeight);
+        setLocation(screenWidth / 2 - windowWidth / 2, screenHeight / 2 - windowHeight / 2 - 50);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setContentPane(editReservationPanel);
+    }
     public void activate() {
         setVisible(true);
     }

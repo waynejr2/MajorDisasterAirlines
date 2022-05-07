@@ -14,12 +14,23 @@ public class welcomeWindow extends JFrame{
     private JButton continueButton;
     private JLabel picture;
 
-    private final loginWindow login;
+    private final loginWindow login = new loginWindow();
 
     public welcomeWindow()  throws SQLException{
 
-        login = new loginWindow();
+        setWindow();
 
+        //action listener for continue button
+        continueButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                login.activate();
+            }
+        });
+    }
+
+    public void setWindow() {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenHeight = screenSize.height;
         int screenWidth = screenSize.width;
@@ -36,16 +47,12 @@ public class welcomeWindow extends JFrame{
         setSize(windowWidth, windowHeight);
         setLocation(screenWidth/2 - windowWidth/2, screenHeight/2 - windowHeight/2 - 100);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    }
+
+    public void activate() {
         setVisible(true);
-
-        //action listener for continue button
-        continueButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-                login.activate();
-            }
-        });
-
+    }
+    public void deactivate() {
+        setVisible(false);
     }
 }

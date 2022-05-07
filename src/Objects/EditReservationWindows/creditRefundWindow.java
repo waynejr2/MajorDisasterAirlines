@@ -19,6 +19,27 @@ public class creditRefundWindow extends JFrame{
     private JPanel creditPanel;
 
     public creditRefundWindow (editReservationWindow editReservation, mainMenuWindow mainMenu, String locations, String date, String time, int tickets, int bags, double price, int credits) {
+
+        setWindow();
+
+        locationsLabel.setText(locations);
+        dateLabel.setText("Departing: " + date + " at " + time);
+        ticketsLabel.setText("Tickets: " + tickets);
+        bagsLabel.setText("Bags: " + bags);
+        priceLabel.setText("Total Price: $" + price);
+        creditsLabel.setText("Total Remaining Flight Credit: " + credits);
+
+        doneButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                editReservation.dispose();
+                dispose();
+                mainMenu.activate();
+            }
+        });
+    }
+
+    public void setWindow()  {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenHeight = screenSize.height;
         int screenWidth = screenSize.width;
@@ -30,23 +51,6 @@ public class creditRefundWindow extends JFrame{
         setSize(windowWidth, windowHeight);
         setLocation(screenWidth/2 - windowWidth/2, screenHeight/2 - windowHeight/2 - 50);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
-        locationsLabel.setText(locations);
-        dateLabel.setText("Departing: " + date + " at " + time);
-        ticketsLabel.setText("Tickets: " + tickets);
-        bagsLabel.setText("Bags: " + bags);
-        priceLabel.setText("Total Price: $" + price);
-        creditsLabel.setText("Total Remaining Flight Credit: " + credits);
-
-
-        doneButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                editReservation.dispose();
-                dispose();
-                mainMenu.activate();
-            }
-        });
     }
     public void activate() {
         setVisible(true);

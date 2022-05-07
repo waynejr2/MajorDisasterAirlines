@@ -40,19 +40,7 @@ public class payBudiWindow extends JFrame{
         this.bookFlight = bookFlightWindow;
         this.totalPrice = totalPrice;
 
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        int screenHeight = screenSize.height;
-        int screenWidth = screenSize.width;
-        int windowHeight = 600;
-        int windowWidth = 1000;
-
-        invalidLoginLabel.setVisible(false);
-
-        setContentPane(payBudiPanel);
-        setTitle("Pay Budi");
-        setSize(windowWidth, windowHeight);
-        setLocation(screenWidth/2 - windowWidth/2, screenHeight/2 - windowHeight/2 - 50);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setWindow();
 
         confirmButton.addActionListener(new ActionListener() {
             @Override
@@ -120,19 +108,7 @@ public class payBudiWindow extends JFrame{
         this.editReservation = editReservationWindow;
         this.totalPrice = totalPrice;
 
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        int screenHeight = screenSize.height;
-        int screenWidth = screenSize.width;
-        int windowHeight = 600;
-        int windowWidth = 1000;
-
-        invalidLoginLabel.setVisible(false);
-
-        setContentPane(payBudiPanel);
-        setTitle("Pay Budi");
-        setSize(windowWidth, windowHeight);
-        setLocation(screenWidth/2 - windowWidth/2, screenHeight/2 - windowHeight/2 - 50);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setWindow();
 
         confirmButton.addActionListener(new ActionListener() {
             @Override
@@ -187,6 +163,21 @@ public class payBudiWindow extends JFrame{
         });
     }
 
+    public void setWindow() {
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int screenHeight = screenSize.height;
+        int screenWidth = screenSize.width;
+        int windowHeight = 600;
+        int windowWidth = 1000;
+
+        invalidLoginLabel.setVisible(false);
+
+        setContentPane(payBudiPanel);
+        setTitle("Pay Budi");
+        setSize(windowWidth, windowHeight);
+        setLocation(screenWidth/2 - windowWidth/2, screenHeight/2 - windowHeight/2 - 50);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    }
 
     public void activate() {setVisible(true);}
     public void deactivate() {setVisible(false);}

@@ -28,20 +28,7 @@ public class createAccountWindow extends JFrame{
 
         this.login = loginWindow;
 
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        int screenHeight = screenSize.height;
-        int screenWidth = screenSize.width;
-        int windowHeight = 350;
-        int windowWidth = 400;
-
-        setContentPane(mainPanel);
-        invalidLabel1.setVisible(false);
-        invalidLabel2.setVisible(false);
-        invalidLabel3.setVisible(false);
-        setTitle("Major Disaster Airlines");
-        setSize(windowWidth, windowHeight);
-        setLocation(screenWidth/2 - windowWidth/2, screenHeight/2 - windowHeight/2 - 100);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setWindow();
 
         //action listener on button to create account
         createButton.addActionListener(new ActionListener() {
@@ -105,7 +92,23 @@ public class createAccountWindow extends JFrame{
                 login.activate();
             }
         });
+    }
 
+    public void setWindow() {
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int screenHeight = screenSize.height;
+        int screenWidth = screenSize.width;
+        int windowHeight = 350;
+        int windowWidth = 400;
+
+        setContentPane(mainPanel);
+        invalidLabel1.setVisible(false);
+        invalidLabel2.setVisible(false);
+        invalidLabel3.setVisible(false);
+        setTitle("Major Disaster Airlines");
+        setSize(windowWidth, windowHeight);
+        setLocation(screenWidth/2 - windowWidth/2, screenHeight/2 - windowHeight/2 - 100);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
     public void activate() {

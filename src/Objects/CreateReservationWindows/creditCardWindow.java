@@ -39,6 +39,8 @@ public class creditCardWindow extends JFrame{
     private reservationSummaryWindow reservationSummary;
 
     private final double totalPrice;
+    private int currMonth;
+    private int currYear;
 
     public creditCardWindow(choosePaymentWindow choosePaymentWindow, bookFlightWindow bookFlightWindow, double totalPrice){
 
@@ -47,28 +49,8 @@ public class creditCardWindow extends JFrame{
 
         this.totalPrice = totalPrice;
 
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        int screenHeight = screenSize.height;
-        int screenWidth = screenSize.width;
-        int windowHeight = 600;
-        int windowWidth = 1000;
-
-        InvalidCard.setVisible(false);
-        invalidExpDateLabel.setVisible(false);//add
-
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM");
-        DateTimeFormatter yearNow = DateTimeFormatter.ofPattern("yy");
-        LocalDateTime now = LocalDateTime.now(); //get current date
-        String nowMonthValue = String.valueOf(dtf.format(now));
-        String nowYearValue = String.valueOf(yearNow.format(now));
-        int nowMonth = Integer.parseInt(nowMonthValue);
-        int nowYear = Integer.parseInt(nowYearValue);
-
-        setContentPane(paymentMethodPanel);
-        setTitle("Payment Method");
-        setSize(windowWidth, windowHeight);
-        setLocation(screenWidth/2 - windowWidth/2, screenHeight/2 - windowHeight/2 - 50);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setWindow();
+        setDateValue();
 
         confirmButton.addActionListener(new ActionListener() {
             @Override
@@ -111,7 +93,7 @@ public class creditCardWindow extends JFrame{
                 } else {
                     InvalidCard.setVisible(true);
                 }
-                if(inputMonth < nowMonth && inputYear == nowYear ){
+                if(inputMonth < currMonth && inputYear == currYear ){
                     invalidExpDateLabel.setVisible(true);
                     return;
                 }
@@ -127,7 +109,6 @@ public class creditCardWindow extends JFrame{
             }
 
         });
-
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -135,7 +116,6 @@ public class creditCardWindow extends JFrame{
                 dispose();
             }
         });
-
     }
 
     public creditCardWindow(choosePaymentWindow choosePaymentWindow, editReservationWindow editReservationWindow, double totalPrice){
@@ -145,25 +125,27 @@ public class creditCardWindow extends JFrame{
 
         this.totalPrice = totalPrice;
 
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        int screenHeight = screenSize.height;
-        int screenWidth = screenSize.width;
-        int windowHeight = 600;
-        int windowWidth = 1000;
-
-        InvalidCard.setVisible(false);
-
-        setContentPane(paymentMethodPanel);
-        setTitle("Payment Method");
-        setSize(windowWidth, windowHeight);
-        setLocation(screenWidth/2 - windowWidth/2, screenHeight/2 - windowHeight/2 - 50);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setWindow();
+        setDateValue();
 
         confirmButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String cardNumberLabelText = cardText.getText();
                 String cvvLabelText = cvvText.getText();
+
+                String expDate = String.valueOf(monthInput.getSelectedItem());
+                String expYear = String.valueOf(yearInput.getSelectedItem());
+                if(expDate == "Month" || expYear == "Year(20YY)"){
+                    invalidExpDateLabel.setVisible(true);
+                    return;
+                }
+
+                int inputMonth = Integer.parseInt(expDate);
+                int inputYear = Integer.parseInt(expYear);
+
+
+                //String yearInputText = yearInput.getText();
                 InvalidCard.setVisible(false);
 
                 if(cardNumberLabelText.length() == 16) {
@@ -187,6 +169,11 @@ public class creditCardWindow extends JFrame{
                 } else {
                     InvalidCard.setVisible(true);
                 }
+                if(inputMonth < currMonth && inputYear == currYear ){
+                    invalidExpDateLabel.setVisible(true);
+                    return;
+                }
+
 
                 try {
                     dispose();
@@ -198,7 +185,6 @@ public class creditCardWindow extends JFrame{
             }
 
         });
-
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -206,7 +192,33 @@ public class creditCardWindow extends JFrame{
                 dispose();
             }
         });
+    }
 
+    private void setWindow() {
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int screenHeight = screenSize.height;
+        int screenWidth = screenSize.width;
+        int windowHeight = 600;
+        int windowWidth = 1000;
+
+        InvalidCard.setVisible(false);
+        invalidExpDateLabel.setVisible(false);
+
+        setContentPane(paymentMethodPanel);
+        setTitle("Payment Method");
+        setSize(windowWidth, windowHeight);
+        setLocation(screenWidth/2 - windowWidth/2, screenHeight/2 - windowHeight/2 - 50);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    }
+
+    private void setDateValue() {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM");
+        DateTimeFormatter yearNow = DateTimeFormatter.ofPattern("yy");
+        LocalDateTime now = LocalDateTime.now(); //get current date
+        String nowMonthValue = String.valueOf(dtf.format(now));
+        String nowYearValue = String.valueOf(yearNow.format(now));
+        currMonth = Integer.parseInt(nowMonthValue);
+        currYear = Integer.parseInt(nowYearValue);
     }
 
     public void activate() {setVisible(true);}

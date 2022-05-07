@@ -35,26 +35,8 @@ public class mainMenuWindow extends JFrame {
         this.userID = id;
         this.account = new accountWindow(this, userID);
 
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        int screenHeight = screenSize.height;
-        int screenWidth = screenSize.width;
-        int windowHeight = 500;
-        int windowWidth = 600;
+        setWindow();
 
-        ImageIcon planeIcon = new ImageIcon("lib/reservationSymbol.png");
-        picture1.setIcon(planeIcon);
-
-        ImageIcon editIcon = new ImageIcon("lib/editSymbol.png");
-        picture2.setIcon(editIcon);
-
-        setContentPane(mainMenuChoicesPanel);
-        setTitle("Major Disaster Airlines");
-        setSize(windowWidth, windowHeight);
-        setLocation(screenWidth/2 - windowWidth/2, screenHeight/2 - windowHeight/2 - 100);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
-
-        //action listener for button to go to create reservation window
         createReservationButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -68,7 +50,6 @@ public class mainMenuWindow extends JFrame {
                 deactivate();
             }
         });
-
         editReservationButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -81,7 +62,6 @@ public class mainMenuWindow extends JFrame {
                 }
             }
         });
-
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -105,6 +85,26 @@ public class mainMenuWindow extends JFrame {
                 }
             }
         });
+    }
+
+    public void setWindow() {
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int screenHeight = screenSize.height;
+        int screenWidth = screenSize.width;
+        int windowHeight = 500;
+        int windowWidth = 600;
+
+        ImageIcon planeIcon = new ImageIcon("lib/reservationSymbol.png");
+        picture1.setIcon(planeIcon);
+
+        ImageIcon editIcon = new ImageIcon("lib/editSymbol.png");
+        picture2.setIcon(editIcon);
+
+        setContentPane(mainMenuChoicesPanel);
+        setTitle("Major Disaster Airlines");
+        setSize(windowWidth, windowHeight);
+        setLocation(screenWidth/2 - windowWidth/2, screenHeight/2 - windowHeight/2 - 100);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
     public void activate() {

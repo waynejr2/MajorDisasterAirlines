@@ -31,24 +31,14 @@ public class choosePaymentWindow extends JFrame{
     private creditCardWindow creditCard;
     private payBudiWindow payBudi;
 
+    private double totalPrice;
 
     public choosePaymentWindow(bookFlightWindow bookFlightWindow, double totalPrice) throws SQLException {
 
         this.bookFlight = bookFlightWindow;
+        this.totalPrice = totalPrice;
 
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        int screenHeight = screenSize.height;
-        int screenWidth = screenSize.width;
-        int windowHeight = 300;
-        int windowWidth = 250;
-
-        setContentPane(paymentOptionsPanel);
-        setTitle("Choose Payment Method");
-        setSize(windowWidth, windowHeight);
-        setLocation(screenWidth/2 - windowWidth/2, screenHeight/2 - windowHeight/2 - 50);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
-        totalLabel.setText("$" + totalPrice + " due");
+        setWindow();
 
         creditCardButton.addActionListener(new ActionListener() {
             @Override
@@ -126,6 +116,23 @@ public class choosePaymentWindow extends JFrame{
             }
         });
     }
+
+    public void setWindow() {
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int screenHeight = screenSize.height;
+        int screenWidth = screenSize.width;
+        int windowHeight = 300;
+        int windowWidth = 250;
+
+        setContentPane(paymentOptionsPanel);
+        setTitle("Choose Payment Method");
+        setSize(windowWidth, windowHeight);
+        setLocation(screenWidth/2 - windowWidth/2, screenHeight/2 - windowHeight/2 - 50);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+        totalLabel.setText("$" + totalPrice + " due");
+    }
+
     public void activate() {setVisible(true);}
     public void deactivate() {setVisible(false);}
 }

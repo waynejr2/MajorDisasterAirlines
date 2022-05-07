@@ -29,25 +29,13 @@ public class reservationSummaryWindow extends JFrame{
     private final createReservationWindow createReservation;
     private final bookFlightWindow bookFlight;
 
-    public reservationSummaryWindow(bookFlightWindow bookFlightWindow, createReservationWindow createReservationWindow,
-                                    mainMenuWindow mainMenuWindow, String locations, String date, String time, int tickets,
-                                    int bags, double price, int credits){
+    public reservationSummaryWindow(bookFlightWindow bookFlightWindow, createReservationWindow createReservationWindow, mainMenuWindow mainMenuWindow, String locations, String date, String time, int tickets, int bags, double price, int credits){
 
         this.bookFlight = bookFlightWindow;
         this.createReservation = createReservationWindow;
         this.mainMenu = mainMenuWindow;
 
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        int screenHeight = screenSize.height;
-        int screenWidth = screenSize.width;
-        int windowHeight = 300;
-        int windowWidth = 500;
-
-        setContentPane(confirmedFlightPanel);
-        setTitle("Reservation Summary");
-        setSize(windowWidth, windowHeight);
-        setLocation(screenWidth/2 - windowWidth/2, screenHeight/2 - windowHeight/2 - 50);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setWindow();
 
         locationsLabel.setText(locations);
         dateLabel.setText("Departing: " + date + " at " + time);
@@ -66,6 +54,19 @@ public class reservationSummaryWindow extends JFrame{
             }
         });
     }
+
+    public void setWindow() {
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int screenHeight = screenSize.height;
+        int screenWidth = screenSize.width;
+        int windowHeight = 300;
+        int windowWidth = 500;
+
+        setContentPane(confirmedFlightPanel);
+        setTitle("Reservation Summary");
+        setSize(windowWidth, windowHeight);
+        setLocation(screenWidth/2 - windowWidth/2, screenHeight/2 - windowHeight/2 - 50);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);}
 
     public void activate() {
         setVisible(true);
