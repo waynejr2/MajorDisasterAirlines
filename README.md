@@ -1,4 +1,4 @@
-# MajorDisasterAirlines 
+# MajorDisasterAirlines ✈️
 CSUN Spring22' Major Disaster Airlines Reservation System for COMP 380(Introduction to Software Engineering)
 
 ### Program Description
