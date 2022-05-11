@@ -4,6 +4,11 @@ CSUN Spring22' Major Disaster Airlines Reservation System for COMP 380(Introduct
 ### Program Description
 This program allows a client to book a flight using our flight reservation system software!
 
+### Program Description
+Collaborators:Juanito Herrera, Rami Chaar, Kelvin Martinez, and Wayne Rasmussen
+
+
+
 ### Creating a Reservation
 This program allows users to book flights within cities like Los Angeles, Dallas, Seattle, Atlanta, and more! Our system also allows to add more passengers 
 It has capabilities to add additonal passengers and baggage and we give the option to users to pay using our integrated pay program PayBudi! 
