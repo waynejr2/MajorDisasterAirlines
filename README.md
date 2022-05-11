@@ -1,12 +1,23 @@
-# MajorDisasterAirlines ✈️
-CSUN Spring22' Major Disaster Airlines Reservation System for COMP 380(Introduction to Software Engineering)
+# Major Disaster Airlines ✈️
+
+## Collaborators
+#### Juanito Herrera, Rami Chaar, Kelvin Martinez, and Wayne Rasmussen
+CSUN Spring 2022 COMP 380 (Introduction to Software Engineering)
+##
 
 ### Program Description
 This program allows a client to book a flight using our flight reservation system software!
 
-### Program Description
-Collaborators:Juanito Herrera, Rami Chaar, Kelvin Martinez, and Wayne Rasmussen
+### Learning Outcomes
+  - Building, Desigining, and Testing an Interacteractive Program
+  - Using a database for airports, flights, and user managment
+  - ...
 
+### Langauges and Technologies
+  - Java, JavaSwing, and JavaFX
+  - IntelliJ
+  - Version Control - Git & Github
+  - Database managment using MySQL Workbench
 
 
 ### Creating a Reservation
@@ -21,13 +32,5 @@ We also enable users to track their reservation throguh the program as well as m
 
 #### Walk-through to Edit a Reservation
 <img src="http://g.recordit.co/XojeP8Mtwx.gif" width=600><br>
-### Langauges and Technologies
-  - Java, JavaSwing, and JavaFX
-  - IntelliJ
-  - Version Control - Git & Github
-  - Database managment using MySQL Workbench
 
-### Learning Outcomes
-  - Building, Desigining, and Testing an Interacteractive Program
-  - Using a database for airports, flights, and user managment
-  - ...
+
