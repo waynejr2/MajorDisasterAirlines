@@ -3,6 +3,8 @@ package Objects.LoginWindows;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.sql.SQLException;
 /**
  * This class creates the first window that is shown when starting the application, it welcomes the user, the user must click continue to move onto the login window.
@@ -16,7 +18,7 @@ public class welcomeWindow extends JFrame{
 
     private final loginWindow login = new loginWindow();
 
-    public welcomeWindow()  throws SQLException{
+    public welcomeWindow() throws SQLException, MalformedURLException {
 
         setWindow();
 
@@ -30,7 +32,7 @@ public class welcomeWindow extends JFrame{
         });
     }
 
-    public void setWindow() {
+    public void setWindow() throws MalformedURLException {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenHeight = screenSize.height;
         int screenWidth = screenSize.width;
@@ -38,8 +40,10 @@ public class welcomeWindow extends JFrame{
         int windowWidth = 400;
 
         //add plane image
-        ImageIcon plane = new ImageIcon("lib/plane.png");
-        picture.setIcon(plane);
+        URL url = new URL("https://i.imgur.com/D4BzXWA.png");
+        Image plane = Toolkit.getDefaultToolkit().getImage(url);
+        ImageIcon icon = new ImageIcon(plane);
+        picture.setIcon(icon);
 
         //create panel
         setContentPane(mainPanel);

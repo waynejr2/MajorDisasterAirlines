@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.MalformedURLException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -159,7 +160,7 @@ public class accountWindow extends JFrame{
         });
     }
 
-    public void close() throws SQLException {
+    public void close() throws SQLException, MalformedURLException {
 
         Connection conn = databaseConnector.getConnection();
         Statement myStmt = conn.createStatement();

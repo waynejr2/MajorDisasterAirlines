@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.sql.*;
 import java.util.Objects;
 import Objects.databaseConnector;
@@ -28,7 +30,7 @@ public class loginWindow extends JFrame {
     private String username;
     private String password;
 
-    public loginWindow() throws SQLException{
+    public loginWindow() throws SQLException, MalformedURLException {
 
         setWindow();
 
@@ -99,6 +101,8 @@ public class loginWindow extends JFrame {
                     mainMenu = new mainMenuWindow(id);
                 } catch (SQLException ex) {
                     ex.printStackTrace();
+                } catch (MalformedURLException ex) {
+                    ex.printStackTrace();
                 }
                 mainMenu.activate();
                 dispose();
@@ -106,7 +110,7 @@ public class loginWindow extends JFrame {
         });
     }
 
-    public void setWindow() {
+    public void setWindow() throws MalformedURLException {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenHeight = screenSize.height;
         int screenWidth = screenSize.width;
@@ -114,8 +118,10 @@ public class loginWindow extends JFrame {
         int windowWidth = 400;
 
         //add plane image
-        ImageIcon plane = new ImageIcon("lib/plane.png");
-        picture.setIcon(plane);
+        URL url = new URL("https://i.imgur.com/D4BzXWA.png");
+        Image plane = Toolkit.getDefaultToolkit().getImage(url);
+        ImageIcon icon = new ImageIcon(plane);
+        picture.setIcon(icon);
 
         //create panel
         setContentPane(mainPanel);

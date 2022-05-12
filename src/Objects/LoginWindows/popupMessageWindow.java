@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.MalformedURLException;
 import java.sql.SQLException;
 import java.util.Objects;
 
@@ -38,6 +39,8 @@ public class popupMessageWindow extends JFrame {
                     try {
                         account.close();
                     } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    } catch (MalformedURLException ex) {
                         ex.printStackTrace();
                     }
                 }

@@ -32,5 +32,3 @@ We also enable users to track their reservation throguh the program as well as m
 
 #### Walk-through to Edit a Reservation
 <img src="http://g.recordit.co/XojeP8Mtwx.gif" width=600><br>
-
-

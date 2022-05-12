@@ -7,6 +7,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.sql.SQLException;
 /**
  * This Class creates a window that acts as a main window where a user can choose to either search for a flight to make a reservation, view existing reservations on their account, or log out of their account.
@@ -30,7 +32,7 @@ public class mainMenuWindow extends JFrame {
 
     private final int userID;
 
-    public mainMenuWindow(int id) throws SQLException {
+    public mainMenuWindow(int id) throws SQLException, MalformedURLException {
 
         this.userID = id;
         this.account = new accountWindow(this, userID);
@@ -70,6 +72,8 @@ public class mainMenuWindow extends JFrame {
                     login.activate();
                 } catch (SQLException ex) {
                     ex.printStackTrace();
+                } catch (MalformedURLException ex) {
+                    ex.printStackTrace();
                 }
                 dispose();
             }
@@ -87,18 +91,24 @@ public class mainMenuWindow extends JFrame {
         });
     }
 
-    public void setWindow() {
+    public void setWindow() throws MalformedURLException {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenHeight = screenSize.height;
         int screenWidth = screenSize.width;
         int windowHeight = 500;
         int windowWidth = 600;
 
-        ImageIcon planeIcon = new ImageIcon("lib/reservationSymbol.png");
-        picture1.setIcon(planeIcon);
 
-        ImageIcon editIcon = new ImageIcon("lib/editSymbol.png");
-        picture2.setIcon(editIcon);
+        URL url = new URL("https://i.imgur.com/kDm374l.png");
+        Image plane = Toolkit.getDefaultToolkit().getImage(url);
+        ImageIcon icon = new ImageIcon(plane);
+        picture1.setIcon(icon);
+
+        url = new URL("https://i.imgur.com/3meyP36.png");
+        plane = Toolkit.getDefaultToolkit().getImage(url);
+        icon = new ImageIcon(plane);
+        picture2.setIcon(icon);
+
 
         setContentPane(mainMenuChoicesPanel);
         setTitle("Major Disaster Airlines");
